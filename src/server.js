@@ -19,7 +19,7 @@ app.use(function (req, res, next) {
 
 // Test API method 
 app.get("/test", (req, res) => {
-  res.status(200).send("Hello World");
+  res.status(200).send("Hello World!");
 });
 
 // Add API methods here

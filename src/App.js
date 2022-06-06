@@ -10,7 +10,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    fetch("https://recipe-app-351220.uc.r.appspot.com/api", {
+    fetch("https://recipe-app-351220.uc.r.appspot.com/test", {
       method: "GET",
       headers: {
         "Accept": "application/json",
