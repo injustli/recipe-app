@@ -1,3 +1,4 @@
+
 const bodyParser = require("body-parser");
 const path = require("path");
 const express = require("express");
@@ -17,8 +18,8 @@ app.use(function (req, res, next) {
 });
 
 // Test API method 
-app.get("/api", (req, res) => {
-  res.json({message: "Hello World!"});
+app.get("/test", (req, res) => {
+  res.status(200).send("Hello World");
 });
 
 // Add API methods here
@@ -27,4 +28,4 @@ app.get("/api", (req, res) => {
 app.get('/*', function(req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
-app.listen(process.env.PORT || 8080, () => console.log(`Listening on port ${process.env.PORT || 8080}!`));
+module.exports = app.listen(process.env.PORT || 8080, () => console.log(`Listening on port ${process.env.PORT || 8080}!`));

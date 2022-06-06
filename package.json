@@ -15,7 +15,7 @@
   "scripts": {
     "start": "node src/server.js",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest src/App.test.js",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -35,5 +35,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "jest": "^28.1.0",
+    "supertest": "^6.2.3"
   }
 }
