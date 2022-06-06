@@ -16,7 +16,15 @@ app.use(function (req, res, next) {
   next();
 });
 
+// Test API method 
+app.get("/api", (req, res) => {
+  res.json({message: "Hello World!"});
+});
+
+// Add API methods here
+
+
 app.get('/*', function(req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
-app.listen(process.env.PORT || 8080, () => console.log(`Hello World!. Listening on port ${process.env.PORT || 8080}!`));
+app.listen(process.env.PORT || 8080, () => console.log(`Listening on port ${process.env.PORT || 8080}!`));
