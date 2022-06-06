@@ -15,7 +15,7 @@
   "scripts": {
     "start": "node src/server.js",
     "build": "react-scripts build",
-    "test": "jest src/App.test.js",
+    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
