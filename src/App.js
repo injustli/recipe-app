@@ -1,29 +1,30 @@
-import logo from './logo.svg';
 import './App.css';
 import React from 'react';
 
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: null
+    };
+  }
+
+  componentDidMount() {
+    fetch("https://recipe-app-351220.uc.r.appspot.com/test", {
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      }
+    })
+      .then((res) => res.json())
+      .then((data) => this.setState({data: data}));
+  }
 
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          <p>
-            Hello World!
-          </p>
-        </header>
+        <p>{!this.state.data ? "Loading..." : this.state.data}</p>
       </div>
     );
   }
