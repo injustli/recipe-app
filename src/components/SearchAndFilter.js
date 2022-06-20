@@ -23,11 +23,12 @@ class SearchAndFilter extends React.Component {
     this.setState({modalOpen: flag});
   }
 
-  // Keep track of the user input for recipe name
+  // Keeps track of the user input for recipe name
   setName = (event) => {
-    this.setState({name: event.target.value}, () => console.log(this.state.name))
+    this.setState({name: event.target.value})
   }
 
+  // Handles getting the ingredients the user inputted to filter on
   setIngredient = (index, event) => {
     const ingredients = [...this.state.ingredients];
     if (!ingredients[index]) {
@@ -35,9 +36,10 @@ class SearchAndFilter extends React.Component {
     } else {
       ingredients[index] = event.target.value;
     }
-    this.setState({ingredients: ingredients}, () => console.log(this.state.ingredients));
+    this.setState({ingredients: ingredients});
   }
 
+  // Handles creating a new input field with an option to add more every time the user clicks the plus button
   addInput = () => {
     const {inputFields, ingredients} = this.state;
     const inputs = [...inputFields];
@@ -53,18 +55,22 @@ class SearchAndFilter extends React.Component {
     this.setState({inputFields: inputs});
   }
 
+  // Keeps track of the user input for min time
   setMin = (event) => {
-    this.setState({minTime: event.target.value}, () => console.log(this.state.minTime));
+    this.setState({minTime: event.target.value});
   }
 
+  // Keeps track of the user input for max time
   setMax = (event) => {
-    this.setState({maxTime: event.target.value}, () => console.log(this.state.maxTime));
+    this.setState({maxTime: event.target.value});
   }
 
+  // Keeps track of the user input for created by
   setCreator = (event) => {
     this.setState({createdBy: event.target.value});
   }
 
+  // Returns a valid query parameter string depending on the ingredients state
   createIngredientQueryParam = ()  => {
     let res = "";
     let {ingredients} = this.state;
@@ -74,6 +80,7 @@ class SearchAndFilter extends React.Component {
     return res;
   }
 
+  // Filters what gets displayed based on the user inputs
   filterRecipes = () => {
     fetch(`http:localhost:8080/recipes?page=${this.props.page}&limit=${this.props.limit}&
       ${this.createIngredientQueryParam()}name=${this.state.name}&min=${this.state.minTime}&
