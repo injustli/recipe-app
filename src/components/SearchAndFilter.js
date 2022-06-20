@@ -110,7 +110,7 @@ class SearchAndFilter extends React.Component {
             <BsSearch />
           </InputGroup.Text>
         </InputGroup>
-        <Button onClick={() => this.setModal(true)} type="button" value="Advanced Search" />
+        <Button onClick={() => this.setModal(true)} type="button">Advanced Search</Button>
         <Modal 
           show={this.state.modalOpen} 
           onHide={() => this.setModal(false)} 
@@ -138,8 +138,8 @@ class SearchAndFilter extends React.Component {
             </Form>
           </Modal.Body>
           <Modal.Footer style={styles.formBody}>
-            <Button onClick={this.filterRecipes} type="submit" value="Submit" />
-            <Button onClick={() => this.setModal(false)} type="button" value="Cancel" />
+            <Button onClick={this.filterRecipes} type="submit">Submit</Button>
+            <Button onClick={() => this.setModal(false)} type="button">Cancel</Button>
           </Modal.Footer>
         </Modal>
       </Container>
