@@ -12,21 +12,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    fetch("http://localhost:8080/test?id=1&id=2", {
-      method: "GET",
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json"
-      }
-    })
-      .then(res => {
-        //console.log(res);
-        res.json()
-      })
-      .then(data => {
-        console.log(data);
-        //this.setState({data: data.message})
-      });
+    
   }
 
   render() {

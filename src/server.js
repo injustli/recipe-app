@@ -19,9 +19,7 @@ app.use(morgan("combined"));
 
 // Test API method 
 app.get("/test", (req, res) => {
-  res.send({
-    message: "Hello World!"
-  });
+  res.status(200).send("Hello World!");
 });
 
 // Add API methods here
