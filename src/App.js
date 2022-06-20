@@ -1,5 +1,7 @@
 import './App.css';
 import React from 'react';
+import SearchAndFilter from './components/SearchAndFilter';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 class App extends React.Component {
   constructor(props) {
@@ -10,21 +12,27 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    fetch("https://recipe-app-351220.uc.r.appspot.com/test", {
+    fetch("http://localhost:8080/test?id=1&id=2", {
       method: "GET",
       headers: {
         "Accept": "application/json",
         "Content-Type": "application/json"
       }
     })
-      .then((res) => res.json())
-      .then((data) => this.setState({data: data}));
+      .then(res => {
+        //console.log(res);
+        res.json()
+      })
+      .then(data => {
+        console.log(data);
+        //this.setState({data: data.message})
+      });
   }
 
   render() {
     return (
-      <div className="App">
-        <p>{!this.state.data ? "Loading..." : this.state.data}</p>
+      <div>
+        <SearchAndFilter />
       </div>
     );
   }
