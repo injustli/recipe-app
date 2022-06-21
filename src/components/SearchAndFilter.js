@@ -81,7 +81,7 @@ class SearchAndFilter extends React.Component {
 
   // Filters what gets displayed based on the user inputs
   filterRecipes = async () => {
-    fetch(`http:localhost:8080/recipes?page=${this.props.page}&limit=${this.props.limit}&
+    fetch(`http://localhost:8080/recipes?page=${this.props.page}&limit=${this.props.limit}&
       ${this.createIngredientQueryParam()}name=${this.state.name}&min=${this.state.minTime}&
       max=${this.state.maxTime}`, {
       method: "GET",
@@ -96,12 +96,12 @@ class SearchAndFilter extends React.Component {
 
   // Used by the search bar to filter the recipes displayed
   onSearch = async (event) => {
-    this.setState({name: event.target.value}, this.filterRecipes());
+    this.setState({name: event.target.value}, await this.filterRecipes());
   }
 
   // Used by the submit button to filter the recipes displayed and closes modal window
-  onSubmit = () => {
-    this.filterRecipes();
+  onSubmit = async () => {
+    await this.filterRecipes();
     this.setState({modalOpen: false});
   }
 
