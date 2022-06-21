@@ -81,7 +81,7 @@ class SearchAndFilter extends React.Component {
 
   // Filters what gets displayed based on the user inputs
   filterRecipes = async () => {
-    fetch(`http://localhost:8080/recipes?page=${this.props.page}&limit=${this.props.limit}&
+    fetch(`/recipes?page=${this.props.page}&limit=${this.props.limit}&
       ${this.createIngredientQueryParam()}name=${this.state.name}&min=${this.state.minTime}&
       max=${this.state.maxTime}`, {
       method: "GET",
