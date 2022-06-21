@@ -36,7 +36,7 @@ class SearchAndFilter extends React.Component {
     } else {
       ingredients[index] = event.target.value;
     }
-    this.setState({ingredients: ingredients});
+    this.setState({ingredients: ingredients}, () => console.log(this.state.ingredients));
   }
 
   // Handles creating a new input field with an option to add more every time the user clicks the plus button
@@ -47,7 +47,7 @@ class SearchAndFilter extends React.Component {
     inputs.push(
       <React.Fragment key={length}>
         <label>Ingredient: </label>
-        <input type="text" value={(ingredients[length]) ? ingredients[length] : ""} onChange={(event) => this.setIngredient(length, event)}/>
+        <input type="text" value={ingredients[length]} onChange={(event) => this.setIngredient(length, event)}/>
         <Button onClick={this.addInput} type="button">+</Button>
         <br></br>
       </React.Fragment>
@@ -81,7 +81,7 @@ class SearchAndFilter extends React.Component {
   }
 
   // Filters what gets displayed based on the user inputs
-  filterRecipes = () => {
+  filterRecipes = async () => {
     fetch(`http:localhost:8080/recipes?page=${this.props.page}&limit=${this.props.limit}&
       ${this.createIngredientQueryParam()}name=${this.state.name}&min=${this.state.minTime}&
       max=${this.state.maxTime}`, {
@@ -93,6 +93,16 @@ class SearchAndFilter extends React.Component {
     })
     .then(res => res.json())
     .then(data => this.props.setRecipes(data));
+  }
+
+  // Used by the search bar to filter the recipes displayed
+  onSearch = async (event) => {
+    this.setState({name: event.target.value}, this.filterRecipes());
+  }
+
+  // Used by the submit button to filter the recipes displayed and closes modal window
+  onSubmit = () => {
+    this.filterRecipes();
     this.setState({modalOpen: false});
   }
 
@@ -104,7 +114,7 @@ class SearchAndFilter extends React.Component {
             type="text"
             placeholder="Search"
             aria-label="Search"
-            onChange={this.setName}
+            onChange={this.onSearch}
           />
           <InputGroup.Text>
             <BsSearch />
@@ -138,7 +148,7 @@ class SearchAndFilter extends React.Component {
             </Form>
           </Modal.Body>
           <Modal.Footer style={styles.formBody}>
-            <Button onClick={this.filterRecipes} type="submit">Submit</Button>
+            <Button onClick={this.onSubmit} type="submit">Submit</Button>
             <Button onClick={() => this.setModal(false)} type="button">Cancel</Button>
           </Modal.Footer>
         </Modal>

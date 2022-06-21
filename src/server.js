@@ -25,6 +25,6 @@ app.get("/test", (req, res) => {
 // Add API methods here
 
 app.get("*", function(req, res) {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
+  res.sendFile(path.join(__dirname, "/build/index.html"));
 });
 module.exports = app.listen(process.env.PORT || 8080, () => console.log(`Listening on port ${process.env.PORT || 8080}!`));
