@@ -1,7 +1,6 @@
 import React from "react";
 import {Container, InputGroup, Button, Modal, Form, FormControl} from "react-bootstrap";
 import {BsSearch} from "react-icons/bs";
-//import {GrAddCircle} from "react-icons/gr";
 
 class SearchAndFilter extends React.Component {
 
@@ -36,7 +35,7 @@ class SearchAndFilter extends React.Component {
     } else {
       ingredients[index] = event.target.value;
     }
-    this.setState({ingredients: ingredients}, () => console.log(this.state.ingredients));
+    this.setState({ingredients: ingredients});
   }
 
   // Handles creating a new input field with an option to add more every time the user clicks the plus button
