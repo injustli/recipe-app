@@ -1,9 +1,9 @@
 import './App.css';
-import {React} from 'react';
+import React from 'react';
 import SearchAndFilter from './components/SearchAndFilter';
 import jwt_decode from "jwt-decode";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Button}  from "react-bootstrap";
+import {Button, Dropdown, DropdownButton}  from "react-bootstrap";
 
 class App extends React.Component {
   constructor(props) {
@@ -40,20 +40,21 @@ class App extends React.Component {
     
   }
 
-  handleLogin = (googleData) => {
-    console.log(googleData);
-  }
-
-  handleFailure = (result) => {
-    console.log(result);
-  }
-
   render() {
     return (
       <div>
         <SearchAndFilter />
-        {Object.keys(this.state.user).length != 0 &&
-          <Button onClick={this.handleLogout}>Sign Out</Button>
+        {
+          Object.keys(this.state.user).length != 0 && (
+            <div style={styles.main}>
+              <DropdownButton title="My Account">
+                <Dropdown.Item as="button">Home</Dropdown.Item>
+                <Dropdown.Item as="button">My Recipes</Dropdown.Item>
+                <Dropdown.Item as="button">My Meal Plan</Dropdown.Item>
+                <Dropdown.Item as="button" onClick={this.handleLogout}>Sign out</Dropdown.Item>
+              </DropdownButton>
+            </div>
+          )
         }
         <div style={styles.main} id="signInDiv"></div>
       </div>
@@ -63,7 +64,9 @@ class App extends React.Component {
 
 const styles = {
   main: {
-    justifyContent: "right"
+    position: "absolute",
+    right: 5,
+    top: 5
   }
 }
 
