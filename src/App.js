@@ -1,5 +1,5 @@
 import './App.css';
-import React from 'react';
+import {React} from 'react';
 import SearchAndFilter from './components/SearchAndFilter';
 import jwt_decode from "jwt-decode";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -38,6 +38,14 @@ class App extends React.Component {
       { theme: "outline", size: "large"}
     );
     
+  }
+
+  handleLogin = (googleData) => {
+    console.log(googleData);
+  }
+
+  handleFailure = (result) => {
+    console.log(result);
   }
 
   render() {
