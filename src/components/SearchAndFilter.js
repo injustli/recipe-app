@@ -58,7 +58,6 @@ class SearchAndFilter extends React.Component {
       
     });
     document.getElementById("form-add").style.visibility = "hidden";
-    
   }
 
   // Keeps track of the user input for min time
