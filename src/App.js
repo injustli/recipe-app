@@ -3,14 +3,18 @@ import React from 'react';
 import SearchAndFilter from './components/SearchAndFilter';
 import jwt_decode from "jwt-decode";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Button, Dropdown, DropdownButton}  from "react-bootstrap";
+import {Dropdown, DropdownButton}  from "react-bootstrap";
+import MyRecipes from './components/MyRecipes';
+import MyMealPlan from './components/MyMealPlan';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       token: null,
-      user: {}
+      user: {},
+      recipes: false,
+      mealPlan: false
     };
   }
 
@@ -22,7 +26,7 @@ class App extends React.Component {
   }
 
   handleLogout = () => {
-    this.setState({user: {}});
+    this.setState({user: {}, recipes: false, mealPlan: false});
     document.getElementById("signInDiv").hidden = false;
   }
 
@@ -37,7 +41,22 @@ class App extends React.Component {
       document.getElementById("signInDiv"),
       { theme: "outline", size: "large"}
     );
-    
+  }
+
+  navigateTo = (route, event) => {
+    switch(route) {
+      case "My Recipes":
+        this.setState({recipes: true, mealPlan: false});
+        break;
+      case "My Meal Plan":
+        this.setState({recipes: false, mealPlan: true});
+        break;
+      case "Sign out":
+        this.handleLogout();
+        break;
+      default:
+        this.setState({recipes: false, mealPlan: false});
+    }
   }
 
   render() {
@@ -47,16 +66,22 @@ class App extends React.Component {
         {
           Object.keys(this.state.user).length != 0 && (
             <div style={styles.main}>
-              <DropdownButton title="My Account">
-                <Dropdown.Item as="button">Home</Dropdown.Item>
-                <Dropdown.Item as="button">My Recipes</Dropdown.Item>
-                <Dropdown.Item as="button">My Meal Plan</Dropdown.Item>
-                <Dropdown.Item as="button" onClick={this.handleLogout}>Sign out</Dropdown.Item>
+              <DropdownButton title="My Account" menuRole="menu" onSelect={(eventKey, event) => this.navigateTo(eventKey, event)}>
+                <Dropdown.Item as="button" eventKey={"Home"}>Home</Dropdown.Item>
+                <Dropdown.Item as="button" eventKey={"My Recipes"}>My Recipes</Dropdown.Item>
+                <Dropdown.Item as="button" eventKey={"My Meal Plan"}>My Meal Plan</Dropdown.Item>
+                <Dropdown.Item as="button" eventKey={"Sign out"}>Sign out</Dropdown.Item>
               </DropdownButton>
             </div>
           )
         }
         <div style={styles.main} id="signInDiv"></div>
+        {
+          this.state.recipes && <MyRecipes />
+        }
+        {
+          this.state.mealPlan && <MyMealPlan />
+        }
       </div>
     );
   }
