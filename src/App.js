@@ -13,8 +13,7 @@ class App extends React.Component {
     this.state = {
       token: null,
       user: {},
-      recipes: false,
-      mealPlan: false
+      page: "Home"
     };
   }
 
@@ -26,7 +25,7 @@ class App extends React.Component {
   }
 
   handleLogout = () => {
-    this.setState({user: {}, recipes: false, mealPlan: false});
+    this.setState({user: {}, page: "Home"});
     document.getElementById("signInDiv").hidden = false;
   }
 
@@ -44,25 +43,35 @@ class App extends React.Component {
   }
 
   navigateTo = (route, event) => {
-    switch(route) {
-      case "My Recipes":
-        this.setState({recipes: true, mealPlan: false});
-        break;
-      case "My Meal Plan":
-        this.setState({recipes: false, mealPlan: true});
-        break;
-      case "Sign out":
+    this.setState({page: route}, () => {
+      if (this.state.page == "Sign out") {
         this.handleLogout();
-        break;
+      }
+    });
+  }
+
+  searchRender = () => {
+    const {page} = this.state;
+    switch(page) {
+      case "My Recipes":
+        return (
+          <React.Fragment>
+            <SearchAndFilter />
+            <MyRecipes />
+          </React.Fragment>
+        );
+      case "My Meal Plan":
+        return <MyMealPlan />;
+      case "Sign out":
+        return <SearchAndFilter />
       default:
-        this.setState({recipes: false, mealPlan: false});
+        return <SearchAndFilter />
     }
   }
 
   render() {
     return (
       <div>
-        <SearchAndFilter />
         {
           Object.keys(this.state.user).length != 0 && (
             <div style={styles.main}>
@@ -76,12 +85,7 @@ class App extends React.Component {
           )
         }
         <div style={styles.main} id="signInDiv"></div>
-        {
-          this.state.recipes && <MyRecipes />
-        }
-        {
-          this.state.mealPlan && <MyMealPlan />
-        }
+        {this.searchRender()}
       </div>
     );
   }
