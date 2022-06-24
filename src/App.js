@@ -2,8 +2,13 @@ import './App.css';
 import React from 'react';
 import SearchAndFilter from './components/SearchAndFilter';
 import jwt_decode from "jwt-decode";
+<<<<<<< HEAD
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Dropdown, DropdownButton}  from "react-bootstrap";
+=======
+import {Dropdown, DropdownButton}  from "react-bootstrap";
+import 'bootstrap/dist/css/bootstrap.min.css';
+>>>>>>> Made navigation so search bar is only rendered on certain pages
 import MyRecipes from './components/MyRecipes';
 import MyMealPlan from './components/MyMealPlan';
 
@@ -26,7 +31,11 @@ class App extends React.Component {
 
   handleLogout = () => {
     this.setState({user: null, page: "Home"});
+<<<<<<< HEAD
     document.getElementById("signInDiv").classList.remove("hide");
+=======
+    document.getElementById("signInDiv").hidden = false;
+>>>>>>> Made navigation so search bar is only rendered on certain pages
   }
 
   componentDidMount() {
