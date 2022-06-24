@@ -62,8 +62,6 @@ class App extends React.Component {
         );
       case "My Meal Plan":
         return <MyMealPlan />;
-      case "Sign out":
-        return <SearchAndFilter />
       default:
         return <SearchAndFilter />
     }
