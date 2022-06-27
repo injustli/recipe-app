@@ -109,7 +109,19 @@ class SearchAndFilter extends React.Component {
   // Used by the submit button to filter the recipes displayed and closes modal window
   onSubmit = async () => {
     await this.filterRecipes();
-    this.setState({modalOpen: false});
+    this.reset();
+  }
+
+  reset = () => {
+    this.setState({
+      modalOpen: false,
+      name: "",
+      ingredients: [],
+      minTime: 0,
+      maxTime: 0,
+      createdBy: "",
+      inputFields: []
+    });
   }
 
   render() {
@@ -159,7 +171,7 @@ class SearchAndFilter extends React.Component {
           </Modal.Body>
           <Modal.Footer className="formBody">
             <Button onClick={this.onSubmit} type="submit">Submit</Button>
-            <Button onClick={() => this.setModal(false)} type="button">Cancel</Button>
+            <Button onClick={this.reset} type="button">Cancel</Button>
           </Modal.Footer>
         </Modal>
       </Container>
