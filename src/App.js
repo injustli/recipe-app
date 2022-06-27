@@ -60,7 +60,7 @@ class App extends React.Component {
       { theme: "outline", size: "large" }
     );
 
-    fetch(`/recipes?page=${this.state.currentPage}&limit=${this.state.pageSize}`, {
+    /*fetch(`/recipes?page=${this.state.currentPage}&limit=${this.state.pageSize}`, {
       method: "GET",
       headers: {
         "Accept": "applicatiohn/json",
@@ -68,7 +68,21 @@ class App extends React.Component {
       }
     })
       .then(res => res.json())
-      .then(data => this.setState({ recipes: data.recipes, totalCount: data.count }));
+      .then(data => this.setState({ recipes: data.recipes, totalCount: data.count }));*/
+    this.state.recipes.push({
+      id: 1,
+      name: "cheese",
+      ingredients: [
+        "cheese",
+        "foo",
+        "bar"
+      ],
+      method: [
+        "Cut slice of cheese into thirds",
+        "Serve and Enjoy"
+      ],
+      createdBy: "Me"
+    });
   }
 
   navigateTo = (route, event) => {
