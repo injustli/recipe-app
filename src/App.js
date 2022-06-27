@@ -1,16 +1,16 @@
 import './App.css';
 import React from 'react';
-import SearchAndFilter from './components/SearchAndFilter';
+//import Header from './components/Header';
 import jwt_decode from "jwt-decode";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import {Button, Dropdown, DropdownButton}  from "react-bootstrap";
+import SearchAndFilter from "./components/SearchAndFilter";
+import {Dropdown, DropdownButton}  from "react-bootstrap";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       token: null,
-      user: {}
+      user: null,
     };
   }
 
@@ -22,7 +22,7 @@ class App extends React.Component {
   }
 
   handleLogout = () => {
-    this.setState({user: {}});
+    this.setState({user: null});
     document.getElementById("signInDiv").hidden = false;
   }
 
@@ -37,36 +37,32 @@ class App extends React.Component {
       document.getElementById("signInDiv"),
       { theme: "outline", size: "large"}
     );
-    
+  }
+
+  getMenu = () => {
+    if (this.state.user) {
+      return (
+        <div className="Account-Menu">
+          <DropdownButton title="My Account">
+            <Dropdown.Item as="button">Home</Dropdown.Item>
+            <Dropdown.Item as="button">My Recipes</Dropdown.Item>
+            <Dropdown.Item as="button">My Meal Plan</Dropdown.Item>
+            <Dropdown.Item as="button" onClick={this.handleLogout}>Sign out</Dropdown.Item>
+          </DropdownButton>
+        </div>
+      )
+    }
+    return <React.Fragment></React.Fragment>
   }
 
   render() {
     return (
       <div>
         <SearchAndFilter />
-        {
-          Object.keys(this.state.user).length != 0 && (
-            <div style={styles.main}>
-              <DropdownButton title="My Account">
-                <Dropdown.Item as="button">Home</Dropdown.Item>
-                <Dropdown.Item as="button">My Recipes</Dropdown.Item>
-                <Dropdown.Item as="button">My Meal Plan</Dropdown.Item>
-                <Dropdown.Item as="button" onClick={this.handleLogout}>Sign out</Dropdown.Item>
-              </DropdownButton>
-            </div>
-          )
-        }
-        <div style={styles.main} id="signInDiv"></div>
+        {this.getMenu()}
+        <div id="signInDiv" className="Account-Menu"></div>
       </div>
     );
-  }
-}
-
-const styles = {
-  main: {
-    position: "absolute",
-    right: 5,
-    top: 5
   }
 }
 
