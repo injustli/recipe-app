@@ -1,6 +1,5 @@
 import './App.css';
 import React from 'react';
-//import Header from './components/Header';
 import jwt_decode from "jwt-decode";
 import SearchAndFilter from "./components/SearchAndFilter";
 import {Dropdown, DropdownButton}  from "react-bootstrap";
