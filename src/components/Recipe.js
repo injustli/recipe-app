@@ -16,9 +16,11 @@ class Recipe extends React.Component {
         <div className="rounded-border d-flex flex-row align-items-center bg-light">
           <Card border="dark">
             <Card.Img variant="top" src={``}/>
-            <Card.Title>
-              
-            </Card.Title>
+            <Card.Title>{this.props.data.name}</Card.Title>
+            <Card.Body>
+              <Card.Text>{this.props.data.time}</Card.Text>
+              <Card.Text>{this.props.data.createdBy}</Card.Text>
+            </Card.Body>
           </Card>
         </div>
       </div>
