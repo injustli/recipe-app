@@ -1,6 +1,7 @@
 import React from "react";
 import {Container, InputGroup, Modal, Button, Form, FormControl} from "react-bootstrap";
 import {BsSearch} from "react-icons/bs";
+import "../styles/SearchAndFilter.css";
 
 class SearchAndFilter extends React.Component {
 
@@ -45,19 +46,19 @@ class SearchAndFilter extends React.Component {
     const length = inputFields.length;
     inputs.push(
       <React.Fragment key={length}>
-        <label>Ingredient: </label>
-        <input type="text" value={ingredients[length]} onChange={(event) => this.setIngredient(length, event)}/>
+        <label>Ingredient:
+          <input type="text" value={ingredients[length]} onChange={(event) => this.setIngredient(length, event)}/>
+        </label>
         <button id={`form-add-${length}`} onClick={this.addInput} type="button">+</button>
         <br></br>
       </React.Fragment>
     )
     this.setState({inputFields: inputs}, () => {
       if (length != 0) {
-        document.getElementById(`form-add-${length-1}`).style.visibility = "hidden";
+        document.getElementById(`form-add-${length-1}`).classList.add("hidden");
       }
-      
     });
-    document.getElementById("form-add").style.visibility = "hidden";
+    document.getElementById("form-add").classList.add("hidden");
   }
 
   // Keeps track of the user input for min time
@@ -132,40 +133,37 @@ class SearchAndFilter extends React.Component {
           centered="true"
           size="lg"
         >
-          <Modal.Body style={styles.formBody}>
+          <Modal.Body className="formBody">
             <Form>
-              <label>Name: </label>
-              <input type="text" value={this.state.name} onChange={this.setName} />
+              <label>Name: 
+                <input type="text" value={this.state.name} onChange={this.setName} />
+              </label>
               <br></br>
               <label>Ingredients: </label>
               <button id="form-add" onClick={this.addInput} type="button">+</button>
               <br></br>
               {this.state.inputFields}
               <br></br>
-              <label>Min Time: </label>
-              <input type="number" value={this.state.minTime} onChange={this.setMin} />
+              <label>Min Time:
+                <input type="number" value={this.state.minTime} onChange={this.setMin} />
+              </label>
               <br></br>
-              <label>Max Time: </label>
-              <input type="number" value={this.state.maxTime} onChange={this.setMax} />
+              <label>Max Time:
+                <input type="number" value={this.state.maxTime} onChange={this.setMax} />
+              </label>
               <br></br>
-              <label>Created By: </label>
-              <input type="text" value={this.state.createdBy} onChange={this.setCreator} />
+              <label>Created By:
+                <input type="text" value={this.state.createdBy} onChange={this.setCreator} />
+              </label>
             </Form>
           </Modal.Body>
-          <Modal.Footer style={styles.formBody}>
+          <Modal.Footer className="formBody">
             <Button onClick={this.onSubmit} type="submit">Submit</Button>
             <Button onClick={() => this.setModal(false)} type="button">Cancel</Button>
           </Modal.Footer>
         </Modal>
       </Container>
     );
-  }
-}
-
-const styles = {
-  formBody: {
-    justifyContent: "center",
-    display:"flex"
   }
 }
 
