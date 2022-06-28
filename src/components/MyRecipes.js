@@ -1,6 +1,6 @@
 import React from "react";
 
-
+// TODO (issue 14): MyRecipes component
 class MyRecipes extends React.Component {
   constructor(props) {
     super(props);
