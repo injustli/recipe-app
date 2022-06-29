@@ -12,7 +12,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       token: null,
-      page: "Home"
+      page: "Home",
       user: null,
     };
   }
