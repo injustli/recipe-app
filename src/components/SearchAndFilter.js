@@ -230,4 +230,8 @@ class SearchAndFilter extends React.Component {
   }
 }
 
+<<<<<<< HEAD
 export default SearchAndFilter;
+=======
+export default SearchAndFilter;
+>>>>>>> fixed save conflicts
