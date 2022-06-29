@@ -134,7 +134,7 @@ class SearchAndFilter extends React.Component {
           centered="true"
           size="lg"
         >
-          <Modal.Body style={styles.formBody}>
+          <Modal.Body className="formBody">
             <Form>
               <label>Name: </label>
               <input type="text" value={this.state.name} onChange={this.setName} />
@@ -161,13 +161,6 @@ class SearchAndFilter extends React.Component {
         </Modal>
       </Container>
     );
-  }
-}
-
-const styles = {
-  formBody: {
-    justifyContent: "center",
-    display:"flex"
   }
 }
 
