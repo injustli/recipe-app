@@ -71,11 +71,11 @@ class App extends React.Component {
     if (this.state.user) {
       return (
         <div className="Account-Menu">
-          <DropdownButton title="My Account">
-            <Dropdown.Item as="button">Home</Dropdown.Item>
-            <Dropdown.Item as="button">My Recipes</Dropdown.Item>
-            <Dropdown.Item as="button">My Meal Plan</Dropdown.Item>
-            <Dropdown.Item as="button" onClick={this.handleLogout}>Sign out</Dropdown.Item>
+          <DropdownButton title="My Account" menuRole="menu" onSelect={(eventKey, event) => this.navigateTo(eventKey, event)}>
+            <Dropdown.Item as="button" eventKey="Home">Home</Dropdown.Item>
+            <Dropdown.Item as="button" eventKey="My Recipes">My Recipes</Dropdown.Item>
+            <Dropdown.Item as="button" eventKey="My Meal Plan">My Meal Plan</Dropdown.Item>
+            <Dropdown.Item as="button" eventKey="Sign out">Sign out</Dropdown.Item>
           </DropdownButton>
         </div>
       )
