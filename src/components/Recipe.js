@@ -32,18 +32,21 @@ class Recipe extends React.Component {
     return procList;
   }
 
+  // TODO (issue 26): Card/Modal image
   render() {
     return (
       <div className="container">
         <div className="rounded-border d-inline p-1 bg-light">
           <Card border="dark">
-            <Card.Img variant="top" src="https://www.usdairy.com/optimize/getmedia/6ab03180-cc90-4a03-a339-13b540ecc8a5/american.jpg.jpg.aspx?format=webp"/>
+            <Card.Img variant="top" src=""/>
             <Card.Title>
-              <button className="card-title" onClick={() => this.setModal(true)}><strong>{this.props.data.name}</strong></button>
+              <button className="card-title" onClick={() => this.setModal(true)}>
+                <strong>{this.props.data.name}</strong>
+              </button>
             </Card.Title>
             <Card.Body>
-              <p>Time: {this.props.data.time} min</p>
-              <p>Created by: {this.props.data.createdBy}</p>
+              <div>Time: {this.props.data.time} min</div>
+              <div>Created by: {this.props.data.createdBy}</div>
             </Card.Body>
           </Card>
         </div>
@@ -58,7 +61,7 @@ class Recipe extends React.Component {
               <Modal.Title className="modalTitle">{this.props.data.time} min</Modal.Title>
           </Modal.Header>
           <img 
-              src="https://www.usdairy.com/optimize/getmedia/6ab03180-cc90-4a03-a339-13b540ecc8a5/american.jpg.jpg.aspx?format=webp" 
+              src="" 
               alt={`${this.props.data.name}`}
           />
           <Modal.Body>
@@ -70,7 +73,7 @@ class Recipe extends React.Component {
               Procedure:
               <ol>{this.displayProcedure()}</ol>
             </div>
-            <p>Created By: {this.props.data.createdBy}</p>
+            <div>Created By: {this.props.data.createdBy}</div>
           </Modal.Body>
         </Modal>
       </div>

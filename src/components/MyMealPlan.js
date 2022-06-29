@@ -1,9 +1,6 @@
 import React from "react";
 
-<<<<<<< HEAD
 // TODO (issue 13): MyMealPlan component
-=======
->>>>>>> Added navigation to dropdown menu
 class MyMealPlan extends React.Component {
   constructor(props) {
     super(props);
@@ -19,8 +16,4 @@ class MyMealPlan extends React.Component {
   }
 }
 
-<<<<<<< HEAD
 export default MyMealPlan;
-=======
-export default MyMealPlan;
->>>>>>> Added navigation to dropdown menu

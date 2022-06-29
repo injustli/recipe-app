@@ -2,39 +2,24 @@ import './App.css';
 import React from 'react';
 import SearchAndFilter from './components/SearchAndFilter';
 import jwt_decode from "jwt-decode";
-<<<<<<< HEAD
 import {Dropdown, DropdownButton}  from "react-bootstrap";
-=======
->>>>>>> fixed save conflicts
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import MyRecipes from './components/MyRecipes';
 import MyMealPlan from './components/MyMealPlan';
 import RecipeView from "./components/RecipeView";
-<<<<<<< HEAD
-=======
-import SearchAndFilter from './components/SearchAndFilter';
->>>>>>> fixed save conflicts
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       token: null,
-<<<<<<< HEAD
-      page: "Home",
-=======
->>>>>>> fixed save conflicts
       user: null,
       recipes: [],
       currentPage: 1,
       totalCount: 0,
-<<<<<<< HEAD
-      pageSize: 100
-=======
       pageSize: 100,
       page: "Home"
->>>>>>> fixed save conflicts
     };
   }
 
@@ -46,11 +31,7 @@ class App extends React.Component {
   }
 
   handleLogout = () => {
-<<<<<<< HEAD
     this.setState({user: null, page: "Home"});
-=======
-    this.setState({ user: null, page: "Home" });
->>>>>>> fixed save conflicts
     document.getElementById("signInDiv").hidden = false;
   }
 
@@ -69,7 +50,7 @@ class App extends React.Component {
     fetch(`/recipes?page=${this.state.currentPage}&limit=${this.state.pageSize}`, {
       method: "GET",
       headers: {
-        "Accept": "application/json",
+        "Accept": "applicatiohn/json",
         "Content-Type": "application/json"
       }
     })
@@ -77,25 +58,6 @@ class App extends React.Component {
       .then(data => this.setState({ recipes: data.recipes, totalCount: data.count }));
   }
 
-<<<<<<< HEAD
-=======
-  getMenu = () => {
-    if (this.state.user) {
-      return (
-        <div className="Account-Menu">
-          <DropdownButton title="My Account">
-            <Dropdown.Item as="button">Home</Dropdown.Item>
-            <Dropdown.Item as="button">My Recipes</Dropdown.Item>
-            <Dropdown.Item as="button">My Meal Plan</Dropdown.Item>
-            <Dropdown.Item as="button" onClick={this.handleLogout}>Sign out</Dropdown.Item>
-          </DropdownButton>
-        </div>
-      )
-    }
-    return <React.Fragment></React.Fragment>
-  }
-
->>>>>>> fixed save conflicts
   navigateTo = (route, event) => {
     this.setState({ page: route }, () => {
       if (this.state.page == "Sign out") {
@@ -110,7 +72,11 @@ class App extends React.Component {
       case "My Recipes":
         return (
           <React.Fragment>
-            <SearchAndFilter page={this.state.currentPage} limit={this.state.pageSize} />
+            <SearchAndFilter 
+              page={this.state.currentPage} 
+              limit={this.state.pageSize}
+              setRecipes={recipes => this.setRecipes(recipes)} 
+            />
             <MyRecipes />
           </React.Fragment>
         );
@@ -119,7 +85,11 @@ class App extends React.Component {
       default:
         return (
           <React.Fragment>
-            <SearchAndFilter page={this.state.currentPage} limit={this.state.pageSize} />
+            <SearchAndFilter 
+              page={this.state.currentPage} 
+              limit={this.state.pageSize}
+              setRecipes={recipes => this.setRecipes(recipes)} 
+            />
             <RecipeView
               data={this.state.recipes}
               currentPage={this.state.currentPage}
@@ -131,7 +101,6 @@ class App extends React.Component {
           </React.Fragment>
         );
     }
-<<<<<<< HEAD
   }
   
   getMenu = () => {
@@ -148,8 +117,6 @@ class App extends React.Component {
       )
     }
     return <React.Fragment></React.Fragment>
-=======
->>>>>>> fixed save conflicts
   }
 
   setCurrentPage = (page) => {
