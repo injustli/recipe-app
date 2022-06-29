@@ -1,14 +1,18 @@
 import './App.css';
 import React from 'react';
+import SearchAndFilter from './components/SearchAndFilter';
 import jwt_decode from "jwt-decode";
-import SearchAndFilter from "./components/SearchAndFilter";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import {Dropdown, DropdownButton}  from "react-bootstrap";
+import MyRecipes from './components/MyRecipes';
+import MyMealPlan from './components/MyMealPlan';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       token: null,
+      page: "Home"
       user: null,
     };
   }
@@ -21,7 +25,7 @@ class App extends React.Component {
   }
 
   handleLogout = () => {
-    this.setState({user: null});
+    this.setState({user: null, page: "Home"});
     document.getElementById("signInDiv").hidden = false;
   }
 
@@ -38,6 +42,31 @@ class App extends React.Component {
     );
   }
 
+  navigateTo = (route, event) => {
+    this.setState({page: route}, () => {
+      if (this.state.page == "Sign out") {
+        this.handleLogout();
+      }
+    });
+  }
+
+  searchRender = () => {
+    const {page} = this.state;
+    switch(page) {
+      case "My Recipes":
+        return (
+          <React.Fragment>
+            <SearchAndFilter />
+            <MyRecipes />
+          </React.Fragment>
+        );
+      case "My Meal Plan":
+        return <MyMealPlan />;
+      default:
+        return <SearchAndFilter />
+    }
+  }
+  
   getMenu = () => {
     if (this.state.user) {
       return (
@@ -57,9 +86,9 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <SearchAndFilter />
         {this.getMenu()}
         <div id="signInDiv" className="Account-Menu"></div>
+        {this.searchRender()}
       </div>
     );
   }
