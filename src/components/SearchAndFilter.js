@@ -1,6 +1,7 @@
 import React from "react";
-import {Container, InputGroup, Button, Modal, Form, FormControl} from "react-bootstrap";
+import {Container, InputGroup, Modal, Button, Form, FormControl} from "react-bootstrap";
 import {BsSearch} from "react-icons/bs";
+import "../styles/SearchAndFilter.css";
 
 class SearchAndFilter extends React.Component {
 
@@ -47,11 +48,18 @@ class SearchAndFilter extends React.Component {
       <React.Fragment key={length}>
         <label>Ingredient: </label>
         <input type="text" value={ingredients[length]} onChange={(event) => this.setIngredient(length, event)}/>
-        <Button onClick={this.addInput} type="button">+</Button>
+        <button id={`form-add-${length}`} onClick={this.addInput} type="button">+</button>
         <br></br>
       </React.Fragment>
     )
-    this.setState({inputFields: inputs});
+    this.setState({inputFields: inputs}, () => {
+      if (length != 0) {
+        document.getElementById(`form-add-${length-1}`).classList.add("hidden");
+      }
+      
+    });
+    document.getElementById("form-add").classList.add("hidden");
+    
   }
 
   // Keeps track of the user input for min time
@@ -126,13 +134,13 @@ class SearchAndFilter extends React.Component {
           centered="true"
           size="lg"
         >
-          <Modal.Body style={styles.formBody}>
+          <Modal.Body className="formBody">
             <Form>
               <label>Name: </label>
               <input type="text" value={this.state.name} onChange={this.setName} />
               <br></br>
               <label>Ingredients: </label>
-              <Button onClick={this.addInput} type="button">+</Button>
+              <button id="form-add" onClick={this.addInput} type="button">+</button>
               <br></br>
               {this.state.inputFields}
               <br></br>
@@ -153,13 +161,6 @@ class SearchAndFilter extends React.Component {
         </Modal>
       </Container>
     );
-  }
-}
-
-const styles = {
-  formBody: {
-    justifyContent: "center",
-    display:"flex"
   }
 }
 
