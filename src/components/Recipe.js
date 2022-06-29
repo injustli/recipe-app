@@ -32,11 +32,13 @@ class Recipe extends React.Component {
     return procList;
   }
 
+  // TODO (issue 26): Card/Modal image
   render() {
     return (
       <div className="container">
         <div className="rounded-border d-flex flex-row align-items-center bg-light">
           <Card border="dark">
+<<<<<<< HEAD
             <Card.Img variant="top" src={``}/>
             <Card.Title>
               <button className="card-title">{this.props.data.name}</button>
@@ -44,6 +46,17 @@ class Recipe extends React.Component {
             <Card.Body>
               <p>{this.props.data.time}</p>
               <p>{this.props.data.createdBy}</p>
+=======
+            <Card.Img variant="top" src=""/>
+            <Card.Title>
+              <button className="card-title" onClick={() => this.setModal(true)}>
+                <strong>{this.props.data.name}</strong>
+              </button>
+            </Card.Title>
+            <Card.Body>
+              <div>Time: {this.props.data.time} min</div>
+              <div>Created by: {this.props.data.createdBy}</div>
+>>>>>>> finish recipe/recipeview component front end
             </Card.Body>
           </Card>
         </div>
@@ -57,6 +70,7 @@ class Recipe extends React.Component {
               <Modal.Title>{this.props.data.name}</Modal.Title>
               <p style={{ display: "inline-block"}}>{this.props.data.time}</p>
           </Modal.Header>
+<<<<<<< HEAD
           <Modal.Body>
             <img src="" alt={`${this.props.data.name}`} />
             <p>Ingredients: </p>
@@ -64,6 +78,22 @@ class Recipe extends React.Component {
             <p>Procedure: </p>
             <ol>{this.displayProcedure()}</ol>
             <p>{this.props.data.createdBy}</p>
+=======
+          <img 
+              src="" 
+              alt={`${this.props.data.name}`}
+          />
+          <Modal.Body>
+            <div className="modal-box">
+              Ingredients:
+              <ul>{this.displayIngredients()}</ul>
+            </div>
+            <div className="modal-box">
+              Procedure:
+              <ol>{this.displayProcedure()}</ol>
+            </div>
+            <div>Created By: {this.props.data.createdBy}</div>
+>>>>>>> finish recipe/recipeview component front end
           </Modal.Body>
         </Modal>
       </div>

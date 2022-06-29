@@ -77,11 +77,7 @@ class SearchAndFilter extends React.Component {
         document.getElementById(`form-add-${length-1}`).classList.add("hidden");
       }
     });
-<<<<<<< HEAD
     document.getElementById("form-add").classList.add("hidden");
-=======
-    document.getElementById("form-add").classList.add("hidden"); 
->>>>>>> fixed save conflicts
   }
 
   // Keeps track of the user input for min time
@@ -234,8 +230,4 @@ class SearchAndFilter extends React.Component {
   }
 }
 
-<<<<<<< HEAD
 export default SearchAndFilter;
-=======
-export default SearchAndFilter;
->>>>>>> fixed save conflicts
