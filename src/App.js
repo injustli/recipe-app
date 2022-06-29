@@ -12,8 +12,8 @@ class App extends React.Component {
     super(props);
     this.state = {
       token: null,
-      user: {},
       page: "Home"
+      user: null,
     };
   }
 
@@ -25,7 +25,7 @@ class App extends React.Component {
   }
 
   handleLogout = () => {
-    this.setState({user: {}, page: "Home"});
+    this.setState({user: null, page: "Home"});
     document.getElementById("signInDiv").hidden = false;
   }
 
@@ -66,34 +66,31 @@ class App extends React.Component {
         return <SearchAndFilter />
     }
   }
+  
+  getMenu = () => {
+    if (this.state.user) {
+      return (
+        <div className="Account-Menu">
+          <DropdownButton title="My Account">
+            <Dropdown.Item as="button">Home</Dropdown.Item>
+            <Dropdown.Item as="button">My Recipes</Dropdown.Item>
+            <Dropdown.Item as="button">My Meal Plan</Dropdown.Item>
+            <Dropdown.Item as="button" onClick={this.handleLogout}>Sign out</Dropdown.Item>
+          </DropdownButton>
+        </div>
+      )
+    }
+    return <React.Fragment></React.Fragment>
+  }
 
   render() {
     return (
       <div>
-        {
-          Object.keys(this.state.user).length != 0 && (
-            <div style={styles.main}>
-              <DropdownButton title="My Account" menuRole="menu" onSelect={(eventKey, event) => this.navigateTo(eventKey, event)}>
-                <Dropdown.Item as="button" eventKey={"Home"}>Home</Dropdown.Item>
-                <Dropdown.Item as="button" eventKey={"My Recipes"}>My Recipes</Dropdown.Item>
-                <Dropdown.Item as="button" eventKey={"My Meal Plan"}>My Meal Plan</Dropdown.Item>
-                <Dropdown.Item as="button" eventKey={"Sign out"}>Sign out</Dropdown.Item>
-              </DropdownButton>
-            </div>
-          )
-        }
-        <div style={styles.main} id="signInDiv"></div>
+        {this.getMenu()}
+        <div id="signInDiv" className="Account-Menu"></div>
         {this.searchRender()}
       </div>
     );
-  }
-}
-
-const styles = {
-  main: {
-    position: "absolute",
-    right: 5,
-    top: 5
   }
 }
 
