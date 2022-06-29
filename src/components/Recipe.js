@@ -6,7 +6,7 @@ class Recipe extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: false
+      modal: false,
     };
   }
 
@@ -35,15 +35,15 @@ class Recipe extends React.Component {
   render() {
     return (
       <div className="container">
-        <div className="rounded-border d-flex flex-row align-items-center bg-light">
+        <div className="rounded-border d-inline p-1 bg-light">
           <Card border="dark">
-            <Card.Img variant="top" src={``}/>
+            <Card.Img variant="top" src="https://www.usdairy.com/optimize/getmedia/6ab03180-cc90-4a03-a339-13b540ecc8a5/american.jpg.jpg.aspx?format=webp"/>
             <Card.Title>
-              <button className="card-title">{this.props.data.name}</button>
+              <button className="card-title" onClick={() => this.setModal(true)}><strong>{this.props.data.name}</strong></button>
             </Card.Title>
             <Card.Body>
-              <p>{this.props.data.time}</p>
-              <p>{this.props.data.createdBy}</p>
+              <p>Time: {this.props.data.time} min</p>
+              <p>Created by: {this.props.data.createdBy}</p>
             </Card.Body>
           </Card>
         </div>
@@ -55,15 +55,22 @@ class Recipe extends React.Component {
         >
           <Modal.Header closeButton>
               <Modal.Title>{this.props.data.name}</Modal.Title>
-              <p style={{ display: "inline-block"}}>{this.props.data.time}</p>
+              <Modal.Title className="modalTitle">{this.props.data.time} min</Modal.Title>
           </Modal.Header>
+          <img 
+              src="https://www.usdairy.com/optimize/getmedia/6ab03180-cc90-4a03-a339-13b540ecc8a5/american.jpg.jpg.aspx?format=webp" 
+              alt={`${this.props.data.name}`}
+          />
           <Modal.Body>
-            <img src="" alt={`${this.props.data.name}`} />
-            <p>Ingredients: </p>
-            <ul>{this.displayIngredients()}</ul>
-            <p>Procedure: </p>
-            <ol>{this.displayProcedure()}</ol>
-            <p>{this.props.data.createdBy}</p>
+            <div className="modal-box">
+              Ingredients:
+              <ul>{this.displayIngredients()}</ul>
+            </div>
+            <div className="modal-box">
+              Procedure:
+              <ol>{this.displayProcedure()}</ol>
+            </div>
+            <p>Created By: {this.props.data.createdBy}</p>
           </Modal.Body>
         </Modal>
       </div>

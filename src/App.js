@@ -4,6 +4,7 @@ import SearchAndFilter from './components/SearchAndFilter';
 import jwt_decode from "jwt-decode";
 import {Dropdown, DropdownButton}  from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/js/bootstrap.bundle.min";
 import MyRecipes from './components/MyRecipes';
 import MyMealPlan from './components/MyMealPlan';
 import RecipeView from "./components/RecipeView";
@@ -46,7 +47,7 @@ class App extends React.Component {
       { theme: "outline", size: "large" }
     );
 
-    /*fetch(`/recipes?page=${this.state.currentPage}&limit=${this.state.pageSize}`, {
+    fetch(`/recipes?page=${this.state.currentPage}&limit=${this.state.pageSize}`, {
       method: "GET",
       headers: {
         "Accept": "applicatiohn/json",
@@ -54,21 +55,7 @@ class App extends React.Component {
       }
     })
       .then(res => res.json())
-      .then(data => this.setState({ recipes: data.recipes, totalCount: data.count }));*/
-    this.state.recipes.push({
-      id: 1,
-      name: "cheese",
-      ingredients: [
-        "cheese",
-        "foo",
-        "bar"
-      ],
-      method: [
-        "Cut slice of cheese into thirds",
-        "Serve and Enjoy"
-      ],
-      createdBy: "Me"
-    });
+      .then(data => this.setState({ recipes: data.recipes, totalCount: data.count }));
   }
 
   navigateTo = (route, event) => {
@@ -80,7 +67,7 @@ class App extends React.Component {
   }
 
   searchRender = () => {
-    const { page } = this.state;
+    let { page } = this.state;
     switch (page) {
       case "My Recipes":
         return (

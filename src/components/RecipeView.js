@@ -13,7 +13,7 @@ class RecipeView extends React.Component {
 
   createRecipes = () => {
     const recipes = this.props.data.map((recipe) => {
-      return <Recipe data={recipe} key={recipe.id}/>
+      return <Recipe data={recipe} key={recipe.id}/>;
     })
     return recipes;
   }
