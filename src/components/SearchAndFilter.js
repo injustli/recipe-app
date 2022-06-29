@@ -141,7 +141,7 @@ class SearchAndFilter extends React.Component {
         <Button onClick={() => this.setModal(true)} type="button">Advanced Search</Button>
         <Modal 
           show={this.state.modalOpen} 
-          onHide={() => this.setModal(false)} 
+          onHide={this.reset} 
           centered="true"
           size="lg"
         >
@@ -171,7 +171,7 @@ class SearchAndFilter extends React.Component {
           </Modal.Body>
           <Modal.Footer className="formBody">
             <Button onClick={this.onSubmit} type="submit">Submit</Button>
-            <Button onClick={this.reset} type="button">Cancel</Button>
+            <Button onClick={this.reset} type="button">Close</Button>
           </Modal.Footer>
         </Modal>
       </Container>
