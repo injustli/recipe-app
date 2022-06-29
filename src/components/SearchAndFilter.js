@@ -1,6 +1,7 @@
 import React from "react";
 import {Container, InputGroup, Modal, Button, Form, FormControl} from "react-bootstrap";
 import {BsSearch} from "react-icons/bs";
+import "../styles/SearchAndFilter.css";
 
 class SearchAndFilter extends React.Component {
 
@@ -53,11 +54,11 @@ class SearchAndFilter extends React.Component {
     )
     this.setState({inputFields: inputs}, () => {
       if (length != 0) {
-        document.getElementById(`form-add-${length-1}`).style.visibility = "hidden";
+        document.getElementById(`form-add-${length-1}`).classList.add("hidden");
       }
       
     });
-    document.getElementById("form-add").style.visibility = "hidden";
+    document.getElementById("form-add").classList.add("hidden");
     
   }
 
