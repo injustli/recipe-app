@@ -34,7 +34,6 @@ app.get("/test", (req, res) => {
   res.status(200).send("Hello World!");
 });
 
-// Add API methods here
 // TODO (issue 12): post for /users endpoint
 app.post("/users", (req, res) => {
   
