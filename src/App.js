@@ -87,7 +87,7 @@ class App extends React.Component {
     /*fetch(`/recipes?page=${this.state.currentPage}&limit=${this.state.pageSize}`, {
       method: "GET",
       headers: {
-        "Accept": "applicatiohn/json",
+        "Accept": "application/json",
         "Content-Type": "application/json"
       }
     })
