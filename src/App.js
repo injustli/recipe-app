@@ -33,14 +33,28 @@ class App extends React.Component {
     };
   }
 
-  handleCallbackResponse = (response) => {
+  handleCallbackResponse = async (response) => {
     this.setState({ token: response.credential });
     let userObject = jwt_decode(response.credential);
+<<<<<<< HEAD
 <<<<<<< HEAD
     this.setState({user: userObject});
     document.getElementById("signInDiv").classList.add("hide");
 =======
     this.setState({ user: userObject });
+=======
+    fetch("/users", {
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: userObject.email,
+        name: userObject.name
+      })
+    });
+>>>>>>> (not working) backend stuff
     document.getElementById("signInDiv").hidden = true;
 >>>>>>> WIP on recipe display and pagination front end
   }
@@ -76,9 +90,13 @@ class App extends React.Component {
     );
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     /*fetch(`/recipes?page=${this.state.currentPage}&limit=${this.state.pageSize}`, {
 =======
     await this.fetchCurRecipes();
+=======
+    //await this.fetchCurRecipes();
+>>>>>>> (not working) backend stuff
   }
 
   fetchCurRecipes = async () => {
