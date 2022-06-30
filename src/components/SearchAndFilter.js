@@ -3,6 +3,9 @@ import {Container, InputGroup, Button, FormControl} from "react-bootstrap";
 import {BsSearch} from "react-icons/bs";
 import ModalForm from "./ModalForm";
 
+//let inputFields = [];
+//let ingredients = [];
+
 class SearchAndFilter extends React.Component {
 
   constructor(props) {
@@ -66,7 +69,7 @@ class SearchAndFilter extends React.Component {
     inputs.push(
       <React.Fragment key={length}>
         <label>Ingredient:
-          <input type="text" value={ingredients[length]} onChange={(event) => this.setIngredient(length, event)}/>
+          <input type="text" onChange={(event) => this.setIngredient(length, event)}/>
         </label>
         <button id={`form-add-${length}`} onClick={this.addInput} type="button">+</button>
         <br></br>
@@ -167,6 +170,8 @@ class SearchAndFilter extends React.Component {
   }
 
   render() {
+    //console.log(inputFields);
+    //console.log(ingredients);
     return (
       <Container>
         <InputGroup>
@@ -198,7 +203,7 @@ class SearchAndFilter extends React.Component {
           <Modal.Body className="formBody">
             <Form>
               <label>Name: 
-                <input type="text" value={this.state.name} onChange={this.setName} />
+                <input type="text" onChange={this.setName} />
               </label>
               <br></br>
               <label>Ingredients: </label>
@@ -207,15 +212,15 @@ class SearchAndFilter extends React.Component {
               {this.state.inputFields}
               <br></br>
               <label>Min Time:
-                <input type="number" value={this.state.minTime} onChange={this.setMin} />
+                <input type="number" onChange={this.setMin} />
               </label>
               <br></br>
               <label>Max Time:
-                <input type="number" value={this.state.maxTime} onChange={this.setMax} />
+                <input type="number" onChange={this.setMax} />
               </label>
               <br></br>
               <label>Created By:
-                <input type="text" value={this.state.createdBy} onChange={this.setCreator} />
+                <input type="text" onChange={this.setCreator} />
               </label>
             </Form>
           </Modal.Body>

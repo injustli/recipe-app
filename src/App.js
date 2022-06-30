@@ -170,7 +170,7 @@ class App extends React.Component {
         </div>
       )
     }
-    return <React.Fragment></React.Fragment>
+    return null;
   }
 
   onPageChange = (data) => {
