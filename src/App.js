@@ -29,7 +29,7 @@ class App extends React.Component {
       currentPage: 1,
       totalCount: 0,
       pageSize: 100,
-      page: "Home"
+      page: "Home",
     };
   }
 
@@ -75,7 +75,15 @@ class App extends React.Component {
       { theme: "outline", size: "large" }
     );
 
+<<<<<<< HEAD
     /*fetch(`/recipes?page=${this.state.currentPage}&limit=${this.state.pageSize}`, {
+=======
+    await this.fetchCurRecipes();
+  }
+
+  fetchCurRecipes = async () => {
+    fetch(`/recipes?page=${this.state.currentPage}&limit=${this.state.pageSize}`, {
+>>>>>>> WIP pagination component
       method: "GET",
       headers: {
         "Accept": "applicatiohn/json",
@@ -137,7 +145,7 @@ class App extends React.Component {
               currentPage={this.state.currentPage}
               total={this.state.totalCount}
               pageSize={this.state.pageSize}
-              onPageChange={page => this.setCurrentPage(page)}
+              onPageChange={data => this.onPageChange(page)}
               setRecipes={recipes => this.setRecipes(recipes)}
             />
           </React.Fragment>
@@ -165,8 +173,9 @@ class App extends React.Component {
     return <React.Fragment></React.Fragment>
   }
 
-  setCurrentPage = (page) => {
-    this.setState({ currentPage: page });
+  onPageChange = (data) => {
+    const { currentPage, totalPages, pageLimit } = data;
+    
   }
 
   setRecipes = (recipes) => {
