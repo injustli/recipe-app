@@ -146,6 +146,7 @@ class SearchAndFilter extends React.Component {
           centered="true"
           size="lg"
         >
+          <Modal.Header closeButton/>
           <Modal.Body className="formBody">
             <Form>
               <label>Name: 
@@ -168,12 +169,12 @@ class SearchAndFilter extends React.Component {
               <label>Created By:
                 <input type="text" value={this.state.createdBy} onChange={this.setCreator} />
               </label>
+              <br></br>
+              <div style={{textAlign: "center"}}>
+                <Button onClick={this.onSubmit} type="submit">Submit</Button>
+              </div>
             </Form>
           </Modal.Body>
-          <Modal.Footer className="formBody">
-            <Button onClick={this.onSubmit} type="submit">Submit</Button>
-            <Button onClick={this.reset} type="button">Close</Button>
-          </Modal.Footer>
         </Modal>
       </Container>
     );
