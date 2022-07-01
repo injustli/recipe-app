@@ -3,9 +3,6 @@ import {Container, InputGroup, Button, FormControl} from "react-bootstrap";
 import {BsSearch} from "react-icons/bs";
 import ModalForm from "./ModalForm";
 
-//let inputFields = [];
-//let ingredients = [];
-
 class SearchAndFilter extends React.Component {
 
   constructor(props) {
@@ -170,8 +167,6 @@ class SearchAndFilter extends React.Component {
   }
 
   render() {
-    //console.log(inputFields);
-    //console.log(ingredients);
     return (
       <Container>
         <InputGroup>

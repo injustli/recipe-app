@@ -7,10 +7,10 @@ const express = require("express");
 const app = express();
 const addUsers = require("./database/UserEntity");
 const dotenv = require("dotenv");
-const {OAuth2Client} = require("google-auth-library");
+//const {OAuth2Client} = require("google-auth-library");
 
 dotenv.config();
-const client = new OAuth2Client(process.env.REACT_APP_GOOGLE_CLIENT_ID);
+//const client = new OAuth2Client(process.env.REACT_APP_GOOGLE_CLIENT_ID);
 
 app.use(helmet());
 
@@ -24,6 +24,7 @@ app.use(cors());
 app.use(morgan("combined"));
 
 // Used by certain endpoints for verification
+/*
 async function verify(token, email) {
   const ticket = await client.verifyIdToken({
     idToken: token,
@@ -31,7 +32,7 @@ async function verify(token, email) {
   });
   const payload = ticket.getPayload();
   return payload.email == email;
-}
+}*/
 
 // Test API method 
 app.get("/test", (req, res) => {
