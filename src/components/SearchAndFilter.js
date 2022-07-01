@@ -112,6 +112,7 @@ class SearchAndFilter extends React.Component {
     this.reset();
   }
 
+  // Clears the form and closes the modal window
   reset = () => {
     this.setState({
       modalOpen: false,
