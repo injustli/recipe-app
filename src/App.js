@@ -19,6 +19,16 @@ import MyRecipes from './components/MyRecipes';
 import MyMealPlan from './components/MyMealPlan';
 import RecipeView from "./components/RecipeView";
 
+const loadScript = (src) => 
+  new Promise((resolve, reject) => {
+    if (document.querySelector(`script[src="${src}"]`)) return resolve()
+    const script = document.createElement('script')
+    script.src = src
+    script.onload = () => resolve()
+    script.onerror = (err) => reject(err)
+    document.body.appendChild(script)
+  })
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -44,7 +54,7 @@ class App extends React.Component {
     this.setState({ user: userObject });
 =======
     fetch("/users", {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Accept": "application/json",
         "Content-Type": "application/json"
@@ -53,8 +63,14 @@ class App extends React.Component {
         email: userObject.email,
         name: userObject.name
       })
+<<<<<<< HEAD
     });
 >>>>>>> (not working) backend stuff
+=======
+    })
+    .then(res => res.json())
+    .then(data => console.log("App: " + data));
+>>>>>>> still WIP
     document.getElementById("signInDiv").hidden = true;
 >>>>>>> WIP on recipe display and pagination front end
   }
@@ -78,23 +94,30 @@ class App extends React.Component {
   }
 
   async componentDidMount() {
-    /* global google */
-    google.accounts.id.initialize({
-      client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
-      callback: this.handleCallbackResponse
-    });
+    const src = "https://accounts.google.com/gsi/client";
+    loadScript(src)
+      .then(() => {
+        /* global google */
+        google.accounts.id.initialize({
+          client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+          callback: this.handleCallbackResponse
+        });
 
-    google.accounts.id.renderButton(
-      document.getElementById("signInDiv"),
-      { theme: "outline", size: "large" }
-    );
-
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     /*fetch(`/recipes?page=${this.state.currentPage}&limit=${this.state.pageSize}`, {
 =======
     await this.fetchCurRecipes();
 =======
+=======
+        google.accounts.id.renderButton(
+          document.getElementById("signInDiv"),
+          { theme: "outline", size: "large" }
+        );
+      })
+      .catch(console.error);
+>>>>>>> still WIP
     //await this.fetchCurRecipes();
 >>>>>>> (not working) backend stuff
   }
