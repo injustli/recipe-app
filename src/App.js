@@ -21,12 +21,12 @@ class App extends React.Component {
     this.setState({token: response.credential});
     let userObject = jwt_decode(response.credential);
     this.setState({user: userObject});
-    document.getElementById("signInDiv").hidden = true;
+    document.getElementById("signInDiv").classList.add("hide");
   }
 
   handleLogout = () => {
     this.setState({user: null, page: "Home"});
-    document.getElementById("signInDiv").hidden = false;
+    document.getElementById("signInDiv").classList.remove("hide");
   }
 
   componentDidMount() {
@@ -71,7 +71,11 @@ class App extends React.Component {
     if (this.state.user) {
       return (
         <div className="Account-Menu">
-          <DropdownButton title="My Account" menuRole="menu" onSelect={(eventKey, event) => this.navigateTo(eventKey, event)}>
+          <DropdownButton 
+            title="My Account" 
+            menuRole="menu" 
+            onSelect={(eventKey, event) => this.navigateTo(eventKey, event)}
+          >
             <Dropdown.Item as="button" eventKey="Home">Home</Dropdown.Item>
             <Dropdown.Item as="button" eventKey="My Recipes">My Recipes</Dropdown.Item>
             <Dropdown.Item as="button" eventKey="My Meal Plan">My Meal Plan</Dropdown.Item>
