@@ -64,13 +64,14 @@ class ModalForm extends React.Component {
     this.setState({createdBy: event.target.value}, this.props.setCreator(this.state.createdBy));
   }
 
-  // Used by the submit button to filter the recipes displayed and closes modal window
+  // Used by the submit button to filter the recipes displayed, set value of search bar, and closes the modal
   onSubmit = async () => {
     await this.props.filterRecipes();
     this.props.setName(this.state.name);
     this.props.setModal(false);
   }
 
+  // Keeps track of user input for name
   setName = (event) => {
     this.setState({name: event.target.value});
   }
