@@ -55,8 +55,6 @@ app.post("/users", async (req, res) => {
 });
 
 app.get("/recipes", async (req, res) => {
-  //await deleteAllRecipes();
-  //await addRecipes();
   if (!req.query.limit || !req.query.page) {
     res.status(400).send({message: "Missing limit and/or page query parameters!"});
   }

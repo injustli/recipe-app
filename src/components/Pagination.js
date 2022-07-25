@@ -9,7 +9,6 @@ const range = (from, to) => {
 
 const DOTS = "...";
 
-// TODO (issue 17): Pagination component
 class Pagination extends React.Component {
   
   handleLeft = () => {
