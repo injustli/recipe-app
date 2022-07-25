@@ -5,45 +5,63 @@ async function addUsers(data) {
   const userKey = datastore.key("User");
   const user = {
     key: userKey,
-    method: "upsert",
     data: {
       email: data.email,
       name: data.name,
-      recipes: data.recipes
+      recipes: []
     }
   };
-  await datastore.save(user);
-  datastore.get(userKey, (err, entity) => {
-    //console.error("user entity: " + err);
-    return {
-      email: entity.email,
-      name: entity.name,
-      recipes: entity.recipes,
-      id: entity[datastore.KEY].id
-    }
-    //console.log("user entity: ");
-    //console.log(res);
-    //return res;
-  });
+  try {
+    await datastore.save(user);
+  } catch (err) {
+    console.error("addUsers Error: ", err);
+  }
+  return getEntityByKey(userKey);
 }
 
-async function updateUser(name, email, data) {
-  
+async function getEntityByKey(key) {
+  return datastore.get(key)
+    .then(data => {
+      return {
+        email: data[0].email,
+        name: data[0].name,
+        id: data[0][datastore.KEY].id
+      };
+    })
+    .catch(err => console.error("entityByKey Error: ", err)); 
 }
 
-async function findUser(name, email) {
-  const query = datastore.createQuery("User")
-    .filter("name", name)
-    .filter("email", email);
-  datastore.runQuery(query)
-    .then(entities => {
-      if (entities.length > 0) {
-        return [true, entities[0]];
-      }
+async function updateUser(id) {
+  const transaction = datastore.transaction();
+  const userKey = datastore.key(['User', datastore.int(id)]);
+  try {
+    await transaction.run();
+    const [user] = await transaction.get(userKey);
+    transaction.save({
+      key: userKey,
+      data: user
     });
-  return [false, null];
+    await transaction.commit();
+    return getEntityByKey(userKey);
+  } catch (err) {
+    console.error("updatedUser Error: ", err);
+    await transaction.rollback();
+  }
+  return null;
 }
 
+async function findUser(data) {
+  const query = datastore.createQuery("User")
+    .filter("email", "=", data.email);
+  return datastore.runQuery(query)
+    .then(data => {
+      const entities = data[0];
+      if (entities.length > 0) {
+        return entities[0][datastore.KEY].id;
+      }
+    })
+    .catch(err => console.error("findUser Error:", err));  
+}
 
 module.exports = {
   addUsers,

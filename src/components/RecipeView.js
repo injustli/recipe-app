@@ -1,15 +1,9 @@
 import React from "react";
 import Pagination from "./Pagination";
 import Recipe from "./Recipe";
+import "../styles/RecipeView.css";
 
 class RecipeView extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-
-    };
-  }
 
   createRecipes = () => {
     const recipes = this.props.data.map((recipe) => {
@@ -20,9 +14,15 @@ class RecipeView extends React.Component {
 
   render() {
     return (
-      <div>
-        {/*this.createRecipes()*/}
-        {/*<Pagination />*/}
+      <div className="container">
+        {this.createRecipes()}
+        <Pagination 
+          className="pagination-bar"
+          currentPage={this.props.currentPage}
+          total={this.props.total}
+          pageSize={this.props.pageSize}
+          onPageChange={page => this.props.onPageChange(page)}
+        />
       </div>
     );
   }

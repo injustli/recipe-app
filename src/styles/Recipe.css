@@ -6,3 +6,14 @@
   overflow: hidden;
   outline: none;
 }
+
+.modal-box {
+  border-style: ridge;
+  outline: black;
+  background-color: transparent;
+}
+
+.modal-time {
+  display: inline;
+  padding-left: 75%;
+}
