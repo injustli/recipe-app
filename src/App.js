@@ -5,16 +5,6 @@ import {Dropdown, DropdownButton}  from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from "./components/Header";
 
-const loadScript = (src) =>
-  new Promise((resolve, reject) => {
-    if (document.querySelector(`script[src="${src}"]`)) return resolve();
-    const script = document.createElement('script');
-    script.src = src;
-    script.onload = () => resolve();
-    script.onerror = (err) => reject(err);
-    document.body.appendChild(script);
-  });
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -56,21 +46,16 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const src = "https://accounts.google.com/gsi/client";
-    loadScript(src)
-      .then(() => {
-        /* global google */
-        google.accounts.id.initialize({
-          client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
-          callback: this.handleCallbackResponse
-        });
+    /* global google */
+    google.accounts.id.initialize({
+      client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+      callback: this.handleCallbackResponse
+    });
     
-        google.accounts.id.renderButton(
-          document.getElementById("signInDiv"),
-          { theme: "outline", size: "large" }
-        );
-      })
-      .catch(error => console.error(error));
+    google.accounts.id.renderButton(
+      document.getElementById("signInDiv"),
+      { theme: "outline", size: "large" }
+    );
   }
 
   navigateTo = (route, event) => {
@@ -106,7 +91,7 @@ class App extends React.Component {
       <div>
         {this.getMenu()}
         <div id="signInDiv" className="Account-Menu"></div>
-        <Header page={this.state.page}/>
+        <Header page={this.state.page} user={this.state.user} token={this.state.token}/>
       </div>
     );
   }

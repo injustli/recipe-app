@@ -34,6 +34,7 @@ class SearchAndFilter extends React.Component {
     if (this.state.modalOpen) {
       return (
       <ModalForm
+        user={this.props.user}
         setModal={flag => this.setModal(flag)}
         setName={name => this.setName(name)}
         name={this.state.name}

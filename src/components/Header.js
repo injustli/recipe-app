@@ -57,7 +57,9 @@ class Header extends React.Component {
     .then(data => {
       if (data.recipes) {
         this.setState({recipes: data.recipes, totalCount: data.totalCount});
-        localStorage.setItem("recipes", LZString.compress(JSON.stringify(data.all)));
+        if (!LZString.decompress(localStorage.getItem("recipes"))) {
+          localStorage.setItem("recipes", LZString.compress(JSON.stringify(data.all)));
+        }
       }
     });
     this.setState({
@@ -82,35 +84,28 @@ class Header extends React.Component {
     this.setState({currentPage: page}, () => this.fetchCurRecipes());  
   }
 
-  loadSearch = () => {
-    return (
-      <SearchAndFilter 
-        name={this.state.name}
-        setIngredients={ingredients => this.setIngredients(ingredients)}
-        setCreator={user => this.setCreator(user)}
-        setTime={(min,max) => this.setTime(min, max)} 
-        fetchCurRecipes={() => this.fetchCurRecipes()}
-        setName={name => this.setName(name)}
-      />
-    );
-  }
-
   viewRender = () => {
     const { page } = this.props;
     switch (page) {
       case "My Recipes":
         return (
           <React.Fragment>
-            {this.loadSearch()}
-            <MyRecipes />
+            <MyRecipes user={this.props.user} token={this.props.token}/>
           </React.Fragment>
         );
       case "My Meal Plan":
-        return <MyMealPlan />;
+        return <MyMealPlan/>;
       default:
         return (
           <React.Fragment>
-            {this.loadSearch()}
+            <SearchAndFilter 
+              name={this.state.name}
+              setIngredients={ingredients => this.setIngredients(ingredients)}
+              setCreator={user => this.setCreator(user)}
+              setTime={(min,max) => this.setTime(min, max)} 
+              fetchCurRecipes={() => this.fetchCurRecipes()}
+              setName={name => this.setName(name)}
+            />
             <RecipeView
               data={this.state.recipes}
               currentPage={this.state.currentPage}
