@@ -1,4 +1,4 @@
-import React from "react";
+/*import React from "react";
 import { Card, Modal } from "react-bootstrap";
 import "../styles/Recipe.css";
 
@@ -82,3 +82,4 @@ class Recipe extends React.Component {
 }
 
 export default Recipe;
+*/

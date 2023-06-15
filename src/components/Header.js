@@ -3,7 +3,6 @@ import SearchAndFilter from "./SearchAndFilter";
 import MyRecipes from './MyRecipes';
 import MyMealPlan from './MyMealPlan';
 import RecipeView from "./RecipeView";
-import LZString from "lz-string";
 
 class Header extends React.Component {
 
@@ -43,6 +42,7 @@ class Header extends React.Component {
   }
 
   // Filters what gets displayed based on the user inputs
+  /*
   fetchCurRecipes = async () => {
     await fetch(`/recipes?page=${this.state.currentPage}&limit=${this.state.pageSize}&` +
      `${this.createIngredientQueryParam()}name=${this.state.name}&min=${this.state.minTime}` +
@@ -67,6 +67,7 @@ class Header extends React.Component {
       createdBy: "",
     });
   }
+  */
 
   // Returns a valid query parameter string depending on the ingredients state
   createIngredientQueryParam = () => {
@@ -123,8 +124,8 @@ class Header extends React.Component {
     }
   }
 
-  async componentDidMount() {
-    await this.fetchCurRecipes();
+  componentDidMount() {
+    //this.fetchCurRecipes();
   }
 
   render() {

@@ -1,19 +1,10 @@
 import './App.css';
 import React from 'react';
 import jwt_decode from "jwt-decode";
-import {Dropdown, DropdownButton}  from "react-bootstrap";
+import { Dropdown, DropdownButton } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from "./components/Header";
-
-const loadScript = (src) =>
-  new Promise((resolve, reject) => {
-    if (document.querySelector(`script[src="${src}"]`)) return resolve();
-    const script = document.createElement('script');
-    script.src = src;
-    script.onload = () => resolve();
-    script.onerror = (err) => reject(err);
-    document.body.appendChild(script);
-  });
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 
 class App extends React.Component {
   constructor(props) {
@@ -27,7 +18,8 @@ class App extends React.Component {
 
   // Adds a new user if user doesn't exist in database, otherwise do nothing
   handleCallbackResponse = (response) => {
-    this.setState({ token: response.credential });
+    console.log(response);
+    /*this.setState({ token: response.credential });
     let userObject = jwt_decode(response.credential);
     fetch("/users", {
       method: "POST",
@@ -40,37 +32,18 @@ class App extends React.Component {
         name: userObject.name
       })
     })
-    .then(res => res.json())
-    .then(data => {
-      if (data.data) {
-        this.setState({user: data.data});
-      }
-    })
-    .catch(err => console.error("callbackResponse Error: ", err));
-    document.getElementById("signInDiv").classList.add("hide");
+      .then(res => res.json())
+      .then(data => {
+        if (data.data) {
+          this.setState({ user: data.data });
+        }
+      })
+      .catch(err => console.error("callbackResponse Error: ", err));
+      */
   }
 
   handleLogout = () => {
-    this.setState({user: null, page: "Home"});
-    document.getElementById("signInDiv").classList.remove("hide");
-  }
-
-  componentDidMount() {
-    const src = "https://accounts.google.com/gsi/client";
-    loadScript(src)
-      .then(() => {
-        /* global google */
-        google.accounts.id.initialize({
-          client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
-          callback: this.handleCallbackResponse
-        });
-    
-        google.accounts.id.renderButton(
-          document.getElementById("signInDiv"),
-          { theme: "outline", size: "large" }
-        );
-      })
-      .catch(error => console.error(error));
+    this.setState({ user: null, page: "Home" });
   }
 
   navigateTo = (route, event) => {
@@ -80,14 +53,14 @@ class App extends React.Component {
       }
     });
   }
-  
+
   getMenu = () => {
     if (this.state.user) {
       return (
         <div className="Account-Menu">
-          <DropdownButton 
-            title="My Account" 
-            menuRole="menu" 
+          <DropdownButton
+            title="My Account"
+            menuRole="menu"
             onSelect={(eventKey, event) => this.navigateTo(eventKey, event)}
           >
             <Dropdown.Item as="button" eventKey="Home">Home</Dropdown.Item>
@@ -105,8 +78,13 @@ class App extends React.Component {
     return (
       <div>
         {this.getMenu()}
-        <div id="signInDiv" className="Account-Menu"></div>
-        <Header page={this.state.page}/>
+        <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+          <GoogleLogin 
+            onSuccess={credentialResponse => this.handleCallbackResponse(credentialResponse)}
+            onError={() => console.log('Login Failed')}
+          />
+        </GoogleOAuthProvider>
+        <Header page={this.state.page} />
       </div>
     );
   }

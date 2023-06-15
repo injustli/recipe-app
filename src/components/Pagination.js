@@ -1,3 +1,4 @@
+/*
 import React from "react";
 import classnames from "classnames";
 import "../styles/Pagination.scss";
@@ -76,7 +77,7 @@ class Pagination extends React.Component {
           >
             <div className="arrow left"></div>
           </li>
-          {/* render page pills */
+          {// render page pills 
             paginationRange.map(pageNum => {
               if (pageNum == DOTS) {
                 return <li className="pagination-item dots">&#8230;</li>;
@@ -109,3 +110,4 @@ class Pagination extends React.Component {
 }
 
 export default Pagination;
+*/

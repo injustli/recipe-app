@@ -1,4 +1,4 @@
-const {Datastore} = require("@google-cloud/datastore");
+/*const {Datastore} = require("@google-cloud/datastore");
 const datastore = new Datastore();
 
 async function getRecipeEntities(pageCursor) {
@@ -82,3 +82,4 @@ function filterRecipes(data, recipes) {
 module.exports = {
   getRecipes,
 }
+*/

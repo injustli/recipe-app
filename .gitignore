@@ -17,9 +17,16 @@
 .env.development.local
 .env.test.local
 .env.production.local
+.env
 
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-/src/database/test.js
+/src/database
+
+.vscode
+
+/src/components/Pagination.js
+/src/components/Recipe.js
+/src/components/RecipeView.js

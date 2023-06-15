@@ -5,15 +5,17 @@ import "../styles/RecipeView.css";
 
 class RecipeView extends React.Component {
 
+  
   createRecipes = () => {
     const recipes = this.props.data.map((recipe) => {
       return <Recipe data={recipe} key={recipe.id}/>
     })
     return recipes;
   }
-
+  
   render() {
-    return (
+    return (<div></div>
+      /*
       <div className="container">
         {this.createRecipes()}
         <Pagination 
@@ -24,6 +26,7 @@ class RecipeView extends React.Component {
           onPageChange={page => this.props.onPageChange(page)}
         />
       </div>
+      */
     );
   }
 }
