@@ -18,9 +18,9 @@ class App extends React.Component {
 
   // Adds a new user if user doesn't exist in database, otherwise do nothing
   handleCallbackResponse = (response) => {
-    console.log(response);
-    /*this.setState({ token: response.credential });
+    this.setState({ token: response.credential });
     let userObject = jwt_decode(response.credential);
+    /*
     fetch("/users", {
       method: "POST",
       headers: {
@@ -78,12 +78,14 @@ class App extends React.Component {
     return (
       <div>
         {this.getMenu()}
-        <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
-          <GoogleLogin 
-            onSuccess={credentialResponse => this.handleCallbackResponse(credentialResponse)}
-            onError={() => console.log('Login Failed')}
-          />
-        </GoogleOAuthProvider>
+        <div className="Account-Menu">
+          <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+            <GoogleLogin
+              onSuccess={credentialResponse => this.handleCallbackResponse(credentialResponse)}
+              onError={() => console.log('Login Failed')}
+            />
+          </GoogleOAuthProvider>
+        </div>
         <Header page={this.state.page} />
       </div>
     );
