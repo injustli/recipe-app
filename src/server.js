@@ -5,7 +5,7 @@ const morgan = require("morgan");
 const path = require("path");
 const express = require("express");
 const app = express();
-// const {addUsers, updateUser, findUser} = require("./database/UserEntity");
+const {addUser, findUser} = require("./database/UserEntity");
 const dotenv = require("dotenv");
 const {OAuth2Client} = require("google-auth-library");
 // const {getRecipes, addRecipes, deleteAllRecipes} = require("./database/RecipeEntity");
@@ -40,20 +40,16 @@ app.get("/test", (req, res) => {
 });
 
 app.post("/users", async (req, res) => {
-  /*
   const user = await findUser(req.body);
   if (user) {
-    const updatedUser = await updateUser(user);
-    (updatedUser) ? 
-      res.status(200).send({data: updatedUser, message: "Updated user successfully"}) :
-      res.status(400).send({message: "Couldn't update existing user"});
+    //const updatedUser = await updateUser(user);
+    res.status(200).send({data: user, message: "Updated user successfully"});
   } else {
-    const newUser = await addUsers(req.body);
+    const newUser = await addUser(req.body);
     (newUser) ?
       res.status(200).send({data: newUser, message: "Created new user successfully"}) :
       res.status(400).send({message: "Couldn't add a new user"});
   }
-  */
 });
 
 app.get("/recipes", async (req, res) => {

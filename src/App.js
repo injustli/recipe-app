@@ -39,7 +39,6 @@ class App extends React.Component {
         }
       })
       .catch(err => console.error("callbackResponse Error: ", err));
-      */
   }
 
   handleLogout = () => {
@@ -78,6 +77,7 @@ class App extends React.Component {
     return (
       <div>
         {this.getMenu()}
+<<<<<<< HEAD
         <div className="Account-Menu">
           <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
             <GoogleLogin
@@ -86,6 +86,15 @@ class App extends React.Component {
             />
           </GoogleOAuthProvider>
         </div>
+=======
+        <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+          <GoogleLogin 
+            onSuccess={credentialResponse => this.handleCallbackResponse(credentialResponse)}
+            onError={() => console.log('Login Failed')}
+            className="Account-Menu"
+          />
+        </GoogleOAuthProvider>
+>>>>>>> WIP adding user to database when logging in
         <Header page={this.state.page} />
       </div>
     );
