@@ -29,8 +29,5 @@ yarn-error.log*
 
 .vscode
 
-/src/components/Pagination.js
-/src/components/Recipe.js
-/src/components/RecipeView.js
 
-MongoDB Certificate.pem
+
