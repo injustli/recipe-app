@@ -24,7 +24,7 @@ class ModalForm extends React.Component {
     } else {
       ingredients[index] = event.target.value;
     }
-    this.setState({ingredients: ingredients}, this.props.setIngredients(this.state.ingredients));
+    this.setState({ingredients: ingredients}, () => this.props.setIngredients(ingredients));
   }
 
   // Handles creating a new input field with an option to add more every time the user clicks the plus button
@@ -51,29 +51,29 @@ class ModalForm extends React.Component {
 
   // Keeps track of the user input for min time
   setMin = (event) => {
-    this.setState({minTime: event.target.value}, this.props.setTime(this.state.minTime, this.state.maxTime));
+    this.setState({minTime: event.target.value}, () => this.props.setTime(this.state.minTime, this.state.maxTime));
   }
 
   // Keeps track of the user input for max time
   setMax = (event) => {
-    this.setState({maxTime: event.target.value}, this.props.setTime(this.state.minTime, this.state.maxTime));
+    this.setState({maxTime: event.target.value}, () => this.props.setTime(this.state.minTime, this.state.maxTime));
   }
 
   // Keeps track of the user input for created by
   setCreator = (event) => {
-    this.setState({createdBy: event.target.value}, this.props.setCreator(this.state.createdBy));
+    this.setState({createdBy: event.target.value}, () => this.props.setCreator(this.state.createdBy));
   }
 
   // Used by the submit button to filter the recipes displayed, set value of search bar, and closes the modal
   onSubmit = async () => {
-    await this.props.filterRecipes();
-    this.props.setName(this.state.name);
-    this.props.setModal(false);
+    await this.props.fetchCurRecipes();
+    await this.props.setModal(false);
+    return false;
   }
 
   // Keeps track of user input for name
   setName = (event) => {
-    this.setState({name: event.target.value});
+    this.setState({name: event.target.value}, () => this.props.setName(this.state.name));
   }
 
   render() {
@@ -110,7 +110,7 @@ class ModalForm extends React.Component {
               </label>
               <br></br>
               <div style={{textAlign: "center"}}>
-                <Button onClick={this.onSubmit} type="submit">Submit</Button>
+                <Button onClick={this.onSubmit} type="button">Submit</Button>
               </div>
             </Form>
           </Modal.Body>

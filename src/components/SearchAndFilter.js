@@ -9,68 +9,24 @@ class SearchAndFilter extends React.Component {
     super(props);
     this.state = {
       modalOpen: false,
-      name: "",
-      ingredients: [],
-      minTime: 0,
-      maxTime: 0,
-      createdBy: "",
+      name: this.props.name,
     };
   }
 
   // Determines whether modal window is open or not
   setModal = (flag) => {
-    this.setState({modalOpen: flag});
+    this.setState({ modalOpen: flag });
   }
 
   // Call back function to set name
-  setName = (name) => {
-    this.setState({name: name})
-  }
-
-  // Call back function to set min and max time
-  setTime = (min, max) => {
-    this.setState({minTime: min, maxTime: max});
-  }
-
-  // Call back function to set list of ingredients
-  setIngredients = (ingredients) => {
-    this.setState({ingredients: ingredients});
-  }
-
-  // Call back function to set creator
-  setCreator = (user) => {
-    this.setState({createdBy: user});
-  }
-
-  // Filters what gets displayed based on the user inputs
-  filterRecipes = async () => {
-    fetch(`/recipes?page=${this.props.page}&limit=${this.props.limit}&
-      ${this.createIngredientQueryParam()}name=${this.state.name}&min=${this.state.minTime}&
-      max=${this.state.maxTime}`, {
-      method: "GET",
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json"
-      }
-    })
-    .then(res => res.json())
-    .then(data => this.props.setRecipes(data));
-  }
-
-  // Returns a valid query parameter string depending on the ingredients state
-  createIngredientQueryParam = ()  => {
-    let res = "";
-    let {ingredients} = this.state;
-    for (let i in ingredients) {
-      res += `ingredients=${ingredients[i]}&`
-    }
-    return res;
+  setName = async (name) => {
+    this.setState({name: name}, () => this.props.setName(this.state.name));
   }
 
   // Used by the search bar to filter the recipes displayed
   onSearch = async (event) => {
-    this.setName(event.target.value);
-    await this.filterRecipes();
+    await this.setName(event.target.value);
+    await this.props.fetchCurRecipes();
   }
 
   // Render the modal form if modal is open; otherwise render nothing
@@ -82,10 +38,10 @@ class SearchAndFilter extends React.Component {
         setName={name => this.setName(name)}
         name={this.state.name}
         modalOpen={this.state.modalOpen}
-        setTime={(min, max) => this.setTime(min, max)}
-        setIngredients={(ingredients) => this.setIngredients(ingredients)}
-        setCreator={(user) => this.setCreator(user)}
-        filterRecipes={() => this.filterRecipes()}
+        setTime={(min, max) => this.props.setTime(min, max)}
+        setIngredients={(ingredients) => this.props.setIngredients(ingredients)}
+        setCreator={(user) => this.props.setCreator(user)}
+        fetchCurRecipes={() => this.props.fetchCurRecipes()}
       />
       );
     }
@@ -100,12 +56,11 @@ class SearchAndFilter extends React.Component {
             as="input"
             type="text"
             placeholder="Search"
-            onChange={this.onSearch}
+            onInput={this.onSearch}
             value={this.state.name}
           />
-          <InputGroup.Text>
-            <BsSearch />
-          </InputGroup.Text>
+          {/*<input className="col-11" type="search" value={this.state.name} onChange={this.onSearch}/>*/}
+          <Button variant="outline-dark" onClick={() => this.props.fetchCurRecipes()}><BsSearch /></Button>
         </InputGroup>
         <Button onClick={() => this.setModal(true)} type="button">Advanced Search</Button>
         {this.renderForm()}
