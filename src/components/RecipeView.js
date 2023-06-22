@@ -5,7 +5,7 @@ import "../styles/RecipeView.css";
 
 class RecipeView extends React.Component {
 
-  createRecipes = () => {
+  displayRecipes = () => {
     const recipes = this.props.data.map((recipe) => {
       return <Recipe data={recipe} key={recipe.id}/>
     })
@@ -15,7 +15,7 @@ class RecipeView extends React.Component {
   render() {
     return (
       <div className="container">
-        {this.createRecipes()}
+        {this.displayRecipes()}
         <Pagination 
           className="pagination-bar"
           currentPage={this.props.currentPage}
