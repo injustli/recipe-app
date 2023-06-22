@@ -31,22 +31,25 @@ class Pagination extends React.Component {
     const { siblings } = this.state;
     const totalPageCount = Math.ceil(total / pageSize);
 
-    // Number of pages to display in pagination bar is determined as siblingCount + firstPage + lastPage + currentPage + 2*DOTS
+    // Number of pages to display in pagination bar is determined as 
+    // siblingCount + firstPage + lastPage + currentPage + 2*DOTS
     const totalPageNumbers = siblings + 5;
 
     // Case 1:
-    // If the number of pages is less than the page numbers we want to show in our
-    // paginationComponent, we return the range [1..totalPageCount]
+    // If the number of pages is less than the page numbers we want to show in 
+    // our paginationComponent, we return the range [1..totalPageCount]
     if (totalPageNumbers >= totalPageCount) {
       return range(1, totalPageCount);
     }
     
-    // Calculate left and right sibling index and make sure they are within range 1 and totalPageCount
+    // Calculate left and right sibling index and make sure they are within 
+    // range 1 and totalPageCount
     const leftSiblingIndex = Math.max(currentPage - siblings, 1);
     const rightSiblingIndex = Math.min(currentPage + siblings, totalPageCount);
 
-    // We do not show dots just when there is just one page number to be inserted between the extremes of 
-    // sibling and the page limits i.e 1 and totalPageCount. Hence we are using leftSiblingIndex > 2 and 
+    // We do not show dots just when there is just one page number to be 
+    // inserted between the extremes of sibling and the page limits i.e 1 and 
+    // totalPageCount. Hence we are using leftSiblingIndex > 2 and 
     // rightSiblingIndex < totalPageCount - 2
     const showLeftDots = leftSiblingIndex > 2;
     const showRightDots = rightSiblingIndex < totalPageCount - 2;
@@ -54,7 +57,8 @@ class Pagination extends React.Component {
     const firstPageIndex = 1;
     const lastPageIndex = totalPageCount;
 
-    // For the side without dots, always show this number of pages in the pagination bar
+    // For the side without dots, always show this number of pages in the 
+    // pagination bar
     const itemCount = 3 + 2 * siblings;
 
     // Case 2: No left dots to show, but rights dots to be shown
