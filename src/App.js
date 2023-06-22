@@ -4,7 +4,7 @@ import jwt_decode from "jwt-decode";
 import { Dropdown, DropdownButton } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from "./components/Header";
-import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 
 class App extends React.Component {
   constructor(props) {
@@ -20,9 +20,8 @@ class App extends React.Component {
   handleCallbackResponse = (response) => {
     this.setState({ token: response.credential });
     let userObject = jwt_decode(response.credential);
-    /*
     fetch("/users", {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Accept": "application/json",
         "Content-Type": "application/json"
@@ -36,14 +35,15 @@ class App extends React.Component {
       .then(data => {
         if (data.data) {
           this.setState({ user: data.data });
+          document.getElementById("Google-Login").classList.add("hide");
         }
       })
       .catch(err => console.error("callbackResponse Error: ", err));
-      */
   }
 
   handleLogout = () => {
     this.setState({ user: null, page: "Home" });
+    document.getElementById("Google-Login").classList.remove("hide");
   }
 
   navigateTo = (route, event) => {
@@ -78,7 +78,7 @@ class App extends React.Component {
     return (
       <div>
         {this.getMenu()}
-        <div className="Account-Menu">
+        <div id="Google-Login" className="Account-Menu">
           <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
             <GoogleLogin
               onSuccess={credentialResponse => this.handleCallbackResponse(credentialResponse)}

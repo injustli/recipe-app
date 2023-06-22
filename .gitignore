@@ -23,10 +23,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-/src/database
+/src/database/test.js
+/src/database/Storage.js
+/src/database/RecipeEntity.js
 
 .vscode
-
-/src/components/Pagination.js
-/src/components/Recipe.js
-/src/components/RecipeView.js
