@@ -4,13 +4,20 @@ import "../styles/Pagination.scss";
 
 const range = (from, to) => {
   let length = to - from + 1;
-  return Array.from({length: length}, (_, idx) => idx + from);
+  return Array.from({ length: length }, (_, idx) => idx + from);
 }
 
 const DOTS = "...";
 
 class Pagination extends React.Component {
-  
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      // number of pages that gets displayed around the current page
+      siblings: 1
+    }
+  }
   handleLeft = () => {
     this.props.onPageChange(this.props.currentPage - 1);
   }
@@ -20,38 +27,49 @@ class Pagination extends React.Component {
   }
 
   fetchPageNumbers = () => {
-    const totalPages = Math.ceil(this.props.total / this.props.pageSize);
-    const {currentPage} = this.props;
-    const siblings = 1;
+    const { currentPage, total, pageSize } = this.props;
+    const { siblings } = this.state;
+    const totalPageCount = Math.ceil(total / pageSize);
 
-    const totalNumbers = siblings + 5;
+    // Number of pages to display in pagination bar is determined as siblingCount + firstPage + lastPage + currentPage + 2*DOTS
+    const totalPageNumbers = siblings + 5;
 
-    if (totalNumbers >= totalPages) {
-      return range(1, totalPages);
+    // Case 1:
+    // If the number of pages is less than the page numbers we want to show in our
+    // paginationComponent, we return the range [1..totalPageCount]
+    if (totalPageNumbers >= totalPageCount) {
+      return range(1, totalPageCount);
     }
-
+    
+    // Calculate left and right sibling index and make sure they are within range 1 and totalPageCount
     const leftSiblingIndex = Math.max(currentPage - siblings, 1);
-    const rightSiblingIndex = Math.min(currentPage + siblings, totalPages);
+    const rightSiblingIndex = Math.min(currentPage + siblings, totalPageCount);
 
+    // We do not show dots just when there is just one page number to be inserted between the extremes of 
+    // sibling and the page limits i.e 1 and totalPageCount. Hence we are using leftSiblingIndex > 2 and 
+    // rightSiblingIndex < totalPageCount - 2
     const showLeftDots = leftSiblingIndex > 2;
-    const showRightDots = rightSiblingIndex < totalPages - 2;
+    const showRightDots = rightSiblingIndex < totalPageCount - 2;
 
     const firstPageIndex = 1;
-    const lastPageIndex = totalPages;
+    const lastPageIndex = totalPageCount;
 
-    // Currentpage + firstpage + lastpage + 2 * numSiblings
+    // For the side without dots, always show this number of pages in the pagination bar
     const itemCount = 3 + 2 * siblings;
 
+    // Case 2: No left dots to show, but rights dots to be shown
     if (!showLeftDots && showRightDots) {
       let leftRange = range(1, itemCount);
-      return [...leftRange, DOTS, totalPages];
+      return [...leftRange, DOTS, totalPageCount];
     }
 
+    // Case 3: No right dots to show, but left dots to be shown
     if (showLeftDots && !showRightDots) {
-      let rightRange = range(totalPages - itemCount + 1, totalPages);
+      let rightRange = range(totalPageCount - itemCount + 1, totalPageCount);
       return [firstPageIndex, DOTS, ...rightRange];
     }
 
+    // Case 4: Both left and right dots to be shown
     if (showLeftDots && showRightDots) {
       let middleRange = range(leftSiblingIndex, rightSiblingIndex);
       return [firstPageIndex, DOTS, ...middleRange, DOTS, lastPageIndex];
@@ -61,7 +79,7 @@ class Pagination extends React.Component {
   render() {
     const paginationRange = this.fetchPageNumbers();
     const lastPage = paginationRange[paginationRange.length - 1];
-    const {currentPage} = this.props;
+    const { currentPage } = this.props;
     if (paginationRange.length < 2) {
       return null;
     }
@@ -109,4 +127,3 @@ class Pagination extends React.Component {
 }
 
 export default Pagination;
-
