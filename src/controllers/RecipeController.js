@@ -42,34 +42,34 @@ const fetchRecipes = asyncHandler(async (req, res) => {
     query["createdBy"] = user;
   }
   const recipes = await Recipe
-    .find(query)
-    .select("_id name ingredients method imageID createdBy time")
-    .skip((page - 1) * limit)
-    .limit(limit)
-    .exec();
+      .find(query)
+      .select("_id name ingredients method imageID createdBy time")
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .exec();
   const count = await Recipe.estimatedDocumentCount();
   res.status(200).json({data: recipes, totalCount: count});
 });
 
-// @desc
-// @route  
-// @access 
+// @desc   Adds a recipe under the currently logged in user
+// @route  POST /recipes
+// @access private: Logged in user can only add recipes under their name
 const addRecipe = asyncHandler(async (req, res) => {
-
+  // TODO: Backend add button (Issue 18)
 });
 
-// @desc
-// @route
-// @access
+// @desc   Deletes a recipe under the currently logged in user
+// @route  DELETE /recipes
+// @access private: Logged in user can only delete recipes under their name
 const deleteRecipe = asyncHandler(async (req, res) => {
-
+  // TODO: Backend delete button (Issue 35)
 });
 
-// @desc
-// @route
-// @access
+// @desc   Modifies a recipe under the currently logged in user
+// @route  PUT /recipes
+// @access private: Logged in user can only edit recipes under their name
 const modifyRecipe = asyncHandler(async (req, res) => {
-
+  // TODO: Backend edit button (Issue 34)
 });
 
 module.exports = {

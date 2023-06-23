@@ -43,9 +43,10 @@ class Header extends React.Component {
 
   // Filters what gets displayed based on the user inputs
   fetchRecipes = () => {
-    fetch(`/recipes?page=${this.state.currentPage}&limit=${this.state.pageSize}&` +
-     `${this.createIngredientQueryParam()}name=${this.state.name}&minTime=${this.state.minTime}` +
-     `&maxTime=${this.state.maxTime}&user=${this.state.createdBy}`, {
+    fetch(`/recipes?page=${this.state.currentPage}&limit=` +
+        `${this.state.pageSize}&${this.createIngredientQueryParam()}name=` +
+        `${this.state.name}&minTime=${this.state.minTime}&maxTime=` + 
+        `${this.state.maxTime}&user=${this.state.createdBy}`, {
       method: "GET",
       headers: {
         "Accept": "application/json",
@@ -54,8 +55,14 @@ class Header extends React.Component {
     })
     .then(res => res.json())
     .then(data => {
-      this.setState({recipes: data.data, totalCount: data.totalCount})
-      this.setState({ingredients: [], minTime: 0, maxTime: 0, createdBy: "", name: ""})
+      this.setState({recipes: data.data, totalCount: data.totalCount});
+      this.setState({
+        ingredients: [], 
+        minTime: 0, 
+        maxTime: 0, 
+        createdBy: "", 
+        name: ""
+      });
     })
     .catch(err => console.log("GET recipes error: " + err));
   }
