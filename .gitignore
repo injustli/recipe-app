@@ -25,6 +25,5 @@ yarn-error.log*
 
 /src/database/test.js
 /src/database/Storage.js
-/src/database/RecipeEntity.js
 
 .vscode

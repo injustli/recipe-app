@@ -42,7 +42,7 @@ class ModalForm extends React.Component {
       </React.Fragment>
     )
     this.setState({inputFields: inputs}, () => {
-      if (length != 0) {
+      if (length !== 0) {
         document.getElementById(`form-add-${length-1}`).classList.add("hidden");
       }
     });

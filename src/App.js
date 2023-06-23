@@ -48,7 +48,7 @@ class App extends React.Component {
 
   navigateTo = (route, event) => {
     this.setState({ page: route }, () => {
-      if (this.state.page == "Sign out") {
+      if (this.state.page === "Sign out") {
         this.handleLogout();
       }
     });
