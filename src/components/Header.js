@@ -43,26 +43,22 @@ class Header extends React.Component {
 
   // Filters what gets displayed based on the user inputs
   fetchRecipes = () => {
-    fetch(`/recipes?page=${this.state.currentPage}&limit=` +
+    fetch(
+        `/recipes?page=${this.state.currentPage}&limit=` +
         `${this.state.pageSize}&${this.createIngredientQueryParam()}name=` +
-        `${this.state.name}&minTime=${this.state.minTime}&maxTime=` + 
-        `${this.state.maxTime}&user=${this.state.createdBy}`, {
-      method: "GET",
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json"
+        `${this.state.name}&minTime=${this.state.minTime}&maxTime=` +
+        `${this.state.maxTime}&user=${this.state.createdBy}`,
+      {
+        method: "GET",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        }
       }
-    })
+    )
     .then(res => res.json())
     .then(data => {
-      this.setState({recipes: data.data, totalCount: data.totalCount});
-      this.setState({
-        ingredients: [], 
-        minTime: 0, 
-        maxTime: 0, 
-        createdBy: "", 
-        name: ""
-      });
+      this.setState({ recipes: data.data, totalCount: data.totalCount });
     })
     .catch(err => console.log("GET recipes error: " + err));
   }
@@ -79,16 +75,16 @@ class Header extends React.Component {
 
   // Callback method to change page and 
   onPageChange = (page) => {
-    this.setState({currentPage: page}, () => this.fetchRecipes());  
+    this.setState({ currentPage: page }, () => this.fetchRecipes());
   }
 
   loadSearch = () => {
     return (
-      <SearchAndFilter 
+      <SearchAndFilter
         name={this.state.name}
         setIngredients={ingredients => this.setIngredients(ingredients)}
         setCreator={user => this.setCreator(user)}
-        setTime={(min,max) => this.setTime(min, max)} 
+        setTime={(min, max) => this.setTime(min, max)}
         setName={name => this.setName(name)}
         onPageChange={page => this.onPageChange(page)}
       />
