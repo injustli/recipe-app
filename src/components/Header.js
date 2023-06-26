@@ -42,32 +42,26 @@ class Header extends React.Component {
   }
 
   // Filters what gets displayed based on the user inputs
-  /*
-  fetchCurRecipes = async () => {
-    await fetch(`/recipes?page=${this.state.currentPage}&limit=${this.state.pageSize}&` +
-     `${this.createIngredientQueryParam()}name=${this.state.name}&min=${this.state.minTime}` +
-     `&max=${this.state.maxTime}&username=${this.state.createdBy}&recipes=${LZString.decompress(localStorage.getItem("recipes"))}`, {
-      method: "GET",
-      headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json"
+  fetchRecipes = () => {
+    fetch(
+        `/recipes?page=${this.state.currentPage}&limit=` +
+        `${this.state.pageSize}&${this.createIngredientQueryParam()}name=` +
+        `${this.state.name}&minTime=${this.state.minTime}&maxTime=` +
+        `${this.state.maxTime}&user=${this.state.createdBy}`,
+      {
+        method: "GET",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        }
       }
-    })
+    )
     .then(res => res.json())
     .then(data => {
-      if (data.recipes) {
-        this.setState({recipes: data.recipes, totalCount: data.totalCount});
-        localStorage.setItem("recipes", LZString.compress(JSON.stringify(data.all)));
-      }
-    });
-    this.setState({
-      ingredients: [],
-      minTime: 0,
-      maxTime: 0,
-      createdBy: "",
-    });
+      this.setState({ recipes: data.data, totalCount: data.totalCount });
+    })
+    .catch(err => console.log("GET recipes error: " + err));
   }
-  */
 
   // Returns a valid query parameter string depending on the ingredients state
   createIngredientQueryParam = () => {
@@ -79,19 +73,20 @@ class Header extends React.Component {
     return res;
   }
 
+  // Callback method to change page and 
   onPageChange = (page) => {
-    this.setState({currentPage: page}, () => this.fetchCurRecipes());  
+    this.setState({ currentPage: page }, () => this.fetchRecipes());
   }
 
   loadSearch = () => {
     return (
-      <SearchAndFilter 
+      <SearchAndFilter
         name={this.state.name}
         setIngredients={ingredients => this.setIngredients(ingredients)}
         setCreator={user => this.setCreator(user)}
-        setTime={(min,max) => this.setTime(min, max)} 
-        fetchCurRecipes={() => this.fetchCurRecipes()}
+        setTime={(min, max) => this.setTime(min, max)}
         setName={name => this.setName(name)}
+        onPageChange={page => this.onPageChange(page)}
       />
     );
   }
@@ -125,7 +120,7 @@ class Header extends React.Component {
   }
 
   componentDidMount() {
-    //this.fetchCurRecipes();
+    this.fetchRecipes();
   }
 
   render() {

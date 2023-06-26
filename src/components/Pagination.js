@@ -92,7 +92,7 @@ class Pagination extends React.Component {
         <ul className={classnames("pagination-container")}>
           <li
             className={classnames("pagination-item", {
-              disabled: currentPage == 1
+              disabled: currentPage === 1
             })}
             onClick={this.handleLeft}
           >
@@ -100,14 +100,14 @@ class Pagination extends React.Component {
           </li>
           {// render page pills 
             paginationRange.map(pageNum => {
-              if (pageNum == DOTS) {
+              if (pageNum === DOTS) {
                 return <li className="pagination-item dots">&#8230;</li>;
               }
 
               return (
                 <li
                   className={classnames("pagination-item", {
-                    selected: pageNum == currentPage
+                    selected: pageNum === currentPage
                   })}
                   onClick={() => this.props.onPageChange(pageNum)}
                 >
@@ -118,7 +118,7 @@ class Pagination extends React.Component {
           }
           <li
             className={classnames("pagination-item", {
-              disabled: currentPage == lastPage
+              disabled: currentPage === lastPage
             })}
             onClick={this.handleRight}
           >
