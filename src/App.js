@@ -1,95 +1,96 @@
-import './App.css';
-import React from 'react';
+import "./App.css";
+import React, { useState } from "react";
 import jwt_decode from "jwt-decode";
 import { Dropdown, DropdownButton } from "react-bootstrap";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "./components/Header";
-import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      token: null,
-      user: null,
-      page: "Home",
-    };
-  }
+export default function App() {
+  const [token, setToken] = useState(null);
+  const [user, setUser] = useState(null);
+  const [page, setPage] = useState("Home");
 
   // Adds a new user if user doesn't exist in database, otherwise do nothing
-  handleCallbackResponse = (response) => {
-    this.setState({ token: response.credential });
+  const handleCallbackResponse = (response) => {
+    setToken(response.credential);
     let userObject = jwt_decode(response.credential);
     fetch("/users", {
       method: "PUT",
       headers: {
-        "Accept": "application/json",
-        "Content-Type": "application/json"
+        Accept: "application/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         email: userObject.email,
-        name: userObject.name
-      })
+        name: userObject.name,
+      }),
     })
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         if (data.data) {
-          this.setState({ user: data.data });
+          setUser(data.data);
           document.getElementById("Google-Login").classList.add("hide");
         }
       })
-      .catch(err => console.error("callbackResponse Error: ", err));
-  }
+      .catch((err) => console.log("callbackResponse Error: ", err));
+  };
 
-  handleLogout = () => {
-    this.setState({ user: null, page: "Home" });
+  const handleLogout = () => {
+    setUser(null);
+    setPage("Home");
     document.getElementById("Google-Login").classList.remove("hide");
-  }
+  };
 
-  navigateTo = (route, event) => {
-    this.setState({ page: route }, () => {
-      if (this.state.page === "Sign out") {
-        this.handleLogout();
-      }
-    });
-  }
+  const navigateTo = (route, event) => {
+    setPage(route);
+    if (route === "Sign out") {
+      handleLogout();
+    }
+  };
 
-  getMenu = () => {
-    if (this.state.user) {
+  const getMenu = () => {
+    if (user) {
       return (
         <div className="Account-Menu">
           <DropdownButton
             title="My Account"
             menuRole="menu"
-            onSelect={(eventKey, event) => this.navigateTo(eventKey, event)}
+            onSelect={(eventKey, event) => navigateTo(eventKey, event)}
           >
-            <Dropdown.Item as="button" eventKey="Home">Home</Dropdown.Item>
-            <Dropdown.Item as="button" eventKey="My Recipes">My Recipes</Dropdown.Item>
-            <Dropdown.Item as="button" eventKey="My Meal Plan">My Meal Plan</Dropdown.Item>
-            <Dropdown.Item as="button" eventKey="Sign out">Sign out</Dropdown.Item>
+            <Dropdown.Item as="button" eventKey="Home">
+              Home
+            </Dropdown.Item>
+            <Dropdown.Item as="button" eventKey="My Recipes">
+              My Recipes
+            </Dropdown.Item>
+            <Dropdown.Item as="button" eventKey="My Meal Plan">
+              My Meal Plan
+            </Dropdown.Item>
+            <Dropdown.Item as="button" eventKey="Sign out">
+              Sign out
+            </Dropdown.Item>
           </DropdownButton>
         </div>
-      )
+      );
     }
     return null;
-  }
+  };
 
-  render() {
-    return (
-      <div>
-        {this.getMenu()}
-        <div id="Google-Login" className="Account-Menu">
-          <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
-            <GoogleLogin
-              onSuccess={credentialResponse => this.handleCallbackResponse(credentialResponse)}
-              onError={() => console.log('Login Failed')}
-            />
-          </GoogleOAuthProvider>
-        </div>
-        <Header page={this.state.page} />
+  return (
+    <div>
+      {getMenu()}
+      <div id="Google-Login" className="Account-Menu">
+        <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+          <GoogleLogin
+            onSuccess={(credentialResponse) =>
+              handleCallbackResponse(credentialResponse)
+            }
+            onError={() => console.log("Login Failed")}
+          />
+        </GoogleOAuthProvider>
       </div>
-    );
-  }
-}
-
-export default App;
+      <Header page={page} token={token}/>
+    </div>
+  );
+};
