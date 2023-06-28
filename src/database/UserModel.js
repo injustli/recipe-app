@@ -5,7 +5,7 @@ const userSchema = mongoose.Schema(
   {
     email: String,
     name: String,
-    recipes: Array,
+    recipes: [mongoose.Types.ObjectId],
   },
   {
     timestamps: true,
