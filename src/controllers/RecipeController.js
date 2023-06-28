@@ -10,7 +10,7 @@ const verify = asyncHandler(async (token, email) => {
     audience: process.env.REACT_APP_GOOGLE_CLIENT_ID
   });
   const payload = ticket.getPayload();
-  return payload.email == email;
+  return payload.email === email;
 });
 
 // @desc   Gets recipes from the database based on user query parameters
@@ -26,20 +26,20 @@ const fetchRecipes = asyncHandler(async (req, res) => {
   const query = {};
 
   if (name) {
-    query["name"] = {$regex: name};
+    query["name"] = {$regex: name, $options: "i"};
   }
-  if (minTime !== "0" && maxTime !== "0") {
+  if (minTime && maxTime) {
     query["time"] = {$gte: minTime, $lte: maxTime};
-  } else if (minTime === "0" && maxTime !== "0") {
+  } else if (!minTime && maxTime) {
     query["time"] = {$lte: maxTime};
-  } else if (minTime !== "0" && maxTime === "0") {
+  } else if (minTime && !maxTime) {
     query["time"] = {$gte: minTime};
   }
   if (ingredients) {
     query["ingredients"] = {$elemMatch: {$in: ingredients}};
   }
   if (user) {
-    query["createdBy"] = user;
+    query["createdBy"] = {$regex: user, $options: "i"};
   }
   const recipes = await Recipe
       .find(query)
@@ -47,7 +47,7 @@ const fetchRecipes = asyncHandler(async (req, res) => {
       .skip((page - 1) * limit)
       .limit(limit)
       .exec();
-  const count = await Recipe.estimatedDocumentCount();
+  const count = await Recipe.find(query).countDocuments().exec();
   res.status(200).json({data: recipes, totalCount: count});
 });
 
