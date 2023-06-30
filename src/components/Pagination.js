@@ -79,9 +79,9 @@ export default function Pagination(props) {
   }
   return (
     <div>
-      <ul className={classnames("pagination-container")}>
+      <ul className={classnames('pagination-container')}>
         <li
-          className={classnames("pagination-item", {
+          className={classnames('pagination-item', {
             disabled: currentPage === 1,
           })}
           onClick={handleLeft}
@@ -97,7 +97,7 @@ export default function Pagination(props) {
 
             return (
               <li
-                className={classnames("pagination-item", {
+                className={classnames('pagination-item', {
                   selected: pageNum === currentPage,
                 })}
                 onClick={() => onPageChange(pageNum)}
@@ -108,7 +108,7 @@ export default function Pagination(props) {
           })
         }
         <li
-          className={classnames("pagination-item", {
+          className={classnames('pagination-item', {
             disabled: currentPage === lastPage,
           })}
           onClick={handleRight}
