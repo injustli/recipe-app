@@ -6,6 +6,6 @@ const { addOrUpdateUser } = require('../controllers/UserController');
 //         otherwise return existing user from database
 // @route  PUT /users
 // @access Public
-router.put("/", addOrUpdateUser);
+router.put('/', addOrUpdateUser);
 
 module.exports = router;
