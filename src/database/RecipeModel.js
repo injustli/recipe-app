@@ -4,11 +4,11 @@ const mongoose = require("mongoose");
 const recipeSchema = mongoose.Schema(
   {
     name: String,
-    ingredients: Array,
-    method: Array,
+    ingredients: [String],
+    method: [String],
     imageID: mongoose.Types.ObjectId,
     createdBy: String,
-    time: String,
+    time: Number,
   },
   {
     timestamps: true,
