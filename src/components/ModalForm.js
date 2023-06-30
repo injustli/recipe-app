@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import "../styles/ModalForm.css";
-import { Modal, Button, Form } from "react-bootstrap";
+import React, { useState } from 'react';
+import '../styles/ModalForm.css';
+import { Modal, Button, Form } from 'react-bootstrap';
 
 export default function ModalForm(props) {
   const {
@@ -13,15 +13,14 @@ export default function ModalForm(props) {
     setMaxTime,
     onPageChange,
   } = props;
-  const [ingredient, setIngredient] = useState("");
+  const [ingredient, setIngredient] = useState('');
   const [ingredients, updateIngredients] = useState([]);
-  const [recipeName, setRecipeName] = useState("");
-  const [creator, updateCreator] = useState("");
-  const [minTime, updateMinTime] = useState("");
-  const [maxTime, updateMaxTime] = useState("");
+  const [recipeName, setRecipeName] = useState('');
+  const [creator, updateCreator] = useState('');
+  const [minTime, updateMinTime] = useState('');
+  const [maxTime, updateMaxTime] = useState('');
 
-  // Used by the submit button to filter the recipes displayed, reset value of
-  // search bar, and closes the modal
+  // Used by the submit button to filter the recipes displayed and close modal
   const onSubmit = () => {
     onPageChange(1);
     setName(recipeName);
@@ -33,7 +32,7 @@ export default function ModalForm(props) {
   };
 
   return (
-    <div>
+    <>
       <Modal
         show={modalOpen}
         onHide={() => setModal(false)}
@@ -92,7 +91,7 @@ export default function ModalForm(props) {
                 onChange={(event) => updateMinTime(event.target.value)}
               />
             </label>
-            <br></br>
+            <br />
             <label>
               Max Time:
               <input
@@ -101,7 +100,7 @@ export default function ModalForm(props) {
                 onChange={(event) => updateMaxTime(event.target.value)}
               />
             </label>
-            <br></br>
+            <br />
             <label>
               Created By:
               <input
@@ -110,7 +109,7 @@ export default function ModalForm(props) {
                 onChange={(event) => updateCreator(event.target.value)}
               />
             </label>
-            <br></br>
+            <br />
             <div style={{ textAlign: "center" }}>
               <Button onClick={() => onSubmit()} type="button">
                 Submit
@@ -119,6 +118,6 @@ export default function ModalForm(props) {
           </Form>
         </Modal.Body>
       </Modal>
-    </div>
+    </>
   );
 }

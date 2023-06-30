@@ -1,7 +1,7 @@
-import React from "react";
-import Pagination from "./Pagination";
-import Recipe from "./Recipe";
-import "../styles/RecipeView.css";
+import React from 'react';
+import Pagination from './Pagination';
+import Recipe from './Recipe';
+import '../styles/RecipeView.css';
 
 export default function RecipeView(props) {
   const { onPageChange, data, currentPage, total, pageSize } = props;

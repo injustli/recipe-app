@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { Card, Modal } from "react-bootstrap";
-import "../styles/Recipe.css";
+import React, { useState } from 'react';
+import { Card, Modal } from 'react-bootstrap';
+import '../styles/Recipe.css';
 
 export default function Recipe(props) {
   const [modal, setModal] = useState(false);

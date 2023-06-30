@@ -1,13 +1,13 @@
-import React from "react";
-import classnames from "classnames";
-import "../styles/Pagination.scss";
+import React from 'react';
+import classnames from 'classnames';
+import '../styles/Pagination.scss';
 
 const range = (from, to) => {
   let length = to - from + 1;
   return Array.from({ length: length }, (_, idx) => idx + from);
 };
 
-const DOTS = "...";
+const DOTS = '...';
 
 export default function Pagination(props) {
   const { siblings = 1, onPageChange, currentPage, total, pageSize } = props;

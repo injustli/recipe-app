@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { InputGroup, Button, FormControl, Container } from "react-bootstrap";
-import { BsSearch } from "react-icons/bs";
-import ModalForm from "./ModalForm";
+import React, { useState } from 'react';
+import { InputGroup, Button, FormControl, Container } from 'react-bootstrap';
+import { BsSearch } from 'react-icons/bs';
+import ModalForm from './ModalForm';
 
 export default function SearchAndFilter(props) {
   const {

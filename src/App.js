@@ -1,25 +1,25 @@
-import "./App.css";
-import React, { useState } from "react";
-import jwt_decode from "jwt-decode";
-import { Dropdown, DropdownButton } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
-import Header from "./components/Header";
-import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
+import './App.css';
+import React, { useState } from 'react';
+import jwt_decode from 'jwt-decode';
+import { Dropdown, DropdownButton } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Header from './components/Header';
+import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 
 export default function App() {
   const [token, setToken] = useState(null);
   const [user, setUser] = useState(null);
-  const [page, setPage] = useState("Home");
+  const [page, setPage] = useState('Home');
 
   // Adds a new user if user doesn't exist in database, otherwise do nothing
   const handleCallbackResponse = (response) => {
     setToken(response.credential);
     let userObject = jwt_decode(response.credential);
-    fetch("/users", {
-      method: "PUT",
+    fetch('/users', {
+      method: 'PUT',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         email: userObject.email,
@@ -30,21 +30,21 @@ export default function App() {
       .then((data) => {
         if (data.data) {
           setUser(data.data);
-          document.getElementById("Google-Login").classList.add("hide");
+          document.getElementById('Google-Login').classList.add('hide');
         }
       })
-      .catch((err) => console.log("callbackResponse Error: ", err));
+      .catch((err) => console.log('callbackResponse Error: ', err));
   };
 
   const handleLogout = () => {
     setUser(null);
-    setPage("Home");
-    document.getElementById("Google-Login").classList.remove("hide");
+    setPage('Home');
+    document.getElementById('Google-Login').classList.remove('hide');
   };
 
   const navigateTo = (route, event) => {
     setPage(route);
-    if (route === "Sign out") {
+    if (route === 'Sign out') {
       handleLogout();
     }
   };
@@ -86,7 +86,7 @@ export default function App() {
             onSuccess={(credentialResponse) =>
               handleCallbackResponse(credentialResponse)
             }
-            onError={() => console.log("Login Failed")}
+            onError={() => console.log('Login Failed')}
           />
         </GoogleOAuthProvider>
       </div>

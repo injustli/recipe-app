@@ -1,10 +1,10 @@
-import { useMemo } from "react";
+import { useMemo } from 'react';
 
 // Returns a valid query parameter string depending on the ingredients state
 const createIngredientQueryParam = (ingredients) => {
-  let res = "";
-  for (let i in ingredients) {
-    res += `ingredients=${ingredients[i].name}&`;
+  let res = '';
+  for (let ingredient of ingredients) {
+    res += `ingredients=${ingredient.name}&`;
   }
   return res;
 };
@@ -25,10 +25,10 @@ export const useFetchRecipes = ({
         `${name}&minTime=${minTime}&maxTime=` +
         `${maxTime}&user=${creator}`,
       {
-        method: "GET",
+        method: 'GET',
         headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
         },
       }
     );

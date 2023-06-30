@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 // Connect to the Mongo Database
 const connectDB = async () => {
