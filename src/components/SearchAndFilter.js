@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { InputGroup, Button, FormControl, Container } from 'react-bootstrap';
+import { InputGroup, Button, Form, Container } from 'react-bootstrap';
 import { BsSearch } from 'react-icons/bs';
 import ModalForm from './ModalForm';
 
@@ -40,16 +40,13 @@ export default function SearchAndFilter(props) {
   };
 
   return (
-    <Container>
+    <Container className="p-2 mb-3">
       <InputGroup>
-        <FormControl
-          as="input"
+        <Form.Control
           type="text"
           placeholder="Search"
           onInput={(event) => sendName(event.target.value)}
-          value={name}
         />
-        {/*<input className="col-11" type="search" value={this.state.name} onChange={this.onSearch}/>*/}
         <Button variant="outline-dark" onClick={() => onPageChange(1)}>
           <BsSearch />
         </Button>
@@ -60,4 +57,4 @@ export default function SearchAndFilter(props) {
       {renderForm()}
     </Container>
   );
-};
+}

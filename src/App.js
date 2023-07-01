@@ -2,7 +2,6 @@ import './App.css';
 import React, { useState } from 'react';
 import jwt_decode from 'jwt-decode';
 import { Dropdown, DropdownButton } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './components/Header';
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 
