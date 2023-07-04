@@ -77,7 +77,7 @@ export default function App() {
   };
 
   return (
-    <div>
+    <>
       {getMenu()}
       <div id="Google-Login" className="Account-Menu">
         <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
@@ -89,7 +89,7 @@ export default function App() {
           />
         </GoogleOAuthProvider>
       </div>
-      <Header page={page} token={token}/>
-    </div>
+      <Header page={page} token={token} />
+    </>
   );
 };
