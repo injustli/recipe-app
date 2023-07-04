@@ -5,7 +5,7 @@ import '../styles/Recipe.css';
 export default function Recipe(props) {
   const [modal, setModal] = useState(false);
   const { method, ingredients, name, createdBy, time } = props.data;
-  
+
   // TODO (issue 26): Card/Modal image
   return (
     <div className="container">

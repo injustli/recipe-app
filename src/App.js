@@ -92,4 +92,4 @@ export default function App() {
       <Header page={page} token={token} />
     </>
   );
-};
+}
