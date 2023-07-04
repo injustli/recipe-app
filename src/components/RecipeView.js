@@ -3,7 +3,7 @@ import Pagination from './Pagination';
 import Recipe from './Recipe';
 
 export default function RecipeView(props) {
-  const { onPageChange, data, currentPage, total, pageSize } = props;
+  const { onPageChange, data, currentPage, totalCount, pageSize } = props;
 
   return (
     <>
@@ -12,7 +12,7 @@ export default function RecipeView(props) {
       })}
       <Pagination
         currentPage={currentPage}
-        total={total}
+        totalCount={totalCount}
         pageSize={pageSize}
         onPageChange={(page) => onPageChange(page)}
       />

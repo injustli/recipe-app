@@ -63,7 +63,7 @@ export default function Header(props) {
             <RecipeView
               data={recipes}
               currentPage={currentPage}
-              total={totalCount}
+              totalCount={totalCount}
               pageSize={pageSize}
               onPageChange={(page) => setCurrentPage(page)}
             />

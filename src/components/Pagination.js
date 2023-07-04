@@ -10,7 +10,13 @@ const range = (from, to) => {
 const DOTS = '...';
 
 export default function Pagination(props) {
-  const { siblings = 1, onPageChange, currentPage, total, pageSize } = props;
+  const {
+    siblings = 1,
+    onPageChange,
+    currentPage,
+    totalCount,
+    pageSize,
+  } = props;
 
   const handleLeft = () => {
     onPageChange(currentPage - 1);
@@ -21,7 +27,7 @@ export default function Pagination(props) {
   };
 
   const fetchPageNumbers = () => {
-    const totalPageCount = Math.ceil(total / pageSize);
+    const totalPageCount = Math.ceil(totalCount / pageSize);
 
     // Number of pages to display in pagination bar is determined as
     // siblingCount + firstPage + lastPage + currentPage + 2*DOTS
