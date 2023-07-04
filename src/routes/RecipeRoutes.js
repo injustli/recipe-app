@@ -1,7 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const {
-  fetchRecipes, addRecipe, modifyRecipe, deleteRecipe
+  fetchRecipes,
+  addRecipe,
+  modifyRecipe,
+  deleteRecipe,
 } = require('../controllers/RecipeController');
 
 // @desc   Gets recipes from the database based on user query parameters

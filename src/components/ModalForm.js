@@ -32,92 +32,90 @@ export default function ModalForm(props) {
   };
 
   return (
-    <>
-      <Modal
-        show={modalOpen}
-        onHide={() => setModal(false)}
-        centered="true"
-        size="lg"
-      >
-        <Modal.Header closeButton />
-        <Modal.Body className="formBody">
-          <Form>
-            <label>
-              Name:
-              <input
-                type="text"
-                value={recipeName}
-                onChange={(event) => setRecipeName(event.target.value)}
-              />
-            </label>
-            <br />
-            <label>Ingredients: </label>
+    <Modal
+      show={modalOpen}
+      onHide={() => setModal(false)}
+      centered="true"
+      size="lg"
+    >
+      <Modal.Header closeButton />
+      <Modal.Body className="formBody">
+        <Form>
+          <label>
+            Name:
             <input
-              value={ingredient}
-              onChange={(e) => setIngredient(e.target.value)}
+              type="text"
+              value={recipeName}
+              onChange={(event) => setRecipeName(event.target.value)}
             />
-            <button
-              onClick={() => {
-                updateIngredients([
-                  ...ingredients,
-                  { id: ingredients.length, name: ingredient },
-                ]);
-              }}
-              type="button"
-            >
-              Add
-            </button>
-            <ul>
-              {ingredients.map((ingredient) => (
-                <li key={ingredient.id}>
-                  {ingredient.name}
-                  <button
-                    onClick={() => {
-                      updateIngredients(
-                        ingredients.filter((a) => a.id !== ingredient.id)
-                      );
-                    }}
-                  >
-                    Delete
-                  </button>
-                </li>
-              ))}
-            </ul>
-            <label>
-              Min Time:
-              <input
-                type="number"
-                value={minTime}
-                onChange={(event) => updateMinTime(event.target.value)}
-              />
-            </label>
-            <br />
-            <label>
-              Max Time:
-              <input
-                type="number"
-                value={maxTime}
-                onChange={(event) => updateMaxTime(event.target.value)}
-              />
-            </label>
-            <br />
-            <label>
-              Created By:
-              <input
-                type="text"
-                value={creator}
-                onChange={(event) => updateCreator(event.target.value)}
-              />
-            </label>
-            <br />
-            <div style={{ textAlign: "center" }}>
-              <Button onClick={() => onSubmit()} type="button">
-                Submit
-              </Button>
-            </div>
-          </Form>
-        </Modal.Body>
-      </Modal>
-    </>
+          </label>
+          <br />
+          <label>Ingredients: </label>
+          <input
+            value={ingredient}
+            onChange={(e) => setIngredient(e.target.value)}
+          />
+          <button
+            onClick={() => {
+              updateIngredients([
+                ...ingredients,
+                { id: ingredients.length, name: ingredient },
+              ]);
+            }}
+            type="button"
+          >
+            Add
+          </button>
+          <ul>
+            {ingredients.map((ingredient) => (
+              <li key={ingredient.id}>
+                {ingredient.name}
+                <button
+                  onClick={() => {
+                    updateIngredients(
+                      ingredients.filter((a) => a.id !== ingredient.id)
+                    );
+                  }}
+                >
+                  Delete
+                </button>
+              </li>
+            ))}
+          </ul>
+          <label>
+            Min Time:
+            <input
+              type="number"
+              value={minTime}
+              onChange={(event) => updateMinTime(event.target.value)}
+            />
+          </label>
+          <br />
+          <label>
+            Max Time:
+            <input
+              type="number"
+              value={maxTime}
+              onChange={(event) => updateMaxTime(event.target.value)}
+            />
+          </label>
+          <br />
+          <label>
+            Created By:
+            <input
+              type="text"
+              value={creator}
+              onChange={(event) => updateCreator(event.target.value)}
+            />
+          </label>
+          <br />
+          <div style={{ textAlign: 'center' }}>
+            <Button onClick={() => onSubmit()} type="button">
+              Submit
+            </Button>
+          </div>
+        </Form>
+      </Modal.Body>
+    </Modal>
   );
 }

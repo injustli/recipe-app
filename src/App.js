@@ -90,7 +90,7 @@ export default function App() {
           />
         </GoogleOAuthProvider>
       </div>
-      <Header page={page} token={token}/>
+      <Header page={page} token={token} />
     </div>
   );
-};
+}
