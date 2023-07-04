@@ -72,5 +72,5 @@ export default function Header(props) {
     }
   };
 
-  return <div>{viewRender()}</div>;
+  return <>{viewRender()}</>;
 }
