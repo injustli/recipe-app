@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 // Defines how a recipe is stored in the database
 const recipeSchema = mongoose.Schema(
@@ -15,4 +15,4 @@ const recipeSchema = mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Recipes", recipeSchema, "Recipes");
+module.exports = mongoose.model('Recipes', recipeSchema, 'Recipes');

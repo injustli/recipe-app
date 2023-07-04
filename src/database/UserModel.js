@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 // Defines how a user is stored in the database
 const userSchema = mongoose.Schema(
@@ -12,4 +12,4 @@ const userSchema = mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Users", userSchema, "Users");
+module.exports = mongoose.model('Users', userSchema, 'Users');

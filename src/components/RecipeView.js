@@ -1,31 +1,24 @@
-import React from "react";
-import Pagination from "./Pagination";
-import Recipe from "./Recipe";
-import "../styles/RecipeView.css";
+import React from 'react';
+import Pagination from './Pagination';
+import Recipe from './Recipe';
+import '../styles/RecipeView.css';
 
-class RecipeView extends React.Component {
+export default function RecipeView(props) {
+  const { onPageChange, data, currentPage, total, pageSize } = props;
 
-  displayRecipes = () => {
-    const recipes = this.props.data.map((recipe) => {
-      return <Recipe data={recipe} key={recipe.id}/>
-    })
-    return recipes;
-  }
-  
-  render() {
-    return (
-      <div className="container">
-        {this.displayRecipes()}
-        <Pagination 
-          className="pagination-bar"
-          currentPage={this.props.currentPage}
-          total={this.props.total}
-          pageSize={this.props.pageSize}
-          onPageChange={page => this.props.onPageChange(page)}
+  return (
+    <>
+      {data.map((recipe) => {
+        return <Recipe data={recipe} key={recipe._id} />;
+      })}
+      <div className="pagination-bar">
+        <Pagination
+          currentPage={currentPage}
+          total={total}
+          pageSize={pageSize}
+          onPageChange={(page) => onPageChange(page)}
         />
       </div>
-    );
-  }
+    </>
+  );
 }
-
-export default RecipeView;
