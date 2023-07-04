@@ -78,7 +78,7 @@ export default function Pagination(props) {
     return null;
   }
   return (
-    <div>
+    <div className="d-flex justify-content-center mt-2">
       <ul className={classnames('pagination-container')}>
         <li
           className={classnames('pagination-item', {
