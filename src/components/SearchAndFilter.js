@@ -11,7 +11,6 @@ export default function SearchAndFilter(props) {
     setMinTime,
     setMaxTime,
     onPageChange,
-    name,
   } = props;
   const [modalOpen, setModal] = useState(false);
 

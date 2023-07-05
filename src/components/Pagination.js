@@ -84,7 +84,7 @@ export default function Pagination(props) {
     return null;
   }
   return (
-    <div className="d-flex justify-content-center mt-2">
+    <>
       <ul className={classnames('pagination-container')}>
         <li
           className={classnames('pagination-item', {
@@ -122,6 +122,6 @@ export default function Pagination(props) {
           <div className="arrow right"></div>
         </li>
       </ul>
-    </div>
+    </>
   );
 }

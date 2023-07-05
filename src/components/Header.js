@@ -66,6 +66,7 @@ export default function Header(props) {
               totalCount={totalCount}
               pageSize={pageSize}
               onPageChange={(page) => setCurrentPage(page)}
+              setPageSize={(size) => setPageSize(size)}
             />
           </>
         );

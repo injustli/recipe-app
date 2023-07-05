@@ -76,7 +76,7 @@ export default function ModalForm(props) {
             <ul>
               {ingredients.map((ingredient) => (
                 <li key={ingredient.id}>
-                  {ingredient.name}{' '}
+                  {ingredient.name}
                   <Button
                     onClick={() => {
                       updateIngredients(
@@ -85,6 +85,7 @@ export default function ModalForm(props) {
                     }}
                     type="button"
                     variant="outline-dark"
+                    style={{ marginLeft: '5px' }}
                   >
                     Delete
                   </Button>

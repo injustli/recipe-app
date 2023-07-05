@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Modal } from 'react-bootstrap';
+import { Card, Modal, Image } from 'react-bootstrap';
 import '../styles/Recipe.css';
 
 export default function Recipe(props) {
@@ -8,32 +8,19 @@ export default function Recipe(props) {
 
   // TODO (issue 26): Card/Modal image
   return (
-    <div className="container">
-      <div className="rounded-border d-flex flex-row align-items-center bg-light">
-        <Card border="dark">
+    <>
+      <Card border="dark" bg="light" className="d-flex rounded-border">
+        <button className="card-title" onClick={() => setModal(true)}>
           <Card.Img variant="top" src="" />
-          <Card.Title>
-            <button className="card-title" onClick={() => setModal(true)}>
-              <strong>{name}</strong>
-            </button>
-          </Card.Title>
-          <Card.Body>
-            <div>Time: {time} min</div>
-            <div>Created by: {createdBy}</div>
-          </Card.Body>
-        </Card>
-      </div>
-      <Modal
-        show={modal}
-        onHide={() => setModal(false)}
-        centered="true"
-        size="lg"
-      >
+          <Card.Title>{name}</Card.Title>
+        </button>
+      </Card>
+      <Modal show={modal} onHide={() => setModal(false)} centered size="lg">
         <Modal.Header closeButton>
           <Modal.Title>{name}</Modal.Title>
           <Modal.Title className="modal-time">{time}</Modal.Title>
         </Modal.Header>
-        <img src="" alt={name} />
+        <Image src="" alt={name} fluid/>
         <Modal.Body>
           <div className="modal-box">
             Ingredients:
@@ -51,9 +38,9 @@ export default function Recipe(props) {
               })}
             </ol>
           </div>
-          <div>Created By: {createdBy}</div>
+          <span>Created By: {createdBy}</span>
         </Modal.Body>
       </Modal>
-    </div>
+    </>
   );
 }
