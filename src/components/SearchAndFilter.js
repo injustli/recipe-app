@@ -27,20 +27,24 @@ export default function SearchAndFilter(props) {
   };
 
   return (
-    <Container className="p-2 mb-3">
+    <Container>
       <InputGroup>
         <Form.Control
           type="text"
           placeholder="Search"
           onInput={(event) => sendName(event.target.value)}
+          style={{borderRight: "none"}}
+          name="name"
         />
-        <Button variant="outline-dark" onClick={() => onPageChange(1)}>
-          <BsSearch />
+        <InputGroup.Text style={{backgroundColor: "transparent"}}><BsSearch /></InputGroup.Text>
+        <Button
+          variant="outline-dark"
+          onClick={() => setModal(true)}
+          type="button"
+        >
+          Advanced Search
         </Button>
       </InputGroup>
-      <Button onClick={() => setModal(true)} type="button">
-        Advanced Search
-      </Button>
       {renderForm()}
     </Container>
   );
