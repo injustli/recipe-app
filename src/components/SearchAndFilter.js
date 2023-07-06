@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { InputGroup, Button, Form, Container } from 'react-bootstrap';
 import { BsSearch } from 'react-icons/bs';
 import ModalForm from './ModalForm';
@@ -32,11 +32,12 @@ export default function SearchAndFilter(props) {
         <Form.Control
           type="text"
           placeholder="Search"
-          onInput={(event) => sendName(event.target.value)}
-          style={{borderRight: "none"}}
-          name="name"
+          onChange={(event) => sendName(event.target.value)}
+          style={{ borderRight: 'none' }}
         />
-        <InputGroup.Text style={{backgroundColor: "transparent"}}><BsSearch /></InputGroup.Text>
+        <InputGroup.Text style={{ backgroundColor: 'transparent' }}>
+          <BsSearch />
+        </InputGroup.Text>
         <Button
           variant="outline-dark"
           onClick={() => setModal(true)}
