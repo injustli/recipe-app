@@ -4,15 +4,7 @@ import { BsSearch } from 'react-icons/bs';
 import ModalForm from './ModalForm';
 
 export default function SearchAndFilter(props) {
-  const {
-    setIngredients,
-    setCreator,
-    setName,
-    setMinTime,
-    setMaxTime,
-    onPageChange,
-    name,
-  } = props;
+  const { setName, onPageChange } = props;
   const [modalOpen, setModal] = useState(false);
 
   // Render the modal form if modal is open; otherwise render nothing
@@ -20,14 +12,9 @@ export default function SearchAndFilter(props) {
     if (modalOpen) {
       return (
         <ModalForm
+          {...props}
           setModal={(flag) => setModal(flag)}
-          setName={(name) => setName(name)}
           modalOpen={modalOpen}
-          setIngredients={(ingredients) => setIngredients(ingredients)}
-          setCreator={(user) => setCreator(user)}
-          setMinTime={(time) => setMinTime(time)}
-          setMaxTime={(time) => setMaxTime(time)}
-          onPageChange={(page) => onPageChange(page)}
         />
       );
     }
