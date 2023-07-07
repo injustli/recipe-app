@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Card, Modal, Image } from 'react-bootstrap';
+import { Card, Modal } from 'react-bootstrap';
 import '../styles/Recipe.css';
 
 export default function Recipe(props) {
@@ -20,7 +20,7 @@ export default function Recipe(props) {
           <Modal.Title>{name}</Modal.Title>
           <Modal.Title className="modal-time">{time}</Modal.Title>
         </Modal.Header>
-        <Image src="" alt={name} fluid/>
+        <img alt={name} height="500" />
         <Modal.Body>
           <div className="modal-box">
             Ingredients:

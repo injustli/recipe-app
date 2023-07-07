@@ -14,7 +14,7 @@ export default function RecipeView(props) {
           return <Recipe data={recipe} key={recipe._id} />;
         })}
       </div>
-      <div className="d-flex justify-content-around mt-2">
+      <div className="d-flex justify-content-around mt-3">
         <Pagination
           currentPage={currentPage}
           totalCount={totalCount}
@@ -22,10 +22,8 @@ export default function RecipeView(props) {
           onPageChange={(page) => onPageChange(page)}
         />
         <div>
-          <label style={{ marginRight: '5px' }}>Recipes per page:</label>
+          <span style={{ marginRight: '5px' }}>Items per page:</span>
           <select onChange={(e) => setPageSize(e.target.value)}>
-            <option>5</option>
-            <option>10</option>
             <option>25</option>
             <option>50</option>
             <option>100</option>

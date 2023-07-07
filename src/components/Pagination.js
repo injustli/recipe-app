@@ -84,44 +84,42 @@ export default function Pagination(props) {
     return null;
   }
   return (
-    <>
-      <ul className={classnames('pagination-container')}>
-        <li
-          className={classnames('pagination-item', {
-            disabled: currentPage === 1,
-          })}
-          onClick={handleLeft}
-        >
-          <div className="arrow left"></div>
-        </li>
-        {
-          // render page pills
-          paginationRange.map((pageNum) => {
-            if (pageNum === DOTS) {
-              return <li className="pagination-item dots">&#8230;</li>;
-            }
+    <ul className={classnames('pagination-container')}>
+      <li
+        className={classnames('pagination-item', {
+          disabled: currentPage === 1,
+        })}
+        onClick={handleLeft}
+      >
+        <div className="arrow left"></div>
+      </li>
+      {
+        // render page pills
+        paginationRange.map((pageNum) => {
+          if (pageNum === DOTS) {
+            return <li className="pagination-item dots">&#8230;</li>;
+          }
 
-            return (
-              <li
-                className={classnames('pagination-item', {
-                  selected: pageNum === currentPage,
-                })}
-                onClick={() => onPageChange(pageNum)}
-              >
-                {pageNum}
-              </li>
-            );
-          })
-        }
-        <li
-          className={classnames('pagination-item', {
-            disabled: currentPage === lastPage,
-          })}
-          onClick={handleRight}
-        >
-          <div className="arrow right"></div>
-        </li>
-      </ul>
-    </>
+          return (
+            <li
+              className={classnames('pagination-item', {
+                selected: pageNum === currentPage,
+              })}
+              onClick={() => onPageChange(pageNum)}
+            >
+              {pageNum}
+            </li>
+          );
+        })
+      }
+      <li
+        className={classnames('pagination-item', {
+          disabled: currentPage === lastPage,
+        })}
+        onClick={handleRight}
+      >
+        <div className="arrow right"></div>
+      </li>
+    </ul>
   );
 }
