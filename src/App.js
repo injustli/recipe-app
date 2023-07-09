@@ -13,27 +13,20 @@ export default function App() {
   const [minTime, setMinTime] = useState('');
   const [maxTime, setMaxTime] = useState('');
   const [creator, setCreator] = useState('');
-  const [recipes, setRecipes] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalCount, setTotalCount] = useState(0);
-  const [pageSize, setPageSize] = useState(5);
+  const [pageSize, setPageSize] = useState(25);
   const [token, setToken] = useState(null);
   const [user, setUser] = useState(null);
 
-  useFetchRecipes({
-    name,
-    ingredients,
-    minTime,
-    maxTime,
-    creator,
+  const { recipes, totalCount } = useFetchRecipes(
     currentPage,
     pageSize,
-  })
-    .then((data) => {
-      setRecipes(data.data);
-      setTotalCount(data.totalCount);
-    })
-    .catch((err) => console.log('Error in fetching recipes: ' + err));
+    ingredients,
+    name,
+    minTime,
+    maxTime,
+    creator
+  );
 
   return (
     <Router>
@@ -48,6 +41,7 @@ export default function App() {
         onPageChange={(page) => setCurrentPage(page)}
         user={user}
         page={currentPage}
+        name={name}
       />
       <Routes>
         <Route
@@ -60,11 +54,15 @@ export default function App() {
                 totalCount={totalCount}
                 pageSize={pageSize}
                 onPageChange={(page) => setCurrentPage(page)}
+                setPageSize={(size) => setPageSize(size)}
               />
             </>
           }
         />
-        <Route path="/user/:name/recipes" element={<MyRecipes user={user} token={token}/>} />
+        <Route
+          path="/user/:name/recipes"
+          element={<MyRecipes user={user} token={token} />}
+        />
         <Route path="/user/:name/mealplan" element={<MyMealPlan />} />
       </Routes>
     </Router>
