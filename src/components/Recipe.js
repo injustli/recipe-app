@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Card, Modal } from 'react-bootstrap';
 import '../styles/Recipe.css';
 
@@ -10,7 +10,7 @@ export default function Recipe(props) {
   return (
     <>
       <Card border="dark" bg="light" className="d-flex rounded-border">
-        <button className="card-title" onClick={() => setModal(true)}>
+        <button className="card-button" onClick={() => setModal(true)}>
           <Card.Img variant="top" src="" />
           <Card.Title>{name}</Card.Title>
         </button>
