@@ -18,12 +18,12 @@
     "mongoose": "^7.3.0",
     "node-sass": "^9.0.0",
     "nodemon": "^2.0.16",
-    "react": "^18.1.0",
+    "react": "^18.2.0",
     "react-bootstrap": "^2.4.0",
-    "react-dom": "^18.1.0",
+    "react-dom": "^18.2.0",
     "react-icons": "^4.4.0",
     "react-router-dom": "^6.3.0",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "supertest": "^6.2.3",
     "web-vitals": "^3.3.2"
   },
@@ -39,7 +39,7 @@
   "eslintConfig": {
     "extends": [
       "react-app",
-      "react-app/jest"    
+      "react-app/jest"
     ]
   },
   "browserslist": {
@@ -55,11 +55,7 @@
     ]
   },
   "devDependencies": {
-<<<<<<< HEAD
-    "jest": "^28.1.0",
-    "@babel/plugin-proposal-private-property-in-object": "7.21.11"
-=======
+    "@babel/plugin-proposal-private-property-in-object": "7.21.11",
     "jest": "^29.6.1"
->>>>>>> integrate react router and fix problem with signing out
   }
 }
