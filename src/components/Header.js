@@ -1,7 +1,7 @@
-import React, {startTransition} from 'react';
+import { startTransition } from 'react';
 import SearchAndFilter from './SearchAndFilter';
-import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import jwt_decode from 'jwt-decode';
+import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import { Dropdown, DropdownButton, Navbar, Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,6 +17,7 @@ export default function Header(props) {
     onPageChange,
     user,
     page,
+    name,
   } = props;
 
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ export default function Header(props) {
   // Adds a new user if user doesn't exist in database, otherwise do nothing
   const handleCallbackResponse = (response) => {
     setToken(response.credential);
-    let userObject = jwt_decode(response.credential);
+    const userObject = jwt_decode(response.credential);
     fetch('/users', {
       method: 'PUT',
       headers: {
@@ -74,6 +75,7 @@ export default function Header(props) {
           setName={(name) => setName(name)}
           onPageChange={(page) => onPageChange(page)}
           page={page}
+          name={name}
         />
         <div className="justify-content-end">
           {user ? (

@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { InputGroup, Button, Form, Container } from 'react-bootstrap';
 import { BsSearch } from 'react-icons/bs';
 import ModalForm from './ModalForm';
+import { useSearchParams } from 'react-router-dom';
 
 export default function SearchAndFilter(props) {
-  const { setName, onPageChange } = props;
+  const { setName, onPageChange, name, page } = props;
   const [modalOpen, setModal] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   // Render the modal form if modal is open; otherwise render nothing
   const renderForm = () => {
@@ -20,6 +22,15 @@ export default function SearchAndFilter(props) {
     }
     return null;
   };
+
+  // Updates search params as the user changes page and inputs query
+  useEffect(() => {
+    if (name) {
+      setSearchParams({ name: name, page: page });
+    } else {
+      setSearchParams({ page: page });
+    }
+  }, [name, page, setSearchParams]);
 
   const sendName = (name) => {
     setName(name);
