@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useState } from 'react';
 
 // Returns a valid query parameter string depending on the ingredients state
 const createIngredientQueryParam = (ingredients) => {
@@ -9,32 +9,49 @@ const createIngredientQueryParam = (ingredients) => {
   return res;
 };
 
-export const useFetchRecipes = ({
+export const useFetchRecipes = (
   currentPage,
   pageSize,
   ingredients,
   name,
   minTime,
   maxTime,
-  creator,
-}) => {
-  const fetchResults = useMemo(async () => {
-    const result = await fetch(
-      `/recipes?page=${currentPage}&limit=` +
-        `${pageSize}&${createIngredientQueryParam(ingredients)}name=` +
-        `${name}&minTime=${minTime}&maxTime=` +
-        `${maxTime}&user=${creator}`,
-      {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
+  creator
+) => {
+  const [recipes, setRecipes] = useState([]);
+  const [totalCount, setTotalCount] = useState(0);
+  useEffect(() => {
+    const controller = new AbortController();
+    const fetchData = async () => {
+      try {
+        const result = await fetch(
+          `/recipes?page=${currentPage}&limit=` +
+            `${pageSize}&${createIngredientQueryParam(ingredients)}name=` +
+            `${name}&minTime=${minTime}&maxTime=` +
+            `${maxTime}&user=${creator}`,
+          {
+            method: 'GET',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+            },
+            signal: controller.signal,
+          }
+        );
+        const data = await result.json();
+        setRecipes(data.data);
+        setTotalCount(data.totalCount);
+      } catch (error) {
+        console.log('Error in fetching recipes: ' + error);
       }
-    );
-    const data = await result.json();
-    return data;
+    };
+
+    fetchData();
+
+    return () => {
+      controller.abort();
+    };
   }, [currentPage, pageSize, name, ingredients, minTime, maxTime, creator]);
 
-  return fetchResults;
+  return { recipes, totalCount };
 };

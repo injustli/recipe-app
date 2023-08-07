@@ -1,77 +1,116 @@
-import React, { useState } from 'react';
+import { startTransition } from 'react';
 import SearchAndFilter from './SearchAndFilter';
-import MyRecipes from './MyRecipes';
-import MyMealPlan from './MyMealPlan';
-import RecipeView from './RecipeView';
-import { useFetchRecipes } from './useFetchRecipes';
+import jwt_decode from 'jwt-decode';
+import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+import { Dropdown, DropdownButton, Navbar, Container } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 export default function Header(props) {
-  const { page } = props;
-  const [name, setName] = useState('');
-  const [ingredients, setIngredients] = useState([]);
-  const [minTime, setMinTime] = useState('');
-  const [maxTime, setMaxTime] = useState('');
-  const [creator, setCreator] = useState('');
-  const [recipes, setRecipes] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalCount, setTotalCount] = useState(0);
-  const [pageSize, setPageSize] = useState(25);
-
-  useFetchRecipes({
+  const {
+    setToken,
+    setUser,
+    setIngredients,
+    setCreator,
+    setMinTime,
+    setMaxTime,
+    setName,
+    onPageChange,
+    user,
+    page,
     name,
-    ingredients,
-    minTime,
-    maxTime,
-    creator,
-    currentPage,
-    pageSize,
-  })
-    .then((data) => {
-      setRecipes(data.data);
-      setTotalCount(data.totalCount);
-    })
-    .catch((err) => console.log('Error in fetching recipes: ' + err));
+  } = props;
 
-  const loadSearch = () => {
-    return (
-      <SearchAndFilter
-        setIngredients={(ingredients) => setIngredients(ingredients)}
-        setCreator={(user) => setCreator(user)}
-        setMinTime={(time) => setMinTime(time)}
-        setMaxTime={(time) => setMaxTime(time)}
-        setName={(name) => setName(name)}
-        onPageChange={(page) => setCurrentPage(page)}
-      />
-    );
+  const navigate = useNavigate();
+
+  // Adds a new user if user doesn't exist in database, otherwise do nothing
+  const handleCallbackResponse = (response) => {
+    setToken(response.credential);
+    const userObject = jwt_decode(response.credential);
+    fetch('/users', {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: userObject.email,
+        name: userObject.name,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.data) {
+          setUser(data.data);
+        }
+      })
+      .catch((err) => console.log('callbackResponse Error: ', err));
   };
 
-  const viewRender = () => {
-    switch (page) {
+  const navigateTo = (route) => {
+    switch (route) {
       case 'My Recipes':
-        return (
-          <>
-            {loadSearch()}
-            <MyRecipes />
-          </>
-        );
+        navigate(`/user/${user.name}/recipes`);
+        break;
       case 'My Meal Plan':
-        return <MyMealPlan />;
+        navigate(`/user/${user.name}/mealplan`);
+        break;
+      case 'Sign Out':
+        startTransition(() => {
+          setUser(null);
+        });
+      // eslint-disable-next-line
       default:
-        return (
-          <>
-            {loadSearch()}
-            <RecipeView
-              data={recipes}
-              currentPage={currentPage}
-              totalCount={totalCount}
-              pageSize={pageSize}
-              onPageChange={(page) => setCurrentPage(page)}
-              setPageSize={(size) => setPageSize(size)}
-            />
-          </>
-        );
+        navigate('/');
     }
   };
 
-  return <>{viewRender()}</>;
+  return (
+    <Navbar className="mb-3">
+      <Container fluid>
+        <SearchAndFilter
+          setIngredients={(ingredients) => setIngredients(ingredients)}
+          setCreator={(user) => setCreator(user)}
+          setMinTime={(time) => setMinTime(time)}
+          setMaxTime={(time) => setMaxTime(time)}
+          setName={(name) => setName(name)}
+          onPageChange={(page) => onPageChange(page)}
+          page={page}
+          name={name}
+        />
+        <div className="justify-content-end">
+          {user ? (
+            <DropdownButton
+              title="My Account"
+              menuRole="menu"
+              onSelect={(key) => navigateTo(key)}
+            >
+              <Dropdown.Item as="button" eventKey="Home">
+                Home
+              </Dropdown.Item>
+              <Dropdown.Item as="button" eventKey="My Recipes">
+                My Recipes
+              </Dropdown.Item>
+              <Dropdown.Item as="button" eventKey="My Meal Plan">
+                My Meal Plan
+              </Dropdown.Item>
+              <Dropdown.Item as="button" eventKey="Sign Out">
+                Sign Out
+              </Dropdown.Item>
+            </DropdownButton>
+          ) : (
+            <GoogleOAuthProvider
+              clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+            >
+              <GoogleLogin
+                onSuccess={(credentialResponse) =>
+                  handleCallbackResponse(credentialResponse)
+                }
+                onError={() => console.log('Login Failed')}
+              />
+            </GoogleOAuthProvider>
+          )}
+        </div>
+      </Container>
+    </Navbar>
+  );
 }

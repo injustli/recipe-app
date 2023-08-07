@@ -18,12 +18,10 @@ export default function Pagination(props) {
     pageSize,
   } = props;
 
-  const handleLeft = () => {
-    onPageChange(currentPage - 1);
-  };
-
-  const handleRight = () => {
-    onPageChange(currentPage + 1);
+  const handlePageChange = (amount) => {
+    onPageChange((current) => {
+      return current + amount;
+    });
   };
 
   const fetchPageNumbers = () => {
@@ -89,7 +87,7 @@ export default function Pagination(props) {
         className={classnames('pagination-item', {
           disabled: currentPage === 1,
         })}
-        onClick={handleLeft}
+        onClick={() => handlePageChange(-1)}
       >
         <div className="arrow left"></div>
       </li>
@@ -116,7 +114,7 @@ export default function Pagination(props) {
         className={classnames('pagination-item', {
           disabled: currentPage === lastPage,
         })}
-        onClick={handleRight}
+        onClick={() => handlePageChange(1)}
       >
         <div className="arrow right"></div>
       </li>

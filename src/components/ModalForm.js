@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Modal, Button, Form, Row, Col, InputGroup } from 'react-bootstrap';
 
 export default function ModalForm(props) {
@@ -12,13 +12,13 @@ export default function ModalForm(props) {
     setMaxTime,
     onPageChange,
   } = props;
-  const [ingredient, setIngredient] = useState('');
   const [ingredients, updateIngredients] = useState([]);
   const [recipeName, setRecipeName] = useState('');
   const [creator, updateCreator] = useState('');
   const [minTime, updateMinTime] = useState('');
   const [maxTime, updateMaxTime] = useState('');
   const [validated, setValidated] = useState(false);
+  const inputRef = useRef();
 
   // Used by the submit button to filter the recipes displayed and close modal
   const onSubmit = (event) => {
@@ -58,14 +58,16 @@ export default function ModalForm(props) {
               <Form.Control
                 type="text"
                 placeholder="Ingredient Name"
-                onChange={(e) => setIngredient(e.target.value)}
+                ref={inputRef}
               />
               <Button
-                onClick={() => {
-                  updateIngredients([
-                    ...ingredients,
-                    { id: ingredients.length, name: ingredient },
-                  ]);
+                onClick={(e) => {
+                  updateIngredients((currentArray) => {
+                    return [
+                      ...currentArray,
+                      { id: ingredients.length, name: inputRef.current.value },
+                    ];
+                  });
                 }}
                 type="button"
                 variant="outline-dark"
@@ -79,9 +81,11 @@ export default function ModalForm(props) {
                   {ingredient.name}
                   <Button
                     onClick={() => {
-                      updateIngredients(
-                        ingredients.filter((a) => a.id !== ingredient.id)
-                      );
+                      updateIngredients((currentArray) => {
+                        return currentArray.filter(
+                          (a) => a.id !== ingredient.id
+                        );
+                      });
                     }}
                     type="button"
                     variant="outline-dark"
