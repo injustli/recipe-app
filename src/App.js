@@ -30,24 +30,24 @@ export default function App() {
 
   return (
     <Router>
-      <Header
-        setName={(name) => setName(name)}
-        setIngredients={(array) => setIngredients(array)}
-        setMinTime={(time) => setMinTime(time)}
-        setMaxTime={(time) => setMaxTime(time)}
-        setUser={(user) => setUser(user)}
-        setToken={(token) => setToken(token)}
-        setCreator={(name) => setCreator(name)}
-        onPageChange={(page) => setCurrentPage(page)}
-        user={user}
-        page={currentPage}
-        name={name}
-      />
       <Routes>
         <Route
           path="/"
           element={
             <>
+              <Header
+                setName={(name) => setName(name)}
+                setIngredients={(array) => setIngredients(array)}
+                setMinTime={(time) => setMinTime(time)}
+                setMaxTime={(time) => setMaxTime(time)}
+                setUser={(user) => setUser(user)}
+                setToken={(token) => setToken(token)}
+                setCreator={(name) => setCreator(name)}
+                onPageChange={(page) => setCurrentPage(page)}
+                user={user}
+                page={currentPage}
+                name={name}
+              />
               <RecipeView
                 data={recipes}
                 currentPage={currentPage}
@@ -61,7 +61,13 @@ export default function App() {
         />
         <Route
           path="/user/:name/recipes"
-          element={<MyRecipes user={user} token={token} />}
+          element={
+            <MyRecipes
+              user={user}
+              token={token}
+              setUser={(user) => setUser(user)}
+            />
+          }
         />
         <Route path="/user/:name/mealplan" element={<MyMealPlan />} />
       </Routes>

@@ -4,14 +4,29 @@ import Recipe from './Recipe';
 import '../styles/RecipeView.css';
 
 export default function RecipeView(props) {
-  const { onPageChange, data, currentPage, totalCount, pageSize, setPageSize } =
-    props;
+  const {
+    onPageChange,
+    data,
+    currentPage,
+    totalCount,
+    pageSize,
+    setPageSize,
+    setCheckedRecipe,
+  } = props;
 
   return (
     <div className="container">
       <div className="grid-container">
         {data.map((recipe) => {
-          return <Recipe data={recipe} key={recipe._id} />;
+          return setCheckedRecipe ? (
+            <Recipe
+              data={recipe}
+              key={recipe._id}
+              setCheckedRecipe={(recipe) => setCheckedRecipe(recipe)}
+            />
+          ) : (
+            <Recipe data={recipe} key={recipe._id} />
+          );
         })}
       </div>
       <div className="d-flex justify-content-around mt-3">
