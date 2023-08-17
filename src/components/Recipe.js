@@ -9,12 +9,16 @@ export default function Recipe(props) {
 
   const onCheckbox = (target) => {
     setCheckedRecipe((current) => {
+      // If current is not null, uncheck previously selected recipe
       if (current) {
         current.target.checked = false;
+        // If current checkbox and selected checkbox is same, we no longer have
+        // a selected recipe
         if (current.target === target) {
           return null;
         }
       }
+      // Otherwise, return an object with the checkbox and id of recipe
       return { target: target, id: _id };
     });
   };
