@@ -5,7 +5,19 @@ import '../styles/Recipe.css';
 export default function Recipe(props) {
   const { setCheckedRecipe, data } = props;
   const [modal, setModal] = useState(false);
-  const { method, ingredients, name, createdBy, time } = data;
+  const { _id, method, ingredients, name, createdBy, time } = data;
+
+  const onCheckbox = (target) => {
+    setCheckedRecipe((current) => {
+      if (current) {
+        current.target.checked = false;
+        if (current.target === target) {
+          return null;
+        }
+      }
+      return { target: target, id: _id };
+    });
+  };
 
   // TODO (issue 26): Card/Modal image
   return (
@@ -15,9 +27,7 @@ export default function Recipe(props) {
           <div className="d-flex justify-content-end p-2">
             <Form.Check
               aria-label="selected_recipe"
-              onChange={(event) =>
-                setCheckedRecipe(event.target.checked ? data : null)
-              }
+              onChange={(event) => onCheckbox(event.target)}
             />
           </div>
         )}
