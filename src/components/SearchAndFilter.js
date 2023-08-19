@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { InputGroup, Button, Form, Container } from 'react-bootstrap';
 import { BsSearch } from 'react-icons/bs';
-import ModalForm from './ModalForm';
+import SearchModalForm from './SearchModalForm';
 import { useSearchParams } from 'react-router-dom';
 
 export default function SearchAndFilter(props) {
@@ -13,7 +13,7 @@ export default function SearchAndFilter(props) {
   const renderForm = () => {
     if (modalOpen) {
       return (
-        <ModalForm
+        <SearchModalForm
           {...props}
           setModal={(flag) => setModal(flag)}
           modalOpen={modalOpen}

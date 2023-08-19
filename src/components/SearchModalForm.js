@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { Modal, Button, Form, Row, Col, InputGroup } from 'react-bootstrap';
 
-export default function ModalForm(props) {
+export default function SearchModalForm(props) {
   const {
     setIngredients,
     setModal,
