@@ -9,4 +9,12 @@
     right: 5%;
     height:4vw;
     width: 4vw;
-  }
+}
+
+#add-recipe-button {
+    bottom: 50%
+}
+
+#edit-recipe-button {
+    bottom: 30%
+}
