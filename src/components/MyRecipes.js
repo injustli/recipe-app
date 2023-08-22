@@ -6,8 +6,8 @@ import { IoAddSharp } from 'react-icons/io5';
 import { GrEdit } from 'react-icons/gr';
 import { BiMinus } from 'react-icons/bi';
 import '../styles/MyRecipes.css';
+import AddModalForm from './AddModalForm';
 
-// TODO (issue 14): MyRecipes component
 export default function MyRecipes(props) {
   const { user, token, setUser } = props;
   const [name, setName] = useState('');
@@ -17,6 +17,7 @@ export default function MyRecipes(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(25);
   const [checkedRecipe, setCheckedRecipe] = useState(null);
+  const [addModal, setAddModal] = useState(false);
 
   const { recipes, totalCount } = useFetchRecipes(
     currentPage,
@@ -53,6 +54,7 @@ export default function MyRecipes(props) {
       <button
         type="button"
         className="circular-button"
+        onClick={() => setAddModal(true)}
         style={{ bottom: '40%' }}
       >
         <IoAddSharp size={'2em'} />
@@ -71,6 +73,12 @@ export default function MyRecipes(props) {
           </button>
         </>
       )}
+      <AddModalForm
+        modal={addModal}
+        setModal={(flag) => setAddModal(flag)}
+        token={token}
+        user={user}
+      />
     </>
   );
 }

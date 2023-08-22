@@ -4,13 +4,13 @@ const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(process.env.REACT_APP_GOOGLE_CLIENT_ID);
 
 // Used for verification
-const verify = asyncHandler(async (token, email) => {
+const verify = asyncHandler(async (token, name) => {
   const ticket = await client.verifyIdToken({
     idToken: token,
     audience: process.env.REACT_APP_GOOGLE_CLIENT_ID,
   });
   const payload = ticket.getPayload();
-  return payload.email === email;
+  return payload.name === name;
 });
 
 // @desc   Gets recipes from the database based on user query parameters
