@@ -22,7 +22,7 @@ export default function SearchModalForm(props) {
 
   // Used by the submit button to filter the recipes displayed and close modal
   const onSubmit = (event) => {
-    const form = event.currentTarget;
+    const form = document.getElementById('search-form');
     if (!form.checkValidity()) {
       event.preventDefault();
       event.stopPropagation();
@@ -42,7 +42,7 @@ export default function SearchModalForm(props) {
     <Modal show={modalOpen} onHide={() => setModal(false)} centered size="lg">
       <Modal.Header closeButton />
       <Modal.Body>
-        <Form noValidate onSubmit={onSubmit} validated={validated}>
+        <Form id="search-form" noValidate validated={validated}>
           <Form.Group className="mb-3">
             <Form.Label>Name</Form.Label>
             <Form.Control
@@ -132,7 +132,9 @@ export default function SearchModalForm(props) {
             />
           </Form.Group>
           <div className="d-flex justify-content-center">
-            <Button type="submit">Submit</Button>
+            <Button type="button" onClick={onSubmit}>
+              Submit
+            </Button>
           </div>
         </Form>
       </Modal.Body>

@@ -13,15 +13,13 @@ export default function AddModalForm(props) {
   const [validated, setValidated] = useState(false);
 
   const onSubmit = (event) => {
-    const form = event.currentTarget;
-    console.log(formData);
+    const form = document.getElementById('add-recipe-form');
     if (form.checkValidity()) {
       fetch('/recipes', {
-        method: 'PUT',
+        method: 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          Authorization: token,
         },
         body: JSON.stringify({
           name: formData.name,
@@ -43,7 +41,7 @@ export default function AddModalForm(props) {
     <Modal show={modal} onHide={() => setModal(false)} centered size="lg">
       <Modal.Header closeButton />
       <Modal.Body>
-        <Form noValidate validated={validated} onSubmit={onSubmit}>
+        <Form id="add-recipe-form" noValidate validated={validated}>
           <Form.Group className="mb-3">
             <Form.Label>Name</Form.Label>
             <Form.Control
@@ -202,7 +200,9 @@ export default function AddModalForm(props) {
             </Form.Control.Feedback>
           </Form.Group>
           <div className="d-flex justify-content-center">
-            <Button type="submit">Submit</Button>
+            <Button type="button" onClick={onSubmit}>
+              Submit
+            </Button>
           </div>
         </Form>
       </Modal.Body>
