@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 const createIngredientQueryParam = (ingredients) => {
   let res = '';
   for (let ingredient of ingredients) {
-    res += `ingredients=${ingredient.name}&`;
+    res += `ingredients=${ingredient}&`;
   }
   return res;
 };

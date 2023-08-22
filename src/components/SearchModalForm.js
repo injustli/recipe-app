@@ -63,10 +63,7 @@ export default function SearchModalForm(props) {
               <Button
                 onClick={(e) => {
                   updateIngredients((currentArray) => {
-                    return [
-                      ...currentArray,
-                      { id: ingredients.length, name: inputRef.current.value },
-                    ];
+                    return [...currentArray, inputRef.current.value];
                   });
                 }}
                 type="button"
@@ -76,15 +73,13 @@ export default function SearchModalForm(props) {
               </Button>
             </InputGroup>
             <ul>
-              {ingredients.map((ingredient) => (
+              {ingredients.map((ingredient, index) => (
                 <li key={ingredient.id}>
-                  {ingredient.name}
+                  {ingredient}
                   <Button
                     onClick={() => {
                       updateIngredients((currentArray) => {
-                        return currentArray.filter(
-                          (a) => a.id !== ingredient.id
-                        );
+                        return currentArray.filter((a, idx) => idx !== index);
                       });
                     }}
                     type="button"
