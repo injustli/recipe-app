@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 import { Form, Modal, InputGroup, Button } from 'react-bootstrap';
 
-// Renders form for adding a recipe
-export default function AddModalForm(props) {
-  const { modal, setModal, user, token } = props;
+export default function RecipeModalForm(props) {
+  const { modal, setModal, user, token, mode, data } = props;
   const [formData, setFormData] = useState({
-    name: '',
-    ingredients: [''],
-    method: [''],
+    name: mode === 'edit' ? data.name : '',
+    ingredients: mode === 'edit' ? data.ingredients : [''],
+    method: mode === 'edit' ? data.method : [''],
     imageFile: '',
-    cookTime: 0,
+    cookTime: mode === 'edit' ? data.time : 0,
   });
   const [validated, setValidated] = useState(false);
 
@@ -17,7 +16,7 @@ export default function AddModalForm(props) {
     const form = document.getElementById('add-recipe-form');
     if (form.checkValidity()) {
       fetch('/recipes', {
-        method: 'POST',
+        method: mode === 'edit' ? 'PUT' : 'POST',
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
