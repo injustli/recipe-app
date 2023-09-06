@@ -14,7 +14,7 @@ const verify = async (token, name) => {
 };
 
 // @desc   Gets recipes from the database based on user query parameters
-// @route  GET /recipes
+// @route  GET /api/recipes
 // @access public
 const fetchRecipes = asyncHandler(async (req, res) => {
   const { minTime, maxTime, page, limit, ingredients, user, name } = req.query;
@@ -51,7 +51,7 @@ const fetchRecipes = asyncHandler(async (req, res) => {
 });
 
 // @desc   Adds a recipe under the currently logged in user
-// @route  POST /recipes
+// @route  POST /api/recipes
 // @access private: Logged in user can only add recipes under their name
 const addRecipe = asyncHandler(async (req, res) => {
   if (!req.body) {
@@ -72,14 +72,14 @@ const addRecipe = asyncHandler(async (req, res) => {
 });
 
 // @desc   Deletes a recipe under the currently logged in user
-// @route  DELETE /recipes
+// @route  DELETE /api/recipes
 // @access private: Logged in user can only delete recipes under their name
 const deleteRecipe = asyncHandler(async (req, res) => {
   // TODO: Backend delete button (Issue 35)
 });
 
 // @desc   Modifies a recipe under the currently logged in user
-// @route  PUT /recipes
+// @route  PUT /api/recipes
 // @access private: Logged in user can only edit recipes under their name
 const modifyRecipe = asyncHandler(async (req, res) => {
   if (!req.body) {

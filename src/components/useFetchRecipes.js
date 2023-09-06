@@ -26,7 +26,7 @@ export const useFetchRecipes = (
     const fetchData = async () => {
       try {
         const result = await fetch(
-          `/recipes?page=${currentPage}&limit=` +
+          `/api/recipes?page=${currentPage}&limit=` +
             `${pageSize}&${createIngredientQueryParam(ingredients)}name=` +
             `${name}&minTime=${minTime}&maxTime=` +
             `${maxTime}&user=${creator}`,

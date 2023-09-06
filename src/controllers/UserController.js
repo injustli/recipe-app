@@ -5,7 +5,7 @@ const User = require('../database/UserModel');
 //         otherwise return existing user from database. A unique user is
 //         defined by its email since every Google Account must have a unique
 //         email address.
-// @route  PUT /users
+// @route  PUT /api/users
 // @access Public
 const addOrUpdateUser = asyncHandler(async (req, res) => {
   const { email, name } = req.body;

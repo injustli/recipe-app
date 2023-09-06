@@ -27,7 +27,7 @@ export default function Header(props) {
   const handleCallbackResponse = (response) => {
     setToken(response.credential);
     const userObject = jwt_decode(response.credential);
-    fetch('/users', {
+    fetch('/api/users', {
       method: 'PUT',
       headers: {
         Accept: 'application/json',
