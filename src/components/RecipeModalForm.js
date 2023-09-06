@@ -1,26 +1,37 @@
 import React, { useState } from 'react';
 import { Form, Modal, InputGroup, Button } from 'react-bootstrap';
 
-export default function RecipeModalForm(props) {
-  const { modal, setModal, user, token, mode, data } = props;
-  const [formData, setFormData] = useState({
+const initialRender = (mode, data) => {
+  return {
     name: mode === 'edit' ? data.name : '',
     ingredients: mode === 'edit' ? data.ingredients : [''],
     method: mode === 'edit' ? data.method : [''],
     imageFile: '',
     cookTime: mode === 'edit' ? data.time : 0,
-  });
+  };
+};
+
+export default function RecipeModalForm(props) {
+  const { modal, setModal, user, token, mode, data } = props;
   const [validated, setValidated] = useState(false);
+  const [formData, setFormData] = useState(() => initialRender(mode, data));
 
   const onSubmit = (event) => {
     const form = document.getElementById('add-recipe-form');
     if (form.checkValidity()) {
-      fetch('/recipes', {
+      let headers = {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      };
+      let endpoint = '/api/recipes';
+      if (mode === 'edit') {
+        headers = { ...headers, Authorization: token };
+        endpoint += `?id=${data._id}`;
+      }
+
+      fetch(endpoint, {
         method: mode === 'edit' ? 'PUT' : 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
+        headers: headers,
         body: JSON.stringify({
           name: formData.name,
           ingredients: formData.ingredients,

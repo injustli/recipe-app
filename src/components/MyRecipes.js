@@ -86,18 +86,20 @@ export default function MyRecipes(props) {
           </button>
         </>
       )}
-      <RecipeModalForm
-        modal={modal}
-        setModal={(flag) => setModal(flag)}
-        token={token}
-        user={user}
-        data={
-          checkedRecipe
-            ? recipes.filter((s) => s._id === checkedRecipe._id)[0]
-            : checkedRecipe
-        }
-        mode={mode}
-      />
+      {modal && (
+        <RecipeModalForm
+          modal={modal}
+          setModal={(flag) => setModal(flag)}
+          token={token}
+          user={user}
+          data={
+            checkedRecipe
+              ? recipes.filter((s) => s._id === checkedRecipe.id)[0]
+              : checkedRecipe
+          }
+          mode={mode}
+        />
+      )}
     </>
   );
 }
