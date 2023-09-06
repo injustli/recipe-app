@@ -82,7 +82,28 @@ const deleteRecipe = asyncHandler(async (req, res) => {
 // @route  PUT /recipes
 // @access private: Logged in user can only edit recipes under their name
 const modifyRecipe = asyncHandler(async (req, res) => {
-  // TODO: Backend edit button (Issue 34)
+  if (!req.body) {
+    res.status(400);
+    throw new Error('Body missing from request!');
+  }
+  const { id } = req.query;
+  if (!id) {
+    res.status(400);
+    throw new Error('Recipe id missing from query parameters!');
+  }
+  const { createdBy } = req.body;
+  if (!verify(req.headers.authorization, createdBy)) {
+    res.status(400);
+    throw new Error(
+      'Unauthorized access detected! Only the appropriate user can edit this!'
+    );
+  }
+  const recipe = await Recipe.findOneAndUpdate({ _id: id }, req.body, {
+    new: true,
+  });
+  recipe
+    ? res.status(200).send('Recipe succesfully updated!')
+    : res.status(400).send('Error occurred in updating recipe!');
 });
 
 module.exports = {
