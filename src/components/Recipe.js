@@ -1,15 +1,40 @@
 import { useState } from 'react';
-import { Card, Modal } from 'react-bootstrap';
+import { Card, Modal, Form } from 'react-bootstrap';
 import '../styles/Recipe.css';
 
 export default function Recipe(props) {
+  const { setCheckedRecipe, data } = props;
   const [modal, setModal] = useState(false);
-  const { method, ingredients, name, createdBy, time } = props.data;
+  const { _id, method, ingredients, name, createdBy, time } = data;
+
+  const onCheckbox = (target) => {
+    setCheckedRecipe((current) => {
+      // If current is not null, uncheck previously selected recipe
+      if (current) {
+        current.target.checked = false;
+        // If current checkbox and selected checkbox is same, we no longer have
+        // a selected recipe
+        if (current.target === target) {
+          return null;
+        }
+      }
+      // Otherwise, return an object with the checkbox and id of recipe
+      return { target: target, id: _id };
+    });
+  };
 
   // TODO (issue 26): Card/Modal image
   return (
     <>
       <Card border="dark" bg="light" className="d-flex rounded-border">
+        {setCheckedRecipe && (
+          <div className="d-flex justify-content-end p-2">
+            <Form.Check
+              aria-label="selected_recipe"
+              onChange={(event) => onCheckbox(event.target)}
+            />
+          </div>
+        )}
         <button className="card-button" onClick={() => setModal(true)}>
           <Card.Img variant="top" src="" />
           <Card.Title>{name}</Card.Title>
