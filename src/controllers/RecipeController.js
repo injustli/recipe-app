@@ -2,15 +2,17 @@ const asyncHandler = require('express-async-handler');
 const Recipe = require('../database/RecipeModel');
 const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(process.env.REACT_APP_GOOGLE_CLIENT_ID);
+const jwt_decode = require('jwt-decode');
 
 // Used for verification
-const verify = async (token, name) => {
+const verify = async (token) => {
   const ticket = await client.verifyIdToken({
     idToken: token,
     audience: process.env.REACT_APP_GOOGLE_CLIENT_ID,
   });
   const payload = ticket.getPayload();
-  return payload.name === name;
+  const obj = jwt_decode(token);
+  return JSON.stringify(payload) === JSON.stringify(obj);
 };
 
 // @desc   Gets recipes from the database based on user query parameters
@@ -86,13 +88,12 @@ const modifyRecipe = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error('Body missing from request!');
   }
-  const { id } = req.query;
+  const { id } = req.params;
   if (!id) {
     res.status(400);
-    throw new Error('Recipe id missing from query parameters!');
+    throw new Error('Recipe id missing from request parameters!');
   }
-  const { createdBy } = req.body;
-  if (!verify(req.headers.authorization, createdBy)) {
+  if (!verify(req.headers.authorization)) {
     res.status(400);
     throw new Error(
       'Unauthorized access detected! Only the appropriate user can edit this!'
