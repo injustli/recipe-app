@@ -60,6 +60,12 @@ const addRecipe = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error('Body missing from request!');
   }
+  if (!verify(req.headers.authorization)) {
+    res.status(400);
+    throw new Error(
+      'Unauthorized access detected! Only the appropriate user can add this!'
+    );
+  }
   const { name, ingredients, method, time, createdBy } = req.body;
   const recipe = await Recipe.create({
     name,
