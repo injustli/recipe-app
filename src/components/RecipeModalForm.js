@@ -26,7 +26,7 @@ export default function RecipeModalForm(props) {
       let endpoint = '/api/recipes';
       if (mode === 'edit') {
         headers = { ...headers, Authorization: token };
-        endpoint += `?id=${data._id}`;
+        endpoint += `/${data._id}`;
       }
 
       fetch(endpoint, {
