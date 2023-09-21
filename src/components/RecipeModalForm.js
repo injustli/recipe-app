@@ -19,27 +19,27 @@ export default function RecipeModalForm(props) {
   const onSubmit = (event) => {
     const form = document.getElementById('add-recipe-form');
     if (form.checkValidity()) {
-      let body =
-        mode !== 'delete'
-          ? JSON.stringify({
-              name: formData.name,
-              ingredients: formData.ingredients,
-              method: formData.method,
-              time: formData.cookTime,
-              createdBy: user.name,
-            })
-          : undefined;
+      let body = undefined;
       let endpoint = '/api/recipes';
       let headers = {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+        Authorization: token,
       };
       if (mode !== 'add') {
-        headers = { ...headers, Authorization: token };
         endpoint += `/${data._id}`;
       }
-      if (mode === 'delete') {
-        endpoint += `&user=${user.name}`;
+      if (mode !== 'delete') {
+        headers = {
+          ...headers,
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        };
+        body = JSON.stringify({
+          name: formData.name,
+          ingredients: formData.ingredients,
+          method: formData.method,
+          time: formData.cookTime,
+          createdBy: user.name,
+        });
       }
 
       fetch(endpoint, {

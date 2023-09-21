@@ -77,16 +77,12 @@ const addRecipe = asyncHandler(async (req, res) => {
 // @route  DELETE /api/recipes
 // @access private: Logged in user can only delete recipes under their name
 const deleteRecipe = asyncHandler(async (req, res) => {
-  const { id, user } = req.query;
+  const { id } = req.params;
   if (!id) {
     res.status(400);
     throw new Error('Recipe id missing from query parameters!');
   }
-  if (!user) {
-    res.status(400);
-    throw new Error('User name missing from query parameters!');
-  }
-  if (!verify(req.headers.authorization, user)) {
+  if (!verify(req.headers.authorization)) {
     res.status(400);
     throw new Error(
       'Unauthorized access detected! Only the appropriate user can delete this!'
