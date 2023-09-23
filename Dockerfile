@@ -5,6 +5,7 @@ WORKDIR /app
 COPY package*.json ./
 
 RUN npm install
+RUN npm run build
 
 COPY . .
 
@@ -15,4 +16,4 @@ ENV MONGODB_DB=Recipes
 
 EXPOSE 8080
 
-CMD ["npm", "run", "docker-build-webapp"]
+CMD ["npm", "start"]
