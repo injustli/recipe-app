@@ -5,7 +5,6 @@ WORKDIR /app
 COPY package*.json ./
 
 RUN npm install
-RUN npm run build
 
 COPY . .
 
@@ -15,5 +14,7 @@ ENV MONGODB_PASS=B1g4TC3NuP0UkuGo
 ENV MONGODB_DB=Recipes
 
 EXPOSE 8080
+
+RUN npm run build
 
 CMD ["npm", "start"]
