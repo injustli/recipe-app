@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Modal, InputGroup, Button } from 'react-bootstrap';
 
+// Renders form for adding a recipe
 export default function AddModalForm(props) {
   const { modal, setModal, user, token } = props;
   const [formData, setFormData] = useState({

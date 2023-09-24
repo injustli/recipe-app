@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Card, Modal, Form } from 'react-bootstrap';
 import '../styles/Recipe.css';
 
+// Renders each recipe as a card
 export default function Recipe(props) {
   const { setCheckedRecipe, data } = props;
   const [modal, setModal] = useState(false);

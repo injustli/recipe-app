@@ -8,6 +8,7 @@ import { BsTrash3Fill } from 'react-icons/bs';
 import '../styles/MyRecipes.css';
 import AddModalForm from './AddModalForm';
 
+// Renders the my recipe page when user selects it under dropdown menu
 export default function MyRecipes(props) {
   const { user, token, setUser } = props;
   const [name, setName] = useState('');

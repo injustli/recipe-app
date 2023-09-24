@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { Modal, Button, Form, Row, Col, InputGroup } from 'react-bootstrap';
 
+// Renders the advanced search form
 export default function SearchModalForm(props) {
   const {
     setIngredients,

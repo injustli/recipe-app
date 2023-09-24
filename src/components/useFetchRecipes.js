@@ -9,6 +9,7 @@ const createIngredientQueryParam = (ingredients) => {
   return res;
 };
 
+// Custom effect to fetch recipes to be displayed based on query params
 export const useFetchRecipes = (
   currentPage,
   pageSize,

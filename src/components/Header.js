@@ -5,6 +5,7 @@ import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import { Dropdown, DropdownButton, Navbar, Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
+// Render nav bar that contains search bar, dropdown menu, login
 export default function Header(props) {
   const {
     setToken,

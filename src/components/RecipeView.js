@@ -3,6 +3,7 @@ import Pagination from './Pagination';
 import Recipe from './Recipe';
 import '../styles/RecipeView.css';
 
+// Displays recipes in a grid, contains control of how many per page and pagination
 export default function RecipeView(props) {
   const {
     onPageChange,
