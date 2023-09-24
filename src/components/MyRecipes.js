@@ -4,7 +4,7 @@ import RecipeView from './RecipeView';
 import Header from './Header';
 import { IoAddSharp } from 'react-icons/io5';
 import { GrEdit } from 'react-icons/gr';
-import { BiMinus } from 'react-icons/bi';
+import { BsTrash3Fill } from 'react-icons/bs';
 import '../styles/MyRecipes.css';
 import AddModalForm from './AddModalForm';
 
@@ -51,25 +51,24 @@ export default function MyRecipes(props) {
         setPageSize={(size) => setPageSize(size)}
         setCheckedRecipe={(recipe) => setCheckedRecipe(recipe)}
       />
-      <button
-        type="button"
-        className="circular-button"
-        onClick={() => setAddModal(true)}
-        style={{ bottom: '40%' }}
-      >
-        <IoAddSharp size={'2em'} />
+      <button type="button" className="circular-button" id="add-recipe-button" onClick={() => setAddModal(true)>
+        <IoAddSharp />
       </button>
       {checkedRecipe && (
         <>
           <button
             type="button"
             className="circular-button"
-            style={{ bottom: '25%' }}
+            id="edit-recipe-button"
           >
             <GrEdit />
           </button>
-          <button type="button" className="circular-button">
-            <BiMinus />
+          <button
+            type="button"
+            className="circular-button"
+            id="del-recipe-button"
+          >
+            <BsTrash3Fill />
           </button>
         </>
       )}
