@@ -52,7 +52,12 @@ export default function MyRecipes(props) {
         setPageSize={(size) => setPageSize(size)}
         setCheckedRecipe={(recipe) => setCheckedRecipe(recipe)}
       />
-      <button type="button" className="circular-button" id="add-recipe-button" onClick={() => setAddModal(true)>
+      <button
+        type="button"
+        className="circular-button"
+        id="add-recipe-button"
+        onClick={() => setAddModal(true)}
+      >
         <IoAddSharp />
       </button>
       {checkedRecipe && (
