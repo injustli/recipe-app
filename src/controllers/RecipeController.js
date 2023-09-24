@@ -63,7 +63,7 @@ const addRecipe = asyncHandler(async (req, res) => {
   if (!verify(req.headers.authorization)) {
     res.status(400);
     throw new Error(
-      'Unauthorized access detected! Only the appropriate user can add this!'
+      'Unauthorized access detected! Please login before adding a recipe!'
     );
   }
   const { name, ingredients, method, time, createdBy } = req.body;
@@ -91,7 +91,7 @@ const deleteRecipe = asyncHandler(async (req, res) => {
   if (!verify(req.headers.authorization)) {
     res.status(400);
     throw new Error(
-      'Unauthorized access detected! Only the appropriate user can delete this!'
+      'Unauthorized access detected! Only the recipe owner can delete this!'
     );
   }
   const recipe = await Recipe.findOneAndRemove({ _id: id });
@@ -116,7 +116,7 @@ const modifyRecipe = asyncHandler(async (req, res) => {
   if (!verify(req.headers.authorization)) {
     res.status(400);
     throw new Error(
-      'Unauthorized access detected! Only the appropriate user can edit this!'
+      'Unauthorized access detected! Only the recipe owner can edit this!'
     );
   }
   const recipe = await Recipe.findOneAndUpdate({ _id: id }, req.body, {
