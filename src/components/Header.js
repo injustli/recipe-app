@@ -5,8 +5,6 @@ import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import { Dropdown, DropdownButton, Navbar, Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
-require('dotenv').config();
-
 export default function Header(props) {
   const {
     setToken,
