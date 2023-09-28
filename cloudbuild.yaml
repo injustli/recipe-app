@@ -1,0 +1,56 @@
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args: 
+      - -c
+      - >-
+        docker build --build-arg ARG1=$$REACT_APP_GOOGLE_CLIENT_ID -t $_AR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA .
+    id: Build
+    entrypoint: bash
+    secretEnv:
+      - MONGODB_DB
+      - MONGODB_USER
+      - MONGODB_PASS
+      - REACT_APP_GOOGLE_CLIENT_ID
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - >-
+        $_AR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
+    id: Push
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+    args:
+      - run
+      - services
+      - update
+      - $_SERVICE_NAME
+      - '--platform=managed'
+      - >-
+        --image=$_AR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
+      - >-
+        --labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,gcb-trigger-id=$_TRIGGER_ID
+      - '--region=$_DEPLOY_REGION'
+      - '--quiet'
+    id: Deploy
+    entrypoint: gcloud
+options:
+  substitutionOption: ALLOW_LOOSE
+substitutions:
+  _SERVICE_NAME: mealplanner
+  _DEPLOY_REGION: us-central1
+  _TRIGGER_ID: e9b97f85-7a05-44ef-b3c4-7153f7c89d4b
+  _AR_HOSTNAME: gcr.io
+  _PLATFORM: managed
+tags:
+  - gcp-cloud-build-deploy-cloud-run
+  - gcp-cloud-build-deploy-cloud-run-managed
+  - mealplanner
+availableSecrets:
+  secretManager:
+    - versionName: projects/728647252293/secrets/MONGODB_PASS/versions/latest
+      env: MONGODB_PASS
+    - versionName: projects/728647252293/secrets/MONGODB_DB/versions/latest
+      env: MONGODB_DB
+    - versionName: projects/728647252293/secrets/MONGODB_USER/versions/latest
+      env: MONGODB_USER
+    - versionName: projects/728647252293/secrets/REACT_APP_GOOGLE_CLIENT_ID/versions/latest
+      env: REACT_APP_GOOGLE_CLIENT_ID
