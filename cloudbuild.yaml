@@ -3,7 +3,7 @@ steps:
     args: 
       - -c
       - >-
-        docker build --build-arg ARG1=$$REACT_APP_GOOGLE_CLIENT_ID -t $_AR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA .
+        docker build --build-arg ARG1=$$REACT_APP_GOOGLE_CLIENT_ID -t $_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA .
     id: Build
     entrypoint: bash
     secretEnv:
@@ -15,7 +15,7 @@ steps:
     args:
       - push
       - >-
-        $_AR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
+        $_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
     id: Push
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
     args:
@@ -25,7 +25,7 @@ steps:
       - $_SERVICE_NAME
       - '--platform=managed'
       - >-
-        --image=$_AR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
+        --image=$_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
       - >-
         --labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,gcb-trigger-id=$_TRIGGER_ID
       - '--region=$_DEPLOY_REGION'
@@ -38,7 +38,7 @@ substitutions:
   _SERVICE_NAME: mealplanner
   _DEPLOY_REGION: us-central1
   _TRIGGER_ID: e9b97f85-7a05-44ef-b3c4-7153f7c89d4b
-  _AR_HOSTNAME: gcr.io
+  _AR_HOSTNAME: us-central1-docker.pkg.dev
   _PLATFORM: managed
 tags:
   - gcp-cloud-build-deploy-cloud-run
