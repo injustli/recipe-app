@@ -46,11 +46,11 @@ tags:
   - mealplanner
 availableSecrets:
   secretManager:
-    - versionName: projects/728647252293/secrets/MONGODB_PASS/versions/latest
+    - versionName: projects/$PROJECT_NUMBER/secrets/MONGODB_PASS/versions/latest
       env: MONGODB_PASS
-    - versionName: projects/728647252293/secrets/MONGODB_DB/versions/latest
+    - versionName: projects/$PROJECT_NUMBER/secrets/MONGODB_DB/versions/latest
       env: MONGODB_DB
-    - versionName: projects/728647252293/secrets/MONGODB_USER/versions/latest
+    - versionName: projects/$PROJECT_NUMBER/secrets/MONGODB_USER/versions/latest
       env: MONGODB_USER
-    - versionName: projects/728647252293/secrets/REACT_APP_GOOGLE_CLIENT_ID/versions/latest
+    - versionName: projects/$PROJECT_NUMBER/secrets/REACT_APP_GOOGLE_CLIENT_ID/versions/latest
       env: REACT_APP_GOOGLE_CLIENT_ID
