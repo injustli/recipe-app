@@ -16,13 +16,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // Test API method
-app.get('/test', (req, res) => {
+app.get('/api/test', (req, res) => {
   res.status(200).json({ message: 'Hello World!' });
 });
 
-app.use('/users', userRoutes);
+app.use('/api/users', userRoutes);
 
-app.use('/recipes', recipeRoutes);
+app.use('/api/recipes', recipeRoutes);
 
 app.use(express.static(path.join(path.resolve(), '/build')));
 

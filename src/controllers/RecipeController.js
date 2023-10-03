@@ -2,19 +2,21 @@ const asyncHandler = require('express-async-handler');
 const Recipe = require('../database/RecipeModel');
 const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(process.env.REACT_APP_GOOGLE_CLIENT_ID);
+const jwt_decode = require('jwt-decode');
 
 // Used for verification
-const verify = async (token, name) => {
+const verify = async (token) => {
   const ticket = await client.verifyIdToken({
     idToken: token,
     audience: process.env.REACT_APP_GOOGLE_CLIENT_ID,
   });
   const payload = ticket.getPayload();
-  return payload.name === name;
+  const obj = jwt_decode(token);
+  return JSON.stringify(payload) === JSON.stringify(obj);
 };
 
 // @desc   Gets recipes from the database based on user query parameters
-// @route  GET /recipes
+// @route  GET /api/recipes
 // @access public
 const fetchRecipes = asyncHandler(async (req, res) => {
   const { minTime, maxTime, page, limit, ingredients, user, name } = req.query;
@@ -51,7 +53,7 @@ const fetchRecipes = asyncHandler(async (req, res) => {
 });
 
 // @desc   Adds a recipe under the currently logged in user
-// @route  POST /recipes
+// @route  POST /api/recipes
 // @access private: Logged in user can only add recipes under their name
 const addRecipe = asyncHandler(async (req, res) => {
   if (!req.body) {
@@ -72,17 +74,37 @@ const addRecipe = asyncHandler(async (req, res) => {
 });
 
 // @desc   Deletes a recipe under the currently logged in user
-// @route  DELETE /recipes
+// @route  DELETE /api/recipes
 // @access private: Logged in user can only delete recipes under their name
 const deleteRecipe = asyncHandler(async (req, res) => {
   // TODO: Backend delete button (Issue 35)
 });
 
 // @desc   Modifies a recipe under the currently logged in user
-// @route  PUT /recipes
+// @route  PUT /api/recipes
 // @access private: Logged in user can only edit recipes under their name
 const modifyRecipe = asyncHandler(async (req, res) => {
-  // TODO: Backend edit button (Issue 34)
+  if (!req.body) {
+    res.status(400);
+    throw new Error('Body missing from request!');
+  }
+  const { id } = req.params;
+  if (!id) {
+    res.status(400);
+    throw new Error('Recipe id missing from request parameters!');
+  }
+  if (!verify(req.headers.authorization)) {
+    res.status(400);
+    throw new Error(
+      'Unauthorized access detected! Only the appropriate user can edit this!'
+    );
+  }
+  const recipe = await Recipe.findOneAndUpdate({ _id: id }, req.body, {
+    new: true,
+  });
+  recipe
+    ? res.status(200).send('Recipe succesfully updated!')
+    : res.status(400).send('Error occurred in updating recipe!');
 });
 
 module.exports = {

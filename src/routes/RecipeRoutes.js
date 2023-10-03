@@ -20,7 +20,7 @@ router.post('/', addRecipe);
 // @desc   Modifies a recipe under the currently logged in user
 // @route  PUT /recipes
 // @access private: Logged in user can only edit recipes under their name
-router.put('/', modifyRecipe);
+router.put('/:id', modifyRecipe);
 
 // @desc   Deletes a recipe under the currently logged in user
 // @route  DELETE /recipes

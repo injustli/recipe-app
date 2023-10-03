@@ -6,7 +6,7 @@ import { IoAddSharp } from 'react-icons/io5';
 import { GrEdit } from 'react-icons/gr';
 import { BsTrash3Fill } from 'react-icons/bs';
 import '../styles/MyRecipes.css';
-import AddModalForm from './AddModalForm';
+import RecipeModalForm from './RecipeModalForm';
 
 // Renders the my recipe page when user selects it under dropdown menu
 export default function MyRecipes(props) {
@@ -18,7 +18,8 @@ export default function MyRecipes(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(25);
   const [checkedRecipe, setCheckedRecipe] = useState(null);
-  const [addModal, setAddModal] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [mode, setMode] = useState('');
 
   const { recipes, totalCount } = useFetchRecipes(
     currentPage,
@@ -29,6 +30,11 @@ export default function MyRecipes(props) {
     maxTime,
     user.name
   );
+
+  const onClick = (mode) => {
+    setModal(true);
+    setMode(mode);
+  };
 
   return (
     <>
@@ -56,7 +62,7 @@ export default function MyRecipes(props) {
         type="button"
         className="circular-button"
         id="add-recipe-button"
-        onClick={() => setAddModal(true)}
+        onClick={() => onClick('add')}
       >
         <IoAddSharp />
       </button>
@@ -65,6 +71,7 @@ export default function MyRecipes(props) {
           <button
             type="button"
             className="circular-button"
+            onClick={() => onClick('edit')}
             id="edit-recipe-button"
           >
             <GrEdit />
@@ -73,17 +80,26 @@ export default function MyRecipes(props) {
             type="button"
             className="circular-button"
             id="del-recipe-button"
+            onClick={() => onClick('delete')}
           >
             <BsTrash3Fill />
           </button>
         </>
       )}
-      <AddModalForm
-        modal={addModal}
-        setModal={(flag) => setAddModal(flag)}
-        token={token}
-        user={user}
-      />
+      {modal && (
+        <RecipeModalForm
+          modal={modal}
+          setModal={(flag) => setModal(flag)}
+          token={token}
+          user={user}
+          data={
+            checkedRecipe
+              ? recipes.filter((s) => s._id === checkedRecipe.id)[0]
+              : checkedRecipe
+          }
+          mode={mode}
+        />
+      )}
     </>
   );
 }
