@@ -9,6 +9,7 @@ const range = (from, to) => {
 
 const DOTS = '...';
 
+// Renders pagination of recipe view component
 export default function Pagination(props) {
   const {
     siblings = 1,

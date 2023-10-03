@@ -4,11 +4,12 @@ import { useEffect, useState } from 'react';
 const createIngredientQueryParam = (ingredients) => {
   let res = '';
   for (let ingredient of ingredients) {
-    res += `ingredients=${ingredient.name}&`;
+    res += `ingredients=${ingredient}&`;
   }
   return res;
 };
 
+// Custom effect to fetch recipes to be displayed based on query params
 export const useFetchRecipes = (
   currentPage,
   pageSize,

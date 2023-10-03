@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { InputGroup, Button, Form, Container } from 'react-bootstrap';
 import { BsSearch } from 'react-icons/bs';
-import ModalForm from './ModalForm';
+import SearchModalForm from './SearchModalForm';
 import { useSearchParams } from 'react-router-dom';
 
+// Renders the search bar to filter recipes
 export default function SearchAndFilter(props) {
   const { setName, onPageChange, name, page } = props;
   const [modalOpen, setModal] = useState(false);
@@ -13,7 +14,7 @@ export default function SearchAndFilter(props) {
   const renderForm = () => {
     if (modalOpen) {
       return (
-        <ModalForm
+        <SearchModalForm
           {...props}
           setModal={(flag) => setModal(flag)}
           modalOpen={modalOpen}

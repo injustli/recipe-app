@@ -6,8 +6,9 @@ import { IoAddSharp } from 'react-icons/io5';
 import { GrEdit } from 'react-icons/gr';
 import { BsTrash3Fill } from 'react-icons/bs';
 import '../styles/MyRecipes.css';
+import AddModalForm from './AddModalForm';
 
-// TODO (issue 14): MyRecipes component
+// Renders the my recipe page when user selects it under dropdown menu
 export default function MyRecipes(props) {
   const { user, token, setUser } = props;
   const [name, setName] = useState('');
@@ -17,6 +18,7 @@ export default function MyRecipes(props) {
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(25);
   const [checkedRecipe, setCheckedRecipe] = useState(null);
+  const [addModal, setAddModal] = useState(false);
 
   const { recipes, totalCount } = useFetchRecipes(
     currentPage,
@@ -50,7 +52,12 @@ export default function MyRecipes(props) {
         setPageSize={(size) => setPageSize(size)}
         setCheckedRecipe={(recipe) => setCheckedRecipe(recipe)}
       />
-      <button type="button" className="circular-button" id="add-recipe-button">
+      <button
+        type="button"
+        className="circular-button"
+        id="add-recipe-button"
+        onClick={() => setAddModal(true)}
+      >
         <IoAddSharp />
       </button>
       {checkedRecipe && (
@@ -71,6 +78,12 @@ export default function MyRecipes(props) {
           </button>
         </>
       )}
+      <AddModalForm
+        modal={addModal}
+        setModal={(flag) => setAddModal(flag)}
+        token={token}
+        user={user}
+      />
     </>
   );
 }

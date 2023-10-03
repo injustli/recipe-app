@@ -4,14 +4,14 @@ const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(process.env.REACT_APP_GOOGLE_CLIENT_ID);
 
 // Used for verification
-const verify = asyncHandler(async (token, email) => {
+const verify = async (token, name) => {
   const ticket = await client.verifyIdToken({
     idToken: token,
     audience: process.env.REACT_APP_GOOGLE_CLIENT_ID,
   });
   const payload = ticket.getPayload();
-  return payload.email === email;
-});
+  return payload.name === name;
+};
 
 // @desc   Gets recipes from the database based on user query parameters
 // @route  GET /recipes
@@ -54,7 +54,21 @@ const fetchRecipes = asyncHandler(async (req, res) => {
 // @route  POST /recipes
 // @access private: Logged in user can only add recipes under their name
 const addRecipe = asyncHandler(async (req, res) => {
-  // TODO: Backend add button (Issue 18)
+  if (!req.body) {
+    res.status(400);
+    throw new Error('Body missing from request!');
+  }
+  const { name, ingredients, method, time, createdBy } = req.body;
+  const recipe = await Recipe.create({
+    name,
+    ingredients,
+    method,
+    time,
+    createdBy,
+  });
+  recipe
+    ? res.status(200).send('New recipe succesfully created!')
+    : res.status(400).send('Error occurred in creating new recipe!');
 });
 
 // @desc   Deletes a recipe under the currently logged in user

@@ -1,7 +1,8 @@
 import { useState, useRef } from 'react';
 import { Modal, Button, Form, Row, Col, InputGroup } from 'react-bootstrap';
 
-export default function ModalForm(props) {
+// Renders the advanced search form
+export default function SearchModalForm(props) {
   const {
     setIngredients,
     setModal,
@@ -22,7 +23,7 @@ export default function ModalForm(props) {
 
   // Used by the submit button to filter the recipes displayed and close modal
   const onSubmit = (event) => {
-    const form = event.currentTarget;
+    const form = document.getElementById('search-form');
     if (!form.checkValidity()) {
       event.preventDefault();
       event.stopPropagation();
@@ -42,7 +43,7 @@ export default function ModalForm(props) {
     <Modal show={modalOpen} onHide={() => setModal(false)} centered size="lg">
       <Modal.Header closeButton />
       <Modal.Body>
-        <Form noValidate onSubmit={onSubmit} validated={validated}>
+        <Form id="search-form" noValidate validated={validated}>
           <Form.Group className="mb-3">
             <Form.Label>Name</Form.Label>
             <Form.Control
@@ -63,10 +64,7 @@ export default function ModalForm(props) {
               <Button
                 onClick={(e) => {
                   updateIngredients((currentArray) => {
-                    return [
-                      ...currentArray,
-                      { id: ingredients.length, name: inputRef.current.value },
-                    ];
+                    return [...currentArray, inputRef.current.value];
                   });
                 }}
                 type="button"
@@ -76,15 +74,13 @@ export default function ModalForm(props) {
               </Button>
             </InputGroup>
             <ul>
-              {ingredients.map((ingredient) => (
+              {ingredients.map((ingredient, index) => (
                 <li key={ingredient.id}>
-                  {ingredient.name}
+                  {ingredient}
                   <Button
                     onClick={() => {
                       updateIngredients((currentArray) => {
-                        return currentArray.filter(
-                          (a) => a.id !== ingredient.id
-                        );
+                        return currentArray.filter((a, idx) => idx !== index);
                       });
                     }}
                     type="button"
@@ -137,7 +133,9 @@ export default function ModalForm(props) {
             />
           </Form.Group>
           <div className="d-flex justify-content-center">
-            <Button type="submit">Submit</Button>
+            <Button type="button" onClick={onSubmit}>
+              Submit
+            </Button>
           </div>
         </Form>
       </Modal.Body>
