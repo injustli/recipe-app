@@ -60,6 +60,12 @@ const addRecipe = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error('Body missing from request!');
   }
+  if (!verify(req.headers.authorization)) {
+    res.status(400);
+    throw new Error(
+      'Unauthorized access detected! Please login before adding a recipe!'
+    );
+  }
   const { name, ingredients, method, time, createdBy } = req.body;
   const recipe = await Recipe.create({
     name,
@@ -77,7 +83,21 @@ const addRecipe = asyncHandler(async (req, res) => {
 // @route  DELETE /api/recipes
 // @access private: Logged in user can only delete recipes under their name
 const deleteRecipe = asyncHandler(async (req, res) => {
-  // TODO: Backend delete button (Issue 35)
+  const { id } = req.params;
+  if (!id) {
+    res.status(400);
+    throw new Error('Recipe id missing from query parameters!');
+  }
+  if (!verify(req.headers.authorization)) {
+    res.status(400);
+    throw new Error(
+      'Unauthorized access detected! Only the recipe owner can delete this!'
+    );
+  }
+  const recipe = await Recipe.findOneAndRemove({ _id: id });
+  recipe
+    ? res.status(200).send('Recipe successfully removed from database!')
+    : res.status(400).send('Error occurred in removing recipe!');
 });
 
 // @desc   Modifies a recipe under the currently logged in user
@@ -96,7 +116,7 @@ const modifyRecipe = asyncHandler(async (req, res) => {
   if (!verify(req.headers.authorization)) {
     res.status(400);
     throw new Error(
-      'Unauthorized access detected! Only the appropriate user can edit this!'
+      'Unauthorized access detected! Only the recipe owner can edit this!'
     );
   }
   const recipe = await Recipe.findOneAndUpdate({ _id: id }, req.body, {

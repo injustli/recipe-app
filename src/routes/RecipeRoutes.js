@@ -25,6 +25,6 @@ router.put('/:id', modifyRecipe);
 // @desc   Deletes a recipe under the currently logged in user
 // @route  DELETE /recipes
 // @access private: Logged in user can only delete recipes under their name
-router.delete('/', deleteRecipe);
+router.delete('/:id', deleteRecipe);
 
 module.exports = router;
