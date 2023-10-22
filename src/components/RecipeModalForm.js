@@ -11,6 +11,7 @@ const initialRender = (mode, data) => {
   };
 };
 
+// Renders form to add, modify, or delete recipe
 export default function RecipeModalForm(props) {
   const { modal, setModal, user, token, mode, data } = props;
   const [validated, setValidated] = useState(false);
