@@ -6,7 +6,7 @@ import '../styles/Recipe.css';
 export default function Recipe(props) {
   const { setCheckedRecipe, data } = props;
   const [modal, setModal] = useState(false);
-  const { _id, method, ingredients, name, createdBy, time } = data;
+  const { _id, method, ingredients, name, createdBy, time, imageUrl } = data;
 
   const onCheckbox = (target) => {
     setCheckedRecipe((current) => {
@@ -37,7 +37,7 @@ export default function Recipe(props) {
           </div>
         )}
         <button className="card-button" onClick={() => setModal(true)}>
-          <Card.Img variant="top" src="" />
+          <Card.Img variant="top" src={imageUrl} />
           <Card.Title>{name}</Card.Title>
         </button>
       </Card>
@@ -46,7 +46,7 @@ export default function Recipe(props) {
           <Modal.Title>{name}</Modal.Title>
           <Modal.Title className="modal-time">{time}</Modal.Title>
         </Modal.Header>
-        <img alt={name} height="500" />
+        <img src={imageUrl} alt={name} height="500" />
         <Modal.Body>
           <div className="modal-box">
             Ingredients:

@@ -64,7 +64,7 @@ export default function MyRecipes(props) {
         id="add-recipe-button"
         onClick={() => onClick('add')}
       >
-        <IoAddSharp />
+        <IoAddSharp className="button-icon" />
       </button>
       {checkedRecipe && (
         <>
@@ -74,7 +74,7 @@ export default function MyRecipes(props) {
             onClick={() => onClick('edit')}
             id="edit-recipe-button"
           >
-            <GrEdit />
+            <GrEdit className="button-icon" />
           </button>
           <button
             type="button"
@@ -82,7 +82,7 @@ export default function MyRecipes(props) {
             id="del-recipe-button"
             onClick={() => onClick('delete')}
           >
-            <BsTrash3Fill />
+            <BsTrash3Fill className="button-icon" />
           </button>
         </>
       )}

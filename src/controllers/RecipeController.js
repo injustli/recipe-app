@@ -3,6 +3,7 @@ const Recipe = require('../database/RecipeModel');
 const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(process.env.REACT_APP_GOOGLE_CLIENT_ID);
 const jwt_decode = require('jwt-decode');
+const { uploadImage } = require('../database/Storage');
 
 // Used for verification
 const verify = async (token) => {
@@ -44,7 +45,7 @@ const fetchRecipes = asyncHandler(async (req, res) => {
     query['createdBy'] = { $regex: user, $options: 'i' };
   }
   const recipes = await Recipe.find(query)
-    .select('_id name ingredients method imageID createdBy time')
+    .select('_id name ingredients method imageID createdBy time imageUrl')
     .skip((page - 1) * limit)
     .limit(limit)
     .exec();
@@ -66,9 +67,16 @@ const addRecipe = asyncHandler(async (req, res) => {
       'Unauthorized access detected! Please login before adding a recipe!'
     );
   }
+  if (!req.file) {
+    res.status(400);
+    throw new Error(`An image file wasn't uploaded!`);
+  }
   const { name, ingredients, method, time, createdBy } = req.body;
+  const url = await uploadImage(req.file);
+  console.log(url);
   const recipe = await Recipe.create({
     name,
+    imageUrl: url,
     ingredients,
     method,
     time,
