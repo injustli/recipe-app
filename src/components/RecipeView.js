@@ -2,6 +2,7 @@ import React from 'react';
 import Pagination from './Pagination';
 import Recipe from './Recipe';
 import '../styles/RecipeView.css';
+import { Row, Col } from 'react-bootstrap';
 
 // Displays recipes in a grid, contains control of how many per page and pagination
 export default function RecipeView(props) {
@@ -17,19 +18,23 @@ export default function RecipeView(props) {
 
   return (
     <div className="container">
-      <div className="grid-container">
-        {data.map((recipe) => {
+      <Row xs={1} sm={3} md={5} className="g-4">
+        {data.map((recipe, idx) => {
           return setCheckedRecipe ? (
-            <Recipe
-              data={recipe}
-              key={recipe._id}
-              setCheckedRecipe={(recipe) => setCheckedRecipe(recipe)}
-            />
+            <Col key={idx}>
+              <Recipe
+                data={recipe}
+                key={recipe._id}
+                setCheckedRecipe={(recipe) => setCheckedRecipe(recipe)}
+              />
+            </Col>
           ) : (
-            <Recipe data={recipe} key={recipe._id} />
+            <Col key={idx}>
+              <Recipe data={recipe} key={recipe._id} />
+            </Col>
           );
         })}
-      </div>
+      </Row>
       <div className="d-flex justify-content-around mt-3">
         <Pagination
           currentPage={currentPage}
