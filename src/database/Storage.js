@@ -2,6 +2,7 @@ const { Storage } = require('@google-cloud/storage');
 const storage = new Storage();
 const bucket = storage.bucket('recipe_photos');
 
+// Handles image uploading for recipe
 const uploadImage = (file) =>
   new Promise((resolve, reject) => {
     const { originalname, buffer } = file;
