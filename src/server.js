@@ -5,13 +5,22 @@ require('dotenv').config();
 const connectDB = require('./database/Config');
 const userRoutes = require('./routes/UserRoutes');
 const recipeRoutes = require('./routes/RecipeRoutes');
+const multer = require('multer');
+const cors = require('cors');
+
+const multerMid = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 10 * 1024 * 1024,
+  },
+});
 
 connectDB();
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -22,7 +31,7 @@ app.get('/api/test', (req, res) => {
 
 app.use('/api/users', userRoutes);
 
-app.use('/api/recipes', recipeRoutes);
+app.use('/api/recipes', multerMid.single('file'), recipeRoutes);
 
 app.use(express.static(path.join(path.resolve(), '/build')));
 

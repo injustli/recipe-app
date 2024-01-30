@@ -6,7 +6,7 @@ const initialRender = (mode, data) => {
     name: mode === 'edit' ? data.name : '',
     ingredients: mode === 'edit' ? data.ingredients : [''],
     method: mode === 'edit' ? data.method : [''],
-    imageFile: '',
+    imageUrl: mode === 'edit' ? data.imageUrl : null,
     cookTime: mode === 'edit' ? data.time : 0,
   };
 };
@@ -18,9 +18,10 @@ export default function RecipeModalForm(props) {
   const [formData, setFormData] = useState(() => initialRender(mode, data));
 
   const onSubmit = (event) => {
-    const form = document.getElementById('add-recipe-form');
+    const form =
+      /*event.currentTarget;*/ document.getElementById('recipe-form');
     if (form.checkValidity()) {
-      let body = undefined;
+      let form = new FormData();
       let endpoint = '/api/recipes';
       let headers = {
         Authorization: token,
@@ -29,24 +30,18 @@ export default function RecipeModalForm(props) {
         endpoint += `/${data._id}`;
       }
       if (mode !== 'delete') {
-        headers = {
-          ...headers,
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        };
-        body = JSON.stringify({
-          name: formData.name,
-          ingredients: formData.ingredients,
-          method: formData.method,
-          time: formData.cookTime,
-          createdBy: user.name,
-        });
+        form.append('name', formData.name);
+        form.append('ingredients', formData.ingredients);
+        form.append('method', formData.method);
+        form.append('time', formData.cookTime);
+        form.append('createdBy', user.name);
+        form.append('file', formData.imageUrl);
       }
 
       fetch(endpoint, {
         method: mode === 'edit' ? 'PUT' : mode === 'add' ? 'POST' : 'DELETE',
         headers: headers,
-        body: body,
+        body: form,
       }).catch((err) => console.log(`Error in ${mode}ing recipe: ` + err));
       setModal(false);
     } else {
@@ -60,7 +55,7 @@ export default function RecipeModalForm(props) {
     <Modal show={modal} onHide={() => setModal(false)} centered size="lg">
       <Modal.Header closeButton />
       <Modal.Body>
-        <Form id="add-recipe-form" noValidate validated={validated}>
+        <Form id="recipe-form" noValidate validated={validated}>
           {mode !== 'delete' ? (
             <>
               <Form.Group className="mb-3">
@@ -82,7 +77,28 @@ export default function RecipeModalForm(props) {
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>Image</Form.Label>
-                <Form.Control type="file" accept="image/*" />
+                <Form.Control
+                  name="file"
+                  type="file"
+                  accept=".jpg,.jpeg,.png"
+                  required
+                  onChange={(e) => {
+                    const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+                    if (!allowedExtensions.exec(e.target.files[0].name)) {
+                      alert(
+                        'Invalid file type! Must be either png, jpg, or jpeg.'
+                      );
+                      e.target.value = '';
+                      return;
+                    }
+                    setFormData((current) => {
+                      return { ...current, imageUrl: e.target.files[0] };
+                    });
+                  }}
+                />
+                <Form.Control.Feedback type="invalid">
+                  Need to upload an image that's either png, jpg or jpeg!
+                </Form.Control.Feedback>
               </Form.Group>
               <Form.Group className="mb-3">
                 <div className="d-flex justify-content-between">
