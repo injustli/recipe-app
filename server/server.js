@@ -3,8 +3,9 @@ const path = require('path');
 const express = require('express');
 require('dotenv').config();
 const connectDB = require('./database/Config');
-const userRoutes = require('./routes/UserRoutes');
+//const userRoutes = require('./routes/UserRoutes');
 const recipeRoutes = require('./routes/RecipeRoutes');
+const authRoutes = require('./routes/AuthRoutes.js');
 const multer = require('multer');
 const cors = require('cors');
 
@@ -25,17 +26,19 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // Test API method
-app.get('/api/test', (req, res) => {
+app.get('/api/test', (_, res) => {
   res.status(200).json({ message: 'Hello World!' });
 });
 
-app.use('/api/users', userRoutes);
+//app.use('/api/users', userRoutes);
 
 app.use('/api/recipes', multerMid.single('file'), recipeRoutes);
 
+app.use('/api/auth/google', authRoutes);
+
 app.use(express.static(path.join(path.resolve(), '/build')));
 
-app.get('*', function (req, res) {
+app.get('*', function (_, res) {
   res.sendFile(path.resolve(path.resolve(), 'build', 'index.html'));
 });
 
