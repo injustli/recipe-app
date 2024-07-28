@@ -1,0 +1,17 @@
+.card-button {
+  background-color: transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+}
+
+.modal-box {
+  background-color: transparent;
+}
+
+.modal-time {
+  display: inline;
+  padding-left: 75%;
+}

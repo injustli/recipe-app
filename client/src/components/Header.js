@@ -1,8 +1,14 @@
-import { startTransition } from 'react';
+import React from 'react';
 import SearchAndFilter from './SearchAndFilter';
-import jwt_decode from 'jwt-decode';
-import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
-import { Dropdown, DropdownButton, Navbar, Container } from 'react-bootstrap';
+//import { jwtDecode } from 'jwt-decode';
+import { useGoogleLogin, googleLogout } from '@react-oauth/google';
+import {
+  Dropdown,
+  DropdownButton,
+  Navbar,
+  Container,
+  Button,
+} from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 
 // Render nav bar that contains search bar, dropdown menu, login
@@ -21,31 +27,57 @@ export default function Header(props) {
     name,
   } = props;
 
-  const navigate = useNavigate();
-
-  // Adds a new user if user doesn't exist in database, otherwise do nothing
-  const handleCallbackResponse = (response) => {
-    setToken(response.credential);
-    const userObject = jwt_decode(response.credential);
-    fetch('/api/users', {
-      method: 'PUT',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: userObject.email,
-        name: userObject.name,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.data) {
-          setUser(data.data);
-        }
+  const login = useGoogleLogin({
+    onSuccess: (codeResponse) => {
+      console.log(codeResponse);
+      fetch('/api/auth/google', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          code: codeResponse.code,
+        }),
       })
-      .catch((err) => console.log('callbackResponse Error: ', err));
-  };
+        .then((res) => res.json())
+        .then((data) => {
+          setToken(data.tokens);
+          setUser(data.user);
+          //addUser(data.id_token);
+        })
+        .catch((error) =>
+          console.log('Error exchanging authorization code: ' + error)
+        );
+    },
+    onError: (e) => {
+      console.log('Error has occured while logging in: ' + e);
+    },
+    flow: 'auth-code',
+  });
+
+  // const addUser = (token) => {
+  //   const userObject = jwtDecode(token);
+  //   fetch('/api/users', {
+  //     method: 'PUT',
+  //     headers: {
+  //       Accept: 'application/json',
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       email: userObject.email,
+  //       name: userObject.name,
+  //     }),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       if (data.data) {
+  //         setUser(data.data);
+  //       }
+  //     })
+  //     .catch((err) => console.log('callbackResponse Error: ', err));
+  // };
+
+  const navigate = useNavigate();
 
   const navigateTo = (route) => {
     switch (route) {
@@ -56,10 +88,8 @@ export default function Header(props) {
         navigate(`/user/${user.name}/mealplan`);
         break;
       case 'Sign Out':
-        startTransition(() => {
-          setUser(null);
-        });
-      // eslint-disable-next-line
+        googleLogout();
+      // eslint-disable-next-line no-fallthrough
       default:
         navigate('/');
     }
@@ -99,16 +129,7 @@ export default function Header(props) {
               </Dropdown.Item>
             </DropdownButton>
           ) : (
-            <GoogleOAuthProvider
-              clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-            >
-              <GoogleLogin
-                onSuccess={(credentialResponse) =>
-                  handleCallbackResponse(credentialResponse)
-                }
-                onError={() => console.log('Login Failed')}
-              />
-            </GoogleOAuthProvider>
+            <Button onClick={() => login()}>Sign In</Button>
           )}
         </div>
       </Container>

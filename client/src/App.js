@@ -15,7 +15,7 @@ export default function App() {
   const [creator, setCreator] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(25);
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState({});
   const [user, setUser] = useState(null);
 
   const { recipes, totalCount } = useFetchRecipes(
@@ -64,12 +64,15 @@ export default function App() {
           element={
             <MyRecipes
               user={user}
-              token={token}
+              token={token.id_token}
               setUser={(user) => setUser(user)}
             />
           }
         />
-        <Route path="/user/:name/mealplan" element={<MyMealPlan />} />
+        <Route
+          path="/user/:name/mealplan"
+          element={<MyMealPlan token={token.access_token} />}
+        />
       </Routes>
     </Router>
   );
