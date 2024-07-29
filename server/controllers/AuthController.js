@@ -40,7 +40,7 @@ export const fetchTokens = asyncHandler(async (req, res) => {
     throw new Error('Body missing from request!');
   }
   const { code } = req.body;
-  const client_id = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+  const client_id = process.env.VITE_GOOGLE_CLIENT_ID;
   const client_secret = process.env.CLIENT_SECRET;
   const redirect_uri =
     process.env.NODE_ENV === 'test'
