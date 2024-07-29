@@ -29,7 +29,6 @@ export default function Header(props) {
 
   const login = useGoogleLogin({
     onSuccess: (codeResponse) => {
-      console.log(codeResponse);
       fetch('/api/auth/google', {
         method: 'POST',
         headers: {
