@@ -36,11 +36,13 @@ app.use('/api/recipes', multerMid.single('file'), recipeRoutes);
 
 app.use('/api/auth/google', authRoutes);
 
+if (process.env.NODE_ENV === 'production') {
 app.use(express.static(path.join(path.resolve(), '/build')));
 
-app.get('*', function (_, res) {
+  app.get('*', (_, res) => {
   res.sendFile(path.resolve(path.resolve(), 'build', 'index.html'));
 });
+}
 
 app.listen(process.env.PORT || 8080, () =>
   console.log(`Listening on port ${process.env.PORT || 8080}!`)
