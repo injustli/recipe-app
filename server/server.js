@@ -30,7 +30,7 @@ app.get('/api/test', (_, res) => {
   res.status(200).json({ message: 'Hello World!' });
 });
 
-//app.use('/api/users', userRoutes);
+app.use('/api/users', userRoutes);
 
 app.use('/api/recipes', multerMid.single('file'), recipeRoutes);
 
