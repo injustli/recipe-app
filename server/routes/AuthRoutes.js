@@ -1,7 +1,7 @@
-import { Router } from 'express';
-import { fetchTokens } from '../controllers/AuthController';
+import express from 'express';
+import { fetchTokens } from '../controllers/AuthController.js';
 
-const router = Router();
+const router = express.Router();
 // @desc   Returns id_token, refresh_token, access_tokens
 // @route  POST /api/auth/google
 // @access public

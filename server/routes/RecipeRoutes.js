@@ -1,11 +1,12 @@
-const express = require('express');
-const router = express.Router();
-const {
+import express from 'express';
+import {
   fetchRecipes,
   addRecipe,
   modifyRecipe,
   deleteRecipe,
-} = require('../controllers/RecipeController');
+} from '../controllers/RecipeController.js';
+
+const router = express.Router();
 
 // @desc   Gets recipes from the database based on user query parameters
 // @route  GET /recipes
@@ -27,4 +28,4 @@ router.put('/:id', modifyRecipe);
 // @access private: Logged in user can only delete recipes under their name
 router.delete('/:id', deleteRecipe);
 
-module.exports = router;
+export default router;

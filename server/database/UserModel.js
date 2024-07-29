@@ -1,15 +1,16 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 // Defines how a user is stored in the database
 const userSchema = mongoose.Schema(
   {
     email: String,
     name: String,
-    recipes: [mongoose.Types.ObjectId],
   },
   {
     timestamps: true,
   }
 );
 
-export const User = model('Users', userSchema);
+const User = mongoose.model('Users', userSchema);
+
+export default User;

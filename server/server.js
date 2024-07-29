@@ -1,13 +1,13 @@
-const bodyParser = require('body-parser');
-const path = require('path');
-const express = require('express');
-require('dotenv').config();
-const connectDB = require('./database/Config');
-//const userRoutes = require('./routes/UserRoutes');
-const recipeRoutes = require('./routes/RecipeRoutes');
-const authRoutes = require('./routes/AuthRoutes.js');
-const multer = require('multer');
-const cors = require('cors');
+import bodyParser from 'body-parser';
+import path from 'path';
+import express from 'express';
+import dotenv from 'dotenv';
+import connectDB from './database/Config.js';
+import recipeRoutes from './routes/RecipeRoutes.js';
+import authRoutes from './routes/AuthRoutes.js';
+import userRoutes from './routes/UserRoutes.js';
+import multer from 'multer';
+import cors from 'cors';
 
 const multerMid = multer({
   storage: multer.memoryStorage(),
@@ -16,7 +16,7 @@ const multerMid = multer({
   },
 });
 
-connectDB();
+dotenv.config();
 
 const app = express();
 

@@ -1,6 +1,7 @@
-const express = require('express');
+import express from 'express';
+import { addOrUpdateUser } from '../controllers/UserController.js';
+
 const router = express.Router();
-const { addOrUpdateUser } = require('../controllers/UserController');
 
 // @desc   Adds new user if it doesnt exist and returns newly created user,
 //         otherwise return existing user from database
@@ -8,4 +9,4 @@ const { addOrUpdateUser } = require('../controllers/UserController');
 // @access Public
 router.put('/', addOrUpdateUser);
 
-module.exports = router;
+export default router;

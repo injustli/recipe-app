@@ -1,5 +1,5 @@
-const asyncHandler = require('express-async-handler');
-const User = require('../database/UserModel');
+import asyncHandler from 'express-async-handler';
+import User from '../database/UserModel.js';
 
 // @desc   Adds new user if it doesnt exist and returns newly created user,
 //         otherwise return existing user from database. A unique user is
@@ -7,7 +7,7 @@ const User = require('../database/UserModel');
 //         email address.
 // @route  PUT /api/users
 // @access Public
-const addOrUpdateUser = asyncHandler(async (req, res) => {
+export const addOrUpdateUser = asyncHandler(async (req, res) => {
   const { email, name } = req.body;
   // Finds a user based off email and name and returns an object with only the
   // id, email, name fields
@@ -34,7 +34,3 @@ const addOrUpdateUser = asyncHandler(async (req, res) => {
     }
   }
 });
-
-module.exports = {
-  addOrUpdateUser,
-};

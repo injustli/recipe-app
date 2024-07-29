@@ -1,9 +1,10 @@
-const { Storage } = require('@google-cloud/storage');
+import { Storage } from '@google-cloud/storage';
+
 const storage = new Storage();
 const bucket = storage.bucket('recipe_photos');
 
 // Handles image uploading for recipe
-const uploadImage = (file) =>
+export const uploadImage = (file) =>
   new Promise((resolve, reject) => {
     const { originalname, buffer } = file;
     const blob = bucket.file(originalname);
@@ -19,5 +20,3 @@ const uploadImage = (file) =>
       })
       .end(buffer);
   });
-
-module.exports = { uploadImage };

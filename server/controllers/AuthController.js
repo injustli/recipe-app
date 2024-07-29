@@ -1,13 +1,13 @@
-import { asyncHandler } from 'express-async-handler';
-import { fetch } from 'node-fetch';
-import { User } from '../database/UserModel';
+import asyncHandler from 'express-async-handler';
+import fetch from 'node-fetch';
+import User from '../database/UserModel.js';
 import { jwtDecode } from 'jwt-decode';
 
 // @desc   Adds new user if it doesnt exist and returns newly created user,
 //         otherwise return existing user from database. A unique user is
 //         defined by its email since every Google Account must have a unique
 //         email address.
-const addOrUpdateUser = async (userInfo) => {
+export const addOrUpdateUser = async (userInfo) => {
   const { email, name } = userInfo;
   // Finds a user based off email and name and returns an object with only the
   // id, email, name fields

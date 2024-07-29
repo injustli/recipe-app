@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 // Defines how a recipe is stored in the database
 const recipeSchema = mongoose.Schema(
@@ -15,4 +15,6 @@ const recipeSchema = mongoose.Schema(
   }
 );
 
-export const Recipe = model('Recipes', recipeSchema);
+const Recipe = mongoose.model('Recipes', recipeSchema);
+
+export default Recipe;
