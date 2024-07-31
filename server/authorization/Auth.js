@@ -6,7 +6,7 @@ import asyncHandler from 'express-async-handler';
 // Load .env contents into process.env
 dotenv.config();
 
-// Used to verify token, refresh access token, get tokens
+// Used to verify id token, refresh access token, get all tokens
 export const client = new OAuth2Client(
   process.env.VITE_GOOGLE_CLIENT_ID,
   process.env.CLIENT_SECRET,

@@ -42,6 +42,9 @@ const setCookieOptions = () => {
   };
 };
 
+// @desc   Returns id_token, refresh_token, access_tokens, authenticated user
+// @route  POST /api/auth/google/authenticate
+// @access public
 export const userLogin = asyncHandler(async (req, res) => {
   const { code } = req.body;
 
@@ -64,6 +67,10 @@ export const userLogin = asyncHandler(async (req, res) => {
   res.status(200).json({ accessToken: access_token, idToken: id_token, user });
 });
 
+// @desc   Returns new refresh, id, access tokens using valid refresh token
+//         and updated user; otherwise return 401 response
+// @route  POST /api/auth/google/logout
+// @access public
 export const refresh = asyncHandler(async (req, res) => {
   const refreshToken = req.cookies['refreshToken'];
   const user = await User.findOne({ refreshToken }).exec();
@@ -90,6 +97,7 @@ export const refresh = asyncHandler(async (req, res) => {
 
   res.cookie('refreshToken', credentials.refresh_token, cookieOptions);
 
+  // Update authenticated user in database
   user.refreshToken = credentials.refresh_token;
   user.refreshTokenExpiry = cookieOptions.expires;
   await user.save();
@@ -101,8 +109,12 @@ export const refresh = asyncHandler(async (req, res) => {
   });
 });
 
+// @desc   Clears refresh_token from authenticated user and cookie
+// @route  POST /api/auth/google/logout
+// @access private: Can only logout if logged in
 export const userLogout = asyncHandler(async (req, res) => {
   const user = req.user;
+  // If user exists, clears associated refresh token in database and clear cookie
   if (user) {
     user.refreshToken = null;
     await user.save();
