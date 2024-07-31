@@ -17,7 +17,8 @@
     "react-router-dom": "^6.21.3",
     "sass": "^1.77.8",
     "supertest": "^6.3.4",
-    "web-vitals": "^3.5.2"
+    "web-vitals": "^3.5.2",
+    "zustand": "^4.5.4"
   },
   "scripts": {
     "dev": "vite",
