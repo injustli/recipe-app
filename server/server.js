@@ -7,6 +7,7 @@ import recipeRoutes from './routes/RecipeRoutes.js';
 import authRoutes from './routes/AuthRoutes.js';
 import multer from 'multer';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
 const multerMid = multer({
   storage: multer.memoryStorage(),
@@ -23,6 +24,7 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 // Test API method
 app.get('/api/test', (_, res) => {
