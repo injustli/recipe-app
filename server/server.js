@@ -1,7 +1,6 @@
 import bodyParser from 'body-parser';
 import path from 'path';
 import express from 'express';
-import dotenv from 'dotenv';
 import connectDB from './database/Config.js';
 import recipeRoutes from './routes/RecipeRoutes.js';
 import authRoutes from './routes/AuthRoutes.js';
@@ -15,8 +14,6 @@ const multerMid = multer({
     fileSize: 10 * 1024 * 1024,
   },
 });
-
-dotenv.config();
 
 const app = express();
 
