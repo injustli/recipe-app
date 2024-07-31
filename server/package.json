@@ -20,5 +20,11 @@
   },
   "devDependencies": {
     "nodemon": "^3.0.3"
+  },
+  "imports" : {
+    "#authorization/*": "./authorization/*.js",
+    "#controllers/*": "./controllers/*.js",
+    "#database/*": "./database/*.js",
+    "#models/*": "./models/*.js"
   }
 }
