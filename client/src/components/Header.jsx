@@ -37,10 +37,10 @@ export default function Header({
   const navigateTo = (route) => {
     switch (route) {
       case 'My Recipes':
-        navigate(`/user/${user.name}/recipes`);
+        navigate(`/my-recipes`);
         break;
       case 'My Meal Plan':
-        navigate(`/user/${user.name}/mealplan`);
+        navigate(`/my-mealplan`);
         break;
       case 'Sign Out':
         logout();
