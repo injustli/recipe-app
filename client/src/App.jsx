@@ -18,42 +18,11 @@ export default function App() {
   return (
     <Router>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <>
-              <Header
-                setName={(name) => setName(name)}
-                setIngredients={(array) => setIngredients(array)}
-                setMinTime={(time) => setMinTime(time)}
-                setMaxTime={(time) => setMaxTime(time)}
-                setCreator={(name) => setCreator(name)}
-                onPageChange={(page) => setCurrentPage(page)}
-                page={currentPage}
-                name={name}
-              />
-              <RecipeView
-                data={recipes}
-                currentPage={currentPage}
-                totalCount={totalCount}
-                pageSize={pageSize}
-                onPageChange={(page) => setCurrentPage(page)}
-                setPageSize={(size) => setPageSize(size)}
-              />
-            </>
-          }
-        />
-        <Route
-          path="/user/:name/recipes"
-          element={
-            <MyRecipes
-            />
-          }
-        />
-        <Route
-          path="/user/:name/mealplan"
-          element={<MyMealPlan  />}
-        />
+        <Route path="/" element={<HomePage />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/my-recipes" element={<MyRecipes />} />
+          <Route path="/my-mealplan" element={<MyMealPlan />} />
+        </Route>
       </Routes>
     </Router>
   );
