@@ -2,9 +2,9 @@ import SearchAndFilter from './SearchAndFilter';
 import useAuthStore from '../store/authStore';
 import { useGoogleLogin } from '@react-oauth/google';
 import { Dropdown, Navbar, Container, Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import { useShallow } from 'zustand/react/shallow';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
+import { useShallow } from 'zustand/react/shallow';
 
 // Render nav bar that contains search bar, dropdown menu, login
 export default function Header({
@@ -20,6 +20,7 @@ export default function Header({
   const [user, login, logout] = useAuthStore(
     useShallow((state) => [state.user, state.login, state.logout])
   );
+  const location = useLocation();
 
   const googleLogin = useGoogleLogin({
     onSuccess: async (codeResponse) => {
@@ -52,16 +53,18 @@ export default function Header({
   return (
     <Navbar className="mb-3">
       <Container fluid>
-        <SearchAndFilter
-          setIngredients={(ingredients) => setIngredients(ingredients)}
-          setCreator={(user) => setCreator(user)}
-          setMinTime={(time) => setMinTime(time)}
-          setMaxTime={(time) => setMaxTime(time)}
-          setName={(name) => setName(name)}
-          onPageChange={(page) => onPageChange(page)}
-          page={page}
-          name={name}
-        />
+        {location.pathname !== '/my-mealplan' && (
+          <SearchAndFilter
+            setIngredients={(ingredients) => setIngredients(ingredients)}
+            setCreator={(user) => setCreator(user)}
+            setMinTime={(time) => setMinTime(time)}
+            setMaxTime={(time) => setMaxTime(time)}
+            setName={(name) => setName(name)}
+            onPageChange={(page) => onPageChange(page)}
+            page={page}
+            name={name}
+          />
+        )}
         <div className="justify-content-end">
           {user ? (
             <>
