@@ -46,7 +46,7 @@ export default function Header({
         logout();
       // eslint-disable-next-line no-fallthrough
       default:
-        navigate('/');
+        navigate('/', { replace: true });
     }
   };
 
