@@ -1,30 +1,19 @@
 import './App.css';
-import { useState } from 'react';
-import Header from './components/Header';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import MyMealPlan from './components/MyMealPlan';
-import MyRecipes from './components/MyRecipes';
-import RecipeView from './components/RecipeView';
-import { useFetchRecipes } from './components/useFetchRecipes';
+import { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import MyMealPlan from './pages/MyMealPlan';
+import MyRecipes from './pages/MyRecipes';
+import useAuthStore from './store/authStore';
+import HomePage from './pages/HomePage';
+import ProtectedRoute from './components/ProtectedRoute';
 
 export default function App() {
-  const [name, setName] = useState('');
-  const [ingredients, setIngredients] = useState([]);
-  const [minTime, setMinTime] = useState('');
-  const [maxTime, setMaxTime] = useState('');
-  const [creator, setCreator] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(25);
+  const refresh = useAuthStore((state) => state.refresh);
 
-  const { recipes, totalCount } = useFetchRecipes(
-    currentPage,
-    pageSize,
-    ingredients,
-    name,
-    minTime,
-    maxTime,
-    creator
-  );
+  useEffect(() => {
+    // Refresh access and id token on every page refresh
+    refresh();
+  }, []);
 
   return (
     <Router>
