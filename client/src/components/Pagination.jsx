@@ -10,13 +10,7 @@ const DOTS = '...';
 
 // Renders pagination of recipe view component
 export default function Pagination(props) {
-  const {
-    siblings = 1,
-    onPageChange,
-    currentPage,
-    totalCount,
-    pageSize,
-  } = props;
+  const { siblings = 1, onPageChange, currentPage, totalCount, pageSize } = props;
 
   const handlePageChange = (amount) => {
     onPageChange((current) => {
@@ -85,7 +79,7 @@ export default function Pagination(props) {
     <ul className={classnames('pagination-container')}>
       <li
         className={classnames('pagination-item', {
-          disabled: currentPage === 1,
+          disabled: currentPage === 1
         })}
         onClick={() => handlePageChange(-1)}
       >
@@ -101,7 +95,7 @@ export default function Pagination(props) {
           return (
             <li
               className={classnames('pagination-item', {
-                selected: pageNum === currentPage,
+                selected: pageNum === currentPage
               })}
               onClick={() => onPageChange(pageNum)}
             >
@@ -112,7 +106,7 @@ export default function Pagination(props) {
       }
       <li
         className={classnames('pagination-item', {
-          disabled: currentPage === lastPage,
+          disabled: currentPage === lastPage
         })}
         onClick={() => handlePageChange(1)}
       >
