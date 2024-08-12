@@ -1,5 +1,5 @@
 import classnames from 'classnames';
-import '../styles/Pagination.scss';
+import '@/styles/Pagination.scss';
 
 const range = (from, to) => {
   let length = to - from + 1;

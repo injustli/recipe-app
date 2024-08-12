@@ -1,6 +1,6 @@
 import Pagination from './Pagination';
 import Recipe from './Recipe';
-import '../styles/RecipeView.css';
+import '@/styles/RecipeView.css';
 import { Row, Col } from 'react-bootstrap';
 
 // Displays recipes in a grid, contains control of how many per page and pagination

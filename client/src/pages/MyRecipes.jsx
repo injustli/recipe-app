@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { useFetchRecipes } from '../components/useFetchRecipes';
-import RecipeView from '../components/RecipeView';
-import Header from '../components/Header';
+import { useFetchRecipes } from '@/components/useFetchRecipes';
+import RecipeView from '@/components/RecipeView';
+import Header from '@/components/Header';
 import { IoAddSharp } from 'react-icons/io5';
 import { GrEdit } from 'react-icons/gr';
 import { BsTrash3Fill } from 'react-icons/bs';
-import '../styles/MyRecipes.css';
-import RecipeModalForm from '../components/RecipeModalForm';
+import '@/styles/MyRecipes.css';
+import RecipeModalForm from '@/components/RecipeModalForm';
 import useAuthStore from '@/store/authStore';
 
 // Renders the my recipe page when user selects it under dropdown menu
