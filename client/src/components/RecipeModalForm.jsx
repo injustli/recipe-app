@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Form, Modal, InputGroup, Button } from 'react-bootstrap';
 
 const initialRender = (mode, data) => {

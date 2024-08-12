@@ -1,4 +1,3 @@
-import React from 'react';
 import Pagination from './Pagination';
 import Recipe from './Recipe';
 import '../styles/RecipeView.css';
