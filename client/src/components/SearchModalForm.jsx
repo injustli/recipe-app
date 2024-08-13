@@ -11,7 +11,7 @@ export default function SearchModalForm(props) {
     setName,
     setMinTime,
     setMaxTime,
-    onPageChange,
+    onPageChange
   } = props;
 
   // Time in minutes
