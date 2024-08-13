@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { InputGroup, Button, Form, Container } from 'react-bootstrap';
 import { BsSearch } from 'react-icons/bs';
 import { useSearchParams } from 'react-router-dom';
+import { createPortal } from 'react-dom';
 import SearchModalForm from './SearchModalForm';
 
 // Renders the search bar to filter recipes
@@ -9,20 +10,6 @@ export default function SearchAndFilter(props) {
   const { setName, onPageChange, name, page } = props;
   const [modalOpen, setModal] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
-
-  // Render the modal form if modal is open; otherwise render nothing
-  const renderForm = () => {
-    if (modalOpen) {
-      return (
-        <SearchModalForm
-          {...props}
-          setModal={(flag) => setModal(flag)}
-          modalOpen={modalOpen}
-        />
-      );
-    }
-    return null;
-  };
 
   // Updates search params as the user changes page and inputs query
   useEffect(() => {
@@ -58,7 +45,15 @@ export default function SearchAndFilter(props) {
           Advanced Search
         </Button>
       </InputGroup>
-      {renderForm()}
+      {modalOpen &&
+        createPortal(
+          <SearchModalForm
+            {...props}
+            setModal={(flag) => setModal(flag)}
+            modalOpen={modalOpen}
+          />,
+          document.body
+        )}
     </Container>
   );
 }
