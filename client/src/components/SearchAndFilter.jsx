@@ -37,11 +37,7 @@ export default function SearchAndFilter(props) {
         <InputGroup.Text style={{ backgroundColor: 'transparent' }}>
           <BsSearch />
         </InputGroup.Text>
-        <Button
-          variant="outline-dark"
-          onClick={() => setModal(true)}
-          type="button"
-        >
+        <Button variant="outline-dark" onClick={() => setModal(true)} type="button">
           Advanced Search
         </Button>
       </InputGroup>
