@@ -8,10 +8,10 @@ const recipeSchema = mongoose.Schema(
     method: [String],
     imageUrl: String,
     createdBy: String,
-    time: Number,
+    time: Number
   },
   {
-    timestamps: true,
+    timestamps: true
   }
 );
 

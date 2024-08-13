@@ -1,5 +1,5 @@
 import asyncHandler from 'express-async-handler';
-import User from '../database/UserModel.js';
+import User from '#models/UserModel';
 
 // @desc   Adds new user if it doesnt exist and returns newly created user,
 //         otherwise return existing user from database. A unique user is
@@ -15,7 +15,7 @@ export const addOrUpdateUser = asyncHandler(async (req, res) => {
   if (user) {
     res.status(200).json({
       data: user,
-      message: 'User already exists. Returning user information',
+      message: 'User already exists. Returning user information'
     });
   } else {
     user = await User.create({ email: email, name: name, recipes: [] });
@@ -24,9 +24,9 @@ export const addOrUpdateUser = asyncHandler(async (req, res) => {
         data: {
           _id: user._id,
           email: user.email,
-          name: user.name,
+          name: user.name
         },
-        message: 'New user created successfully!',
+        message: 'New user created successfully!'
       });
     } else {
       res.status(400);
