@@ -8,6 +8,7 @@ import Header from '@/components/Header';
 import '@/styles/MyRecipes.css';
 import RecipeModalForm from '@/components/RecipeModalForm';
 import useAuthStore from '@/store/authStore';
+import { createPortal } from 'react-dom';
 
 // Renders the my recipe page when user selects it under dropdown menu
 export default function MyRecipes() {
@@ -59,47 +60,46 @@ export default function MyRecipes() {
         setPageSize={(size) => setPageSize(size)}
         setCheckedRecipe={(recipe) => setCheckedRecipe(recipe)}
       />
-      <button
-        type="button"
-        className="circular-button"
-        id="add-recipe-button"
-        onClick={() => onClick('add')}
-      >
-        <IoAddSharp className="button-icon" />
-      </button>
-      {checkedRecipe && (
-        <>
-          <button
-            type="button"
-            className="circular-button"
-            onClick={() => onClick('edit')}
-            id="edit-recipe-button"
-          >
-            <GrEdit className="button-icon" />
-          </button>
-          <button
-            type="button"
-            className="circular-button"
-            id="del-recipe-button"
-            onClick={() => onClick('delete')}
-          >
-            <BsTrash3Fill className="button-icon" />
-          </button>
-        </>
-      )}
-      {modal && (
-        <RecipeModalForm
-          modal={modal}
-          setModal={(flag) => setModal(flag)}
-          user={user}
-          data={
-            checkedRecipe
-              ? recipes.filter((s) => s._id === checkedRecipe.id)[0]
-              : checkedRecipe
-          }
-          mode={mode}
-        />
-      )}
+      <div className="icon-container">
+        <button
+          type="button"
+          className="circular-button"
+          hidden={checkedRecipe ? false : true}
+          onClick={() => onClick('delete')}
+        >
+          <BsTrash3Fill className="button-icon" />
+        </button>
+        <button
+          type="button"
+          className="circular-button"
+          hidden={checkedRecipe ? false : true}
+          onClick={() => onClick('edit')}
+        >
+          <GrEdit className="button-icon" />
+        </button>
+        <button
+          type="button"
+          className="circular-button"
+          onClick={() => onClick('add')}
+        >
+          <IoAddSharp className="button-icon" />
+        </button>
+      </div>
+      {modal &&
+        createPortal(
+          <RecipeModalForm
+            modal={modal}
+            setModal={(flag) => setModal(flag)}
+            user={user}
+            data={
+              checkedRecipe
+                ? recipes.filter((s) => s._id === checkedRecipe.id)[0]
+                : checkedRecipe
+            }
+            mode={mode}
+          />,
+          document.body
+        )}
     </>
   );
 }
