@@ -1,5 +1,5 @@
 import SearchAndFilter from './SearchAndFilter';
-import useAuthStore from '../store/authStore';
+import useAuthStore from '@/store/authStore';
 import { useGoogleLogin } from '@react-oauth/google';
 import { Dropdown, Navbar, Container, Button } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
