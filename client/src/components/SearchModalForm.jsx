@@ -13,12 +13,18 @@ export default function SearchModalForm(props) {
     setMaxTime,
     onPageChange,
   } = props;
+
+  // Time in minutes
+  const time = {
+    min: 0,
+    max: 360
+  };
+
   const [ingredients, updateIngredients] = useState([]);
   const [recipeName, setRecipeName] = useState('');
   const [creator, updateCreator] = useState('');
-  const [minTime, updateMinTime] = useState('');
-  const [maxTime, updateMaxTime] = useState('');
-  const [validated, setValidated] = useState(false);
+  const [minTime, updateMinTime] = useState(time.min);
+  const [maxTime, updateMaxTime] = useState(time.max);
   const inputRef = useRef();
 
   // Used by the submit button to filter the recipes displayed and close modal
