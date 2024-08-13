@@ -20,9 +20,10 @@
     "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
-    "nodemon": "^3.0.3"
+    "nodemon": "^3.0.3",
+    "prettier": "^3.3.3"
   },
-  "imports" : {
+  "imports": {
     "#authorization/*": "./authorization/*.js",
     "#controllers/*": "./controllers/*.js",
     "#database/*": "./database/*.js",
