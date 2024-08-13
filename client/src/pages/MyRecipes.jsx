@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useFetchRecipes } from '@/components/useFetchRecipes';
-import RecipeView from '@/components/RecipeView';
-import Header from '@/components/Header';
 import { IoAddSharp } from 'react-icons/io5';
 import { GrEdit } from 'react-icons/gr';
 import { BsTrash3Fill } from 'react-icons/bs';
+import RecipeView from '@/components/RecipeView';
+import Header from '@/components/Header';
 import '@/styles/MyRecipes.css';
 import RecipeModalForm from '@/components/RecipeModalForm';
 import useAuthStore from '@/store/authStore';
@@ -93,7 +93,9 @@ export default function MyRecipes() {
           setModal={(flag) => setModal(flag)}
           user={user}
           data={
-            checkedRecipe ? recipes.filter((s) => s._id === checkedRecipe.id)[0] : checkedRecipe
+            checkedRecipe
+              ? recipes.filter((s) => s._id === checkedRecipe.id)[0]
+              : checkedRecipe
           }
           mode={mode}
         />

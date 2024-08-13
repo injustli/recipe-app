@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import RecipeView from '@/components/RecipeView';
 import { useFetchRecipes } from '@/components/useFetchRecipes';
+import RecipeView from '@/components/RecipeView';
 import Header from '@/components/Header';
 
 export default function HomePage() {
