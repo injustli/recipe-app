@@ -1,8 +1,8 @@
 import SearchAndFilter from './SearchAndFilter';
+import useAuthStore from '../store/authStore';
 import { useGoogleLogin } from '@react-oauth/google';
 import { Dropdown, Navbar, Container, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import useAuthStore from '../store/authStore';
 import { useShallow } from 'zustand/react/shallow';
 import { FcGoogle } from 'react-icons/fc';
 
