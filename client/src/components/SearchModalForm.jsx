@@ -29,20 +29,15 @@ export default function SearchModalForm(props) {
 
   // Used by the submit button to filter the recipes displayed and close modal
   const onSubmit = (event) => {
-    const form = document.getElementById('search-form');
-    if (!form.checkValidity()) {
-      event.preventDefault();
-      event.stopPropagation();
-    } else {
-      onPageChange(1);
-      setName(recipeName);
-      setCreator(creator);
-      setMinTime(minTime);
-      setMaxTime(maxTime);
-      setModal(false);
-      setIngredients(ingredients);
-    }
-    setValidated(true);
+    event.preventDefault();
+
+    onPageChange(1);
+    setMaxTime(maxTime);
+    setMinTime(minTime);
+    setName(recipeName);
+    setCreator(creator);
+    setModal(false);
+    setIngredients(ingredients);
   };
 
   return (
