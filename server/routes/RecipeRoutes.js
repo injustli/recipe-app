@@ -3,7 +3,7 @@ import {
   fetchRecipes,
   addRecipe,
   modifyRecipe,
-  deleteRecipe,
+  deleteRecipe
 } from '#controllers/RecipeController';
 import { validateMiddleware } from '#authorization/Auth';
 

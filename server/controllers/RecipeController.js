@@ -60,7 +60,7 @@ export const addRecipe = asyncHandler(async (req, res) => {
     ingredients,
     method,
     time,
-    createdBy,
+    createdBy
   });
   recipe
     ? res.status(200).send('New recipe succesfully created!')
@@ -96,7 +96,7 @@ export const modifyRecipe = asyncHandler(async (req, res) => {
     throw new Error('Recipe id missing from request parameters!');
   }
   const recipe = await Recipe.findOneAndUpdate({ _id: id }, req.body, {
-    new: true,
+    new: true
   });
   recipe
     ? res.status(200).send('Recipe succesfully updated!')

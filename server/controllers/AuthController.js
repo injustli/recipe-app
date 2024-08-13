@@ -28,7 +28,7 @@ const addOrUpdateUser = async (
       name,
       profile,
       refreshToken,
-      refreshTokenExpiry,
+      refreshTokenExpiry
     });
   }
 };
@@ -38,7 +38,7 @@ const setCookieOptions = () => {
     httpOnly: true,
     sameSite: true,
     secure: process.env.NODE_ENV === 'production' ? true : false,
-    expires: new Date(Date.now() + 48 * 60 * 60 * 1000),
+    expires: new Date(Date.now() + 48 * 60 * 60 * 1000)
   };
 };
 
@@ -105,7 +105,7 @@ export const refresh = asyncHandler(async (req, res) => {
   res.status(200).json({
     accessToken: credentials.access_token,
     idToken: credentials.id_token,
-    user,
+    user
   });
 });
 

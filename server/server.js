@@ -11,8 +11,8 @@ import cookieParser from 'cookie-parser';
 const multerMid = multer({
   storage: multer.memoryStorage(),
   limits: {
-    fileSize: 10 * 1024 * 1024,
-  },
+    fileSize: 10 * 1024 * 1024
+  }
 });
 
 const app = express();
