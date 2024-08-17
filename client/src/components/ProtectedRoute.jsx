@@ -9,7 +9,7 @@ export default function ProtectedRoute() {
     return null;
   }
 
-  // One refresh is resolved, either render children or force navigate to home
+  // Once refresh is resolved, either render children or force navigate to home
   // depending on auth state
   return isAuth ? <Outlet /> : <Navigate to="/" replace />;
 }
