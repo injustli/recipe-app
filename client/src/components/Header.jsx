@@ -7,16 +7,18 @@ import { FcGoogle } from 'react-icons/fc';
 import { useShallow } from 'zustand/react/shallow';
 
 // Render nav bar that contains search bar, dropdown menu, login
-export default function Header({
-  setIngredients,
-  setCreator,
-  setMinTime,
-  setMaxTime,
-  setName,
-  onPageChange,
-  page,
-  name
-}) {
+export default function Header(props) {
+  const {
+    setIngredients,
+    setCreator,
+    setMinTime,
+    setMaxTime,
+    setName,
+    onPageChange,
+    page,
+    name
+  } = props;
+
   const [user, login, logout] = useAuthStore(
     useShallow((state) => [state.user, state.login, state.logout])
   );
