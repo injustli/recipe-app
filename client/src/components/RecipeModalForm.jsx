@@ -18,7 +18,7 @@ export default function RecipeModalForm(props) {
   const [formData, setFormData] = useState(() => initialRender(mode, data));
 
   const onSubmit = (event) => {
-    const form = /*event.currentTarget;*/ document.getElementById('recipe-form');
+    const form = document.getElementById('recipe-form');
     if (form.checkValidity()) {
       let form = new FormData();
       let endpoint = '/api/recipes';
@@ -70,7 +70,9 @@ export default function RecipeModalForm(props) {
                     })
                   }
                 />
-                <Form.Control.Feedback type="invalid">Name can't be empty!</Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid">
+                  Name can't be empty!
+                </Form.Control.Feedback>
               </Form.Group>
               <Form.Group className="mb-3">
                 <Form.Label>Image</Form.Label>
@@ -82,7 +84,9 @@ export default function RecipeModalForm(props) {
                   onChange={(e) => {
                     const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
                     if (!allowedExtensions.exec(e.target.files[0].name)) {
-                      alert('Invalid file type! Must be either png, jpg, or jpeg.');
+                      alert(
+                        'Invalid file type! Must be either png, jpg, or jpeg.'
+                      );
                       e.target.value = '';
                       return;
                     }
@@ -125,9 +129,11 @@ export default function RecipeModalForm(props) {
                         required
                         onChange={(e) =>
                           setFormData((current) => {
-                            const newIngredients = current.ingredients.map((val, idx) => {
-                              return idx === index ? e.target.value : val;
-                            });
+                            const newIngredients = current.ingredients.map(
+                              (val, idx) => {
+                                return idx === index ? e.target.value : val;
+                              }
+                            );
                             return { ...current, ingredients: newIngredients };
                           })
                         }
@@ -183,9 +189,11 @@ export default function RecipeModalForm(props) {
                         required
                         onChange={(e) =>
                           setFormData((current) => {
-                            const newProcedure = current.method.map((val, idx) => {
-                              return idx === index ? e.target.value : val;
-                            });
+                            const newProcedure = current.method.map(
+                              (val, idx) => {
+                                return idx === index ? e.target.value : val;
+                              }
+                            );
                             return { ...current, method: newProcedure };
                           })
                         }
@@ -195,7 +203,9 @@ export default function RecipeModalForm(props) {
                         variant="outline-dark"
                         onClick={() =>
                           setFormData((current) => {
-                            const newProcedure = current.method.filter((c, idx) => idx !== index);
+                            const newProcedure = current.method.filter(
+                              (c, idx) => idx !== index
+                            );
                             return { ...current, method: newProcedure };
                           })
                         }
