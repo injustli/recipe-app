@@ -10,7 +10,13 @@ const DOTS = '...';
 
 // Renders pagination of recipe view component
 export default function Pagination(props) {
-  const { siblings = 1, onPageChange, currentPage, totalCount, pageSize } = props;
+  const {
+    siblings = 1,
+    onPageChange,
+    currentPage,
+    totalCount,
+    pageSize
+  } = props;
 
   const handlePageChange = (amount) => {
     onPageChange((current) => {
