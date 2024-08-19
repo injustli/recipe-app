@@ -91,9 +91,6 @@ export default function RecipeModalForm(props) {
               withAsterisk
             />
 
-            {/* TODO: When user inputs image file, show preview of image, if 
-            user edits, show current image if user doesn't upload any files, 
-            but show preview instead when user does*/}
             {image && (
               <AspectRatio ratio={16 / 9}>
                 <img src={image} alt="Recipe image shown here" />
