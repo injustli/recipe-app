@@ -134,6 +134,7 @@ export default function RecipeModalForm(props) {
                       return;
                     })
                   }
+                  color="red"
                 >
                   <BiMinus />
                 </ActionIcon>
