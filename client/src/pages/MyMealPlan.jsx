@@ -1,7 +1,7 @@
 import Header from '@/components/Header';
 
 // TODO (issue 13): MyMealPlan component
-export default function MyMealPlan(props) {
+export default function MyMealPlan() {
   return (
     <>
       <Header />
