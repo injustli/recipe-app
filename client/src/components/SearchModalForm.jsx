@@ -1,13 +1,25 @@
-import { useRef, useState } from 'react';
-import { Modal, Button, Box, TextInput, Group, RangeSlider, Flex } from '@mantine/core';
+import { useState } from 'react';
+import {
+  Modal,
+  Button,
+  Box,
+  TextInput,
+  Group,
+  RangeSlider,
+  Text,
+  ActionIcon
+} from '@mantine/core';
+import { useImmer } from 'use-immer';
+import { BiPlus } from 'react-icons/bi';
+import { BiMinus } from 'react-icons/bi';
 
 // Renders the advanced search form
+// TODO: Remove Modal and instead use flex dropdown menu
 export default function SearchModalForm(props) {
   const {
     setIngredients,
     setModal,
     modalOpen,
-    setCreator,
     setName,
     setMinTime,
     setMaxTime,
@@ -20,12 +32,10 @@ export default function SearchModalForm(props) {
     max: 360
   };
 
-  const [ingredients, updateIngredients] = useState([]);
+  const [ingredients, updateIngredients] = useImmer([]);
   const [recipeName, setRecipeName] = useState('');
-  const [creator, updateCreator] = useState('');
   const [minTime, updateMinTime] = useState(time.min);
   const [maxTime, updateMaxTime] = useState(time.max);
-  const inputRef = useRef();
 
   // Used by the submit button to filter the recipes displayed and close modal
   const onSubmit = (event) => {
@@ -35,7 +45,6 @@ export default function SearchModalForm(props) {
     setMaxTime(maxTime);
     setMinTime(minTime);
     setName(recipeName);
-    setCreator(creator);
     setModal(false);
     setIngredients(ingredients);
   };
@@ -46,8 +55,6 @@ export default function SearchModalForm(props) {
       onClose={() => setModal(false)}
       centered
       size="lg"
-      closeOnClickOutside={false}
-      closeOnEscape={false}
     >
       <form noValidate onSubmit={onSubmit}>
         <TextInput
@@ -57,39 +64,50 @@ export default function SearchModalForm(props) {
           onChange={(e) => setRecipeName(e.target.value)}
           mb="sm"
         />
-        <Box>
-          <Group mb="sm">
-            <TextInput label="Ingredients" placeholder="Ingredient Name" ref={inputRef} />
-            <Button
-              onClick={() => {
-                updateIngredients((currentArray) => {
-                  return [...currentArray, inputRef.current.value];
-                });
-              }}
-              variant="outline"
+        <Box mb="sm">
+          <Group mb="md">
+            <Text>Ingredients</Text>
+            <ActionIcon
+              variant="filled"
+              onClick={() =>
+                updateIngredients((draft) => {
+                  draft.push('');
+                  return;
+                })
+              }
             >
-              Add
-            </Button>
+              <BiPlus />
+            </ActionIcon>
           </Group>
-          <ul>
-            {ingredients.map((ingredient, index) => (
-              <li key={ingredient.id}>
-                {ingredient}
-                <Button
-                  onClick={() => {
-                    updateIngredients((currentArray) => {
-                      return currentArray.filter((_, idx) => idx !== index);
-                    });
-                  }}
-                  variant="outline"
-                  ml={5}
-                >
-                  Delete
-                </Button>
-              </li>
-            ))}
-          </ul>
+          {ingredients.map((ingredient, index) => (
+            <Group key={index} mb="sm" align="center">
+              <TextInput
+                label={`Ingredient ${index + 1}`}
+                placeholder="Ingredient"
+                value={ingredient}
+                onChange={(e) =>
+                  updateIngredients((draft) => {
+                    draft[index] = e.target.value;
+                    return;
+                  })
+                }
+              />
+              <ActionIcon
+                onClick={() => {
+                  updateIngredients((draft) => {
+                    draft.splice(index, 1);
+                    return;
+                  });
+                }}
+                variant="filled"
+                color="red"
+              >
+                <BiMinus />
+              </ActionIcon>
+            </Group>
+          ))}
         </Box>
+        <Text>Cooking Duration in Minutes</Text>
         <RangeSlider
           defaultValue={[time.min, time.max]}
           step={1}
@@ -101,22 +119,13 @@ export default function SearchModalForm(props) {
             updateMaxTime(val[1]);
           }}
           value={[minTime, maxTime]}
+          mb="sm"
         />
-        
-        <Form.Group className="mb-3">
-          <Form.Label>Created By</Form.Label>
-          <Form.Control
-            type="text"
-            value={creator}
-            onChange={(e) => updateCreator(e.target.value)}
-            placeholder="Username"
-          />
-        </Form.Group>
-        <Flex justify="center">
+        <Group justify="center">
           <Button variant="filled" type="submit">
             Search
           </Button>
-        </Flex>
+        </Group>
       </form>
     </Modal>
   );

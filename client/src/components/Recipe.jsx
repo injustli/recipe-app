@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { Card, Modal, Form } from 'react-bootstrap';
-import '@/styles/Recipe.css';
+import { AspectRatio, Card, Checkbox, Group, Modal, Text } from '@mantine/core';
 
 // Renders each recipe as a card
 export default function Recipe(props) {
@@ -27,46 +26,61 @@ export default function Recipe(props) {
   // TODO (issue 26): Card/Modal image
   return (
     <>
-      <Card border="dark" bg="light" className="d-flex rounded-border">
+      <Card
+        shadow="sm"
+        radius="md"
+        component="button"
+        onClick={() => setModal(true)}
+      >
         {setCheckedRecipe && (
-          <div className="d-flex justify-content-end p-2">
-            <Form.Check
+          <Group p="sm" justify="end">
+            <Checkbox
               aria-label="selected_recipe"
               onChange={(event) => onCheckbox(event.target)}
             />
-          </div>
+          </Group>
         )}
-        <button className="card-button" onClick={() => setModal(true)}>
-          <Card.Img variant="top" src={imageUrl} style={{ height: '20vh', maxWidth: '100%' }} />
-          <Card.Title>{name}</Card.Title>
-        </button>
+        <Card.Section mb="md">
+          <AspectRatio ratio={4 / 3}>
+            <img src={imageUrl} alt={name} />
+          </AspectRatio>
+        </Card.Section>
+        <Text>{name}</Text>
       </Card>
-      <Modal show={modal} onHide={() => setModal(false)} centered size="lg">
-        <Modal.Header closeButton>
-          <Modal.Title>{name}</Modal.Title>
-          <Modal.Title className="modal-time">{time}</Modal.Title>
-        </Modal.Header>
-        <img src={imageUrl} alt={name} style={{ height: '50vh', maxWidth: '100%' }} />
-        <Modal.Body>
-          <div className="modal-box">
-            Ingredients:
-            <ul>
-              {ingredients.map((ingredient, index) => {
-                return <li key={index}>{ingredient}</li>;
-              })}
-            </ul>
-          </div>
-          <div className="modal-box">
-            Procedure:
-            <ol>
-              {method.map((m, index) => {
-                return <li key={index}>{m}</li>;
-              })}
-            </ol>
-          </div>
-          <span>Created By: {createdBy}</span>
-        </Modal.Body>
-      </Modal>
+      {modal && (
+        <Modal
+          opened={modal}
+          onClose={() => setModal(false)}
+          centered
+          size="lg"
+          title={
+            <Group justify="space-between">
+              <Text>{name}</Text>
+              <Text>{time}</Text>
+            </Group>
+          }
+        >
+          <AspectRatio ratio={4 / 3} mb="md">
+            <img src={imageUrl} alt={name} />
+          </AspectRatio>
+
+          <Text>Ingredients</Text>
+          <ul>
+            {ingredients.map((ingredient, index) => {
+              return <li key={index}>{ingredient}</li>;
+            })}
+          </ul>
+
+          <Text>Directions</Text>
+          <ol>
+            {method.map((m, index) => {
+              return <li key={index}>{m}</li>;
+            })}
+          </ol>
+
+          <Text mt="md">Created By: {createdBy}</Text>
+        </Modal>
+      )}
     </>
   );
 }

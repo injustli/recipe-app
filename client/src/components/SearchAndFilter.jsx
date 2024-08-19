@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
-import { InputGroup, Button, Form, Container } from 'react-bootstrap';
 import { BsSearch } from 'react-icons/bs';
 import { useSearchParams } from 'react-router-dom';
-import { createPortal } from 'react-dom';
+import { Button, Group, TextInput } from '@mantine/core';
 import SearchModalForm from './SearchModalForm';
 
 // Renders the search bar to filter recipes
@@ -26,30 +25,26 @@ export default function SearchAndFilter(props) {
   };
 
   return (
-    <Container>
-      <InputGroup>
-        <Form.Control
-          type="text"
+    <>
+      <Group>
+        <TextInput
+          value={name}
           placeholder="Search"
           onChange={(event) => sendName(event.target.value)}
-          style={{ borderRight: 'none' }}
+          rightSection={<BsSearch />}
         />
-        <InputGroup.Text style={{ backgroundColor: 'transparent' }}>
-          <BsSearch />
-        </InputGroup.Text>
-        <Button variant="outline-dark" onClick={() => setModal(true)} type="button">
+        <Button variant="outline" onClick={() => setModal(true)} type="button">
           Advanced Search
         </Button>
-      </InputGroup>
-      {modalOpen &&
-        createPortal(
-          <SearchModalForm
-            {...props}
-            setModal={(flag) => setModal(flag)}
-            modalOpen={modalOpen}
-          />,
-          document.body
-        )}
-    </Container>
+      </Group>
+      {modalOpen && (
+        <SearchModalForm
+          setName={(name) => setName(name)}
+          onPageChange={(page) => onPageChange(page)}
+          setModal={(flag) => setModal(flag)}
+          modalOpen={modalOpen}
+        />
+      )}
+    </>
   );
 }
