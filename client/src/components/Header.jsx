@@ -1,10 +1,11 @@
 import SearchAndFilter from './SearchAndFilter';
 import useAuthStore from '@/store/authStore';
+import classes from '@/styles/Header.module.css';
 import { useGoogleLogin } from '@react-oauth/google';
-import { Dropdown, Navbar, Container, Button } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
 import { useShallow } from 'zustand/react/shallow';
+import { Avatar, Button, Flex, Menu, Box } from '@mantine/core';
 
 // Render nav bar that contains search bar, dropdown menu, login
 export default function Header(props) {
@@ -53,9 +54,11 @@ export default function Header(props) {
   };
 
   return (
-    <Navbar className="mb-3">
-      <Container fluid>
-        {location.pathname !== '/my-mealplan' && (
+    <header className={classes.header}>
+      <Flex justify="space-between" align="center">
+        <Box
+          className={location.pathname === '/my-mealplan' ? 'invisible' : null}
+        >
           <SearchAndFilter
             setIngredients={(ingredients) => setIngredients(ingredients)}
             setCreator={(user) => setCreator(user)}
@@ -66,41 +69,51 @@ export default function Header(props) {
             page={page}
             name={name}
           />
+        </Box>
+        {user ? (
+          <>
+            <Menu>
+              <Menu.Target>
+                <Button
+                  leftSection={
+                    <Avatar
+                      src={user.profile}
+                      alt="Profile of user"
+                      radius="xl"
+                      size="sm"
+                    />
+                  }
+                >
+                  My Account
+                </Button>
+              </Menu.Target>
+
+              <Menu.Dropdown>
+                <Menu.Item onClick={() => navigateTo('Home')}>Home</Menu.Item>
+                <Menu.Item onClick={() => navigateTo('My Recipes')}>
+                  My Recipes
+                </Menu.Item>
+                <Menu.Item onClick={() => navigateTo('My Meal Plan')}>
+                  My Meal Plan
+                </Menu.Item>
+                <Menu.Item onClick={() => navigateTo('Sign Out')}>
+                  Sign Out
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
+          </>
+        ) : (
+          <>
+            <Button
+              onClick={() => googleLogin()}
+              variant="outline"
+              leftSection={<FcGoogle />}
+            >
+              Sign In
+            </Button>
+          </>
         )}
-        <div className="justify-content-end">
-          {user ? (
-            <>
-              <Dropdown onSelect={(key) => navigateTo(key)}>
-                <Dropdown.Toggle>
-                  <img src={user.profile} alt="Profile picture of user" />
-                  <span>My Account</span>
-                </Dropdown.Toggle>
-                <Dropdown.Menu>
-                  <Dropdown.Item as="button" eventKey="Home">
-                    Home
-                  </Dropdown.Item>
-                  <Dropdown.Item as="button" eventKey="My Recipes">
-                    My Recipes
-                  </Dropdown.Item>
-                  <Dropdown.Item as="button" eventKey="My Meal Plan">
-                    My Meal Plan
-                  </Dropdown.Item>
-                  <Dropdown.Item as="button" eventKey="Sign Out">
-                    Sign Out
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </>
-          ) : (
-            <>
-              <Button onClick={() => googleLogin()} variant="outline-dark">
-                <FcGoogle />
-                <span className="ms-1">Sign In</span>
-              </Button>
-            </>
-          )}
-        </div>
-      </Container>
-    </Navbar>
+      </Flex>
+    </header>
   );
 }
