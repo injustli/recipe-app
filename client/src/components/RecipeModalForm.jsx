@@ -177,7 +177,10 @@ export default function RecipeModalForm(props) {
                       return;
                     })
                   }
-                ></ActionIcon>
+                  color="red"
+                >
+                  <BiMinus />
+                </ActionIcon>
               </Group>
             ))}
 
