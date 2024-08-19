@@ -92,7 +92,7 @@ export default function RecipeModalForm(props) {
             />
 
             {image && (
-              <AspectRatio ratio={16 / 9}>
+              <AspectRatio ratio={4 / 3}>
                 <img src={image} alt="Recipe image shown here" />
               </AspectRatio>
             )}
