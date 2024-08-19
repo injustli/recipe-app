@@ -173,7 +173,7 @@ export default function RecipeModalForm(props) {
                   variant="filled"
                   onClick={() =>
                     setFormData((draft) => {
-                      draft.splice(index, 1);
+                      draft.method.splice(index, 1);
                       return;
                     })
                   }
