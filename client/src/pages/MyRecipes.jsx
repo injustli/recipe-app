@@ -63,7 +63,6 @@ export default function MyRecipes() {
         <button
           type="button"
           className="circular-button"
-          hidden={checkedRecipe ? false : true}
           onClick={() => onClick('delete')}
         >
           <BsTrash3Fill className="button-icon" />
@@ -71,7 +70,6 @@ export default function MyRecipes() {
         <button
           type="button"
           className="circular-button"
-          hidden={checkedRecipe ? false : true}
           onClick={() => onClick('edit')}
         >
           <GrEdit className="button-icon" />
