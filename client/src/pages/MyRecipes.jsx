@@ -8,7 +8,6 @@ import Header from '@/components/Header';
 import '@/styles/MyRecipes.css';
 import RecipeModalForm from '@/components/RecipeModalForm';
 import useAuthStore from '@/store/authStore';
-import { createPortal } from 'react-dom';
 
 // Renders the my recipe page when user selects it under dropdown menu
 export default function MyRecipes() {
@@ -85,21 +84,19 @@ export default function MyRecipes() {
           <IoAddSharp className="button-icon" />
         </button>
       </div>
-      {modal &&
-        createPortal(
-          <RecipeModalForm
-            modal={modal}
-            setModal={(flag) => setModal(flag)}
-            user={user}
-            data={
-              checkedRecipe
-                ? recipes.filter((s) => s._id === checkedRecipe.id)[0]
-                : checkedRecipe
-            }
-            mode={mode}
-          />,
-          document.body
-        )}
+      {modal && (
+        <RecipeModalForm
+          modal={modal}
+          setModal={(flag) => setModal(flag)}
+          user={user}
+          data={
+            checkedRecipe
+              ? recipes.filter((s) => s._id === checkedRecipe.id)[0]
+              : checkedRecipe
+          }
+          mode={mode}
+        />
+      )}
     </>
   );
 }
