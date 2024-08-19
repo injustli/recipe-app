@@ -16,7 +16,7 @@ export default function MyRecipes() {
   const [minTime, setMinTime] = useState('');
   const [maxTime, setMaxTime] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(25);
+  const [pageSize, setPageSize] = useState('25');
   const [checkedRecipe, setCheckedRecipe] = useState(null);
   const [modal, setModal] = useState(false);
   const [mode, setMode] = useState('');
