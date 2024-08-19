@@ -17,6 +17,10 @@ const multerMid = multer({
 
 const app = express();
 
+// TODO: Remove unnecessary body parser
+// TODO: Add error middleware that maps exceptions to non 500 error status codes
+// TODO: Remove unnecessary user routes and user controller files
+// TODO: Remove Calendar.js for now
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
