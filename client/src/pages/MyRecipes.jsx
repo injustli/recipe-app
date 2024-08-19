@@ -38,6 +38,7 @@ export default function MyRecipes() {
     setMode(mode);
   };
 
+  // TODO: Improve style of this page
   return (
     <>
       <Header
