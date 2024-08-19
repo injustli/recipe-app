@@ -32,7 +32,7 @@ export default function RecipeModalForm(props) {
   const user = useAuthStore((state) => state.user);
   const [image, setImage] = useState(() => formData.imageUrl);
 
-  // TODO: Add validation using some sort of validation library (e.g. react-hook-forms)
+  // TODO: Use form library (e.g. react-hook-forms) and add validation
   const onSubmit = () => {
     let form = new FormData();
     let endpoint = '/api/recipes';
