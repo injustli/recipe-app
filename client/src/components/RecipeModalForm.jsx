@@ -184,6 +184,8 @@ export default function RecipeModalForm(props) {
               </Group>
             ))}
 
+            {/* TODO: Add cooking time input */}
+
             <Group justify="center">
               <Button type="submit">Create</Button>
             </Group>
