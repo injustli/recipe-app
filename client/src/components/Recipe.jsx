@@ -41,7 +41,7 @@ export default function Recipe(props) {
           </Group>
         )}
         <Card.Section mb="md">
-          <AspectRatio ratio={4 / 3}>
+          <AspectRatio ratio={16 / 9}>
             <img src={imageUrl} alt={name} />
           </AspectRatio>
         </Card.Section>
@@ -60,7 +60,7 @@ export default function Recipe(props) {
             </Group>
           }
         >
-          <AspectRatio ratio={4 / 3} mb="md">
+          <AspectRatio ratio={16 / 9} mb="md">
             <img src={imageUrl} alt={name} />
           </AspectRatio>
 
