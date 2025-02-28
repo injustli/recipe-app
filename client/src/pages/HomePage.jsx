@@ -10,7 +10,7 @@ export default function HomePage() {
   const [maxTime, setMaxTime] = useState('');
   const [creator, setCreator] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(25);
+  const [pageSize, setPageSize] = useState('25');
 
   const { recipes, totalCount } = useFetchRecipes(
     currentPage,

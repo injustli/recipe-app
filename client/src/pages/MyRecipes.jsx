@@ -16,7 +16,7 @@ export default function MyRecipes() {
   const [minTime, setMinTime] = useState('');
   const [maxTime, setMaxTime] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(25);
+  const [pageSize, setPageSize] = useState('25');
   const [checkedRecipe, setCheckedRecipe] = useState(null);
   const [modal, setModal] = useState(false);
   const [mode, setMode] = useState('');
@@ -38,6 +38,7 @@ export default function MyRecipes() {
     setMode(mode);
   };
 
+  // TODO: Improve style of this page
   return (
     <>
       <Header
@@ -59,34 +60,29 @@ export default function MyRecipes() {
         setPageSize={(size) => setPageSize(size)}
         setCheckedRecipe={(recipe) => setCheckedRecipe(recipe)}
       />
-      <button
-        type="button"
-        className="circular-button"
-        id="add-recipe-button"
-        onClick={() => onClick('add')}
-      >
-        <IoAddSharp className="button-icon" />
-      </button>
-      {checkedRecipe && (
-        <>
-          <button
-            type="button"
-            className="circular-button"
-            onClick={() => onClick('edit')}
-            id="edit-recipe-button"
-          >
-            <GrEdit className="button-icon" />
-          </button>
-          <button
-            type="button"
-            className="circular-button"
-            id="del-recipe-button"
-            onClick={() => onClick('delete')}
-          >
-            <BsTrash3Fill className="button-icon" />
-          </button>
-        </>
-      )}
+      <div className="icon-container">
+        <button
+          type="button"
+          className="circular-button"
+          onClick={() => onClick('delete')}
+        >
+          <BsTrash3Fill className="button-icon" />
+        </button>
+        <button
+          type="button"
+          className="circular-button"
+          onClick={() => onClick('edit')}
+        >
+          <GrEdit className="button-icon" />
+        </button>
+        <button
+          type="button"
+          className="circular-button"
+          onClick={() => onClick('add')}
+        >
+          <IoAddSharp className="button-icon" />
+        </button>
+      </div>
       {modal && (
         <RecipeModalForm
           modal={modal}

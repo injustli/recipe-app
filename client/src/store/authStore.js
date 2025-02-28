@@ -37,7 +37,7 @@ const useAuthStore = create((set, get) => ({
     });
     if (!response.ok) {
       set({ ...authInitialState, isAuth: false });
-      throw new Error('Invalid refresh token');
+      throw new Error();
     }
     const { accessToken, user, idToken } = await response.json();
     set({ user, accessToken, idToken, isAuth: true });
