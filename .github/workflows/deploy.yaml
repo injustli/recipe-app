@@ -30,7 +30,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/client/package-lock.json') }}
+          key: ${{ runner.os }}-node-${{ hashFiles('./client/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
 
@@ -43,9 +43,14 @@ jobs:
           VITE_GOOGLE_CLIENT_ID: ${{ secrets.VITE_GOOGLE_CLIENT_ID }}
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
 
-      - name: Deploy with gh-pages
-        run: |
-          git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
-          npm run deploy -- -u "github-actions-bot <support+actions@github.com>"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload build output to artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '**/dist'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
