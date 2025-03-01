@@ -9,7 +9,7 @@ const createIngredientQueryParam = (ingredients) => {
   return res;
 };
 
-const environment = import.meta.env.NODE_ENV;
+const environment = import.meta.env.VITE_NODE_ENV;
 const SERVER_URL =
   environment == 'production'
     ? import.meta.env.VITE_API_URL
