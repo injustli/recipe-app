@@ -8,15 +8,11 @@ export default defineConfig({
   resolve: {
     alias: { '@': path.resolve(__dirname, './src') }
   },
-  build: {
-    outDir: 'build'
-  },
   server: {
-    proxy: {
-      '^/api': {
-        target: 'http://localhost:8080'
-      }
-    },
-    port: 5173
+    port: 3000,
+    host: true,
+    watch: {
+      usePolling: true
+    }
   }
 });

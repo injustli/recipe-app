@@ -9,6 +9,12 @@ const createIngredientQueryParam = (ingredients) => {
   return res;
 };
 
+const environment = import.meta.env.NODE_ENV;
+const SERVER_URL =
+  environment == 'production'
+    ? import.meta.env.VITE_API_URL
+    : 'http://localhost:8080';
+
 // Custom effect to fetch recipes to be displayed based on query params
 export const useFetchRecipes = (
   currentPage,
@@ -26,7 +32,7 @@ export const useFetchRecipes = (
     const fetchData = async () => {
       try {
         const result = await fetch(
-          `/api/recipes?page=${currentPage}&limit=` +
+          `${SERVER_URL}/api/recipes?page=${currentPage}&limit=` +
             `${pageSize}&${createIngredientQueryParam(ingredients)}name=` +
             `${name}&minTime=${minTime}&maxTime=` +
             `${maxTime}&user=${creator}`,
@@ -34,9 +40,9 @@ export const useFetchRecipes = (
             method: 'GET',
             headers: {
               Accept: 'application/json',
-              'Content-Type': 'application/json',
+              'Content-Type': 'application/json'
             },
-            signal: controller.signal,
+            signal: controller.signal
           }
         );
         const data = await result.json();

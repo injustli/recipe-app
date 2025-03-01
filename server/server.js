@@ -36,14 +36,6 @@ app.use('/api/recipes', multerMid.single('file'), recipeRoutes);
 
 app.use('/api/auth', authRoutes);
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(path.resolve(), '/build')));
-
-  app.get('*', (_, res) => {
-    res.sendFile(path.resolve(path.resolve(), 'build', 'index.html'));
-  });
-}
-
 app.listen(process.env.PORT || 8080, async () => {
   await connectDB();
   console.log(`Listening on port ${process.env.PORT || 8080}!`);
