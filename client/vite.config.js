@@ -4,21 +4,17 @@ import path from 'path';
 
 // https://vitejs.dev/config/
 
-export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd());
-
-  return {
-    base: env.VITE_NODE_ENV == 'production' ? '/recipe-app' : '/',
-    plugins: [react()],
-    resolve: {
-      alias: { '@': path.resolve(__dirname, './src') }
-    },
-    server: {
-      port: 3000,
-      host: true,
-      watch: {
-        usePolling: true
-      }
+export default defineConfig({
+  base: './',
+  plugins: [react()],
+  resolve: {
+    alias: { '@': path.resolve(__dirname, './src') }
+  },
+  server: {
+    port: 3000,
+    host: true,
+    watch: {
+      usePolling: true
     }
-  };
+  }
 });
