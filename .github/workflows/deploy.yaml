@@ -14,10 +14,13 @@ permissions:
 env: 
   VITE_NODE_ENV: production 
 
+defaults:
+  run:
+    working-directory: ./client
+
 jobs:
   deploy:
-    environment: 
-      name: github-pages
+    environment: github-pages
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -31,12 +34,10 @@ jobs:
           cache-dependency-path: client/package-lock.json
 
       - name: Install dependencies
-        run: npm install
-        working-directory: ./client
+        run: npm ci
 
       - name: Build
         run: npm run build
-        working-directory: ./client
         env: 
           VITE_GOOGLE_CLIENT_ID: ${{ secrets.VITE_GOOGLE_CLIENT_ID }}
           VITE_API_URL: ${{ secrets.VITE_API_URL }}
@@ -47,7 +48,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './client/dist'
+          path: ./dist
 
       - name: Deploy to GitHub Pages
         id: deployment
