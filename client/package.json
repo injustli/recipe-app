@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "homepage": "https://injustli@github.io/recipe-app",
   "dependencies": {
     "@mantine/core": "^7.12.0",
     "@mantine/dates": "^7.12.0",
