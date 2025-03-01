@@ -7,10 +7,16 @@ const authInitialState = {
   isAuth: null
 };
 
+const environment = import.meta.env.NODE_ENV;
+const SERVER_URL =
+  environment == 'production'
+    ? import.meta.env.VITE_API_URL
+    : 'http://localhost:8080';
+
 const useAuthStore = create((set, get) => ({
   ...authInitialState,
   login: async (code) => {
-    const response = await fetch('/api/auth/google/authenticate', {
+    const response = await fetch(`${SERVER_URL}/api/auth/google/authenticate`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -28,7 +34,7 @@ const useAuthStore = create((set, get) => ({
     set({ user, accessToken, idToken, isAuth: true });
   },
   refresh: async () => {
-    const response = await fetch('/api/auth/google/refresh', {
+    const response = await fetch(`${SERVER_URL}/api/auth/google/refresh`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -43,7 +49,7 @@ const useAuthStore = create((set, get) => ({
     set({ user, accessToken, idToken, isAuth: true });
   },
   logout: async () => {
-    await fetch('/api/auth/google/logout', {
+    await fetch(`${SERVER_URL}/api/auth/google/logout`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

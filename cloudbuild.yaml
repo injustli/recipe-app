@@ -1,23 +1,28 @@
 steps:
-  - name: gcr.io/cloud-builders/docker
+  - id: Build docker image for server
+    name: gcr.io/cloud-builders/docker
+    dir: server
     args: 
       - -c
       - >-
-        docker build --build-arg ARG1=$$REACT_APP_GOOGLE_CLIENT_ID -t $_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA .
-    id: Build
+        docker build -t $_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA --file Dockerfile.prod .
     entrypoint: bash
     secretEnv:
       - MONGODB_DB
       - MONGODB_USER
       - MONGODB_PASS
-      - REACT_APP_GOOGLE_CLIENT_ID
-  - name: gcr.io/cloud-builders/docker
+      - VITE_GOOGLE_CLIENT_ID
+      - CLIENT_SECRET
+  
+  - id: Push docker image to artifact registry
+    name: gcr.io/cloud-builders/docker
     args:
       - push
       - >-
         $_AR_HOSTNAME/$PROJECT_ID/cloud-run-source-deploy/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA
-    id: Push
-  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+  
+  - id: Deploy application via Cloud Run
+    name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
     args:
       - run
       - services
@@ -30,20 +35,23 @@ steps:
         --labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,gcb-trigger-id=$_TRIGGER_ID
       - '--region=$_DEPLOY_REGION'
       - '--quiet'
-    id: Deploy
     entrypoint: gcloud
+
 options:
   substitutionOption: ALLOW_LOOSE
+
 substitutions:
   _SERVICE_NAME: mealplanner
   _DEPLOY_REGION: us-central1
   _TRIGGER_ID: e9b97f85-7a05-44ef-b3c4-7153f7c89d4b
   _AR_HOSTNAME: us-central1-docker.pkg.dev
   _PLATFORM: managed
+
 tags:
   - gcp-cloud-build-deploy-cloud-run
   - gcp-cloud-build-deploy-cloud-run-managed
   - mealplanner
+
 availableSecrets:
   secretManager:
     - versionName: projects/$PROJECT_NUMBER/secrets/MONGODB_PASS/versions/latest
@@ -52,5 +60,7 @@ availableSecrets:
       env: MONGODB_DB
     - versionName: projects/$PROJECT_NUMBER/secrets/MONGODB_USER/versions/latest
       env: MONGODB_USER
-    - versionName: projects/$PROJECT_NUMBER/secrets/REACT_APP_GOOGLE_CLIENT_ID/versions/latest
-      env: REACT_APP_GOOGLE_CLIENT_ID
+    - versionName: projects/$PROJECT_NUMBER/secrets/VITE_GOOGLE_CLIENT_ID/versions/latest
+      env: VITE_GOOGLE_CLIENT_ID
+    - versionName: projects/$PROJECT_NUMBER/secrets/CLIENT_SECRET/versions/latest
+      env: CLIENT_SECRET
