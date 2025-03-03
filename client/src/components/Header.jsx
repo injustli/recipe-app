@@ -1,11 +1,12 @@
 import SearchAndFilter from './SearchAndFilter';
 import useAuthStore from '@/store/authStore';
 import classes from '@/styles/Header.module.css';
-import { useGoogleLogin } from '@react-oauth/google';
+// import { useGoogleLogin } from '@react-oauth/google';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
 import { useShallow } from 'zustand/react/shallow';
 import { Avatar, Button, Flex, Menu, Box } from '@mantine/core';
+import { useEffect, useState } from 'react';
 
 // Render nav bar that contains search bar, dropdown menu, login
 export default function Header(props) {
@@ -24,16 +25,42 @@ export default function Header(props) {
     useShallow((state) => [state.user, state.login, state.logout])
   );
   const location = useLocation();
+  const [googleClient, setGoogleClient] = useState(null);
 
-  const googleLogin = useGoogleLogin({
-    onSuccess: async (codeResponse) => {
-      await login(codeResponse.code);
-    },
-    onError: (e) => {
-      console.log('Error has occured while logging in: ' + e);
-    },
-    flow: 'auth-code'
-  });
+  // const googleLogin = useGoogleLogin({
+  //   onSuccess: async (codeResponse) => {
+  //     await login(codeResponse.code);
+  //   },
+  //   onError: (e) => {
+  //     console.log('Error has occured while logging in: ' + e);
+  //   },
+  //   flow: 'auth-code'
+  // });
+  useEffect(() => {
+    // Dynamically create the Google Identity Services script
+    const script = document.createElement('script');
+    script.src = 'https://accounts.google.com/gsi/client';
+    script.async = true;
+    script.defer = true;
+    script.onload = () => {
+      // Initialize the Google OAuth2 client after the script loads
+      if (window.google && window.google.accounts) {
+        const client = window.google.accounts.oauth2.initCodeClient({
+          client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+          scope: 'email profile openid',
+          ux_mode: 'popup',
+          callback: async (response) => await login(response.code)
+        });
+        setGoogleClient(client);
+      }
+    };
+    document.body.appendChild(script);
+
+    // Cleanup the script on unmount if necessary
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
   const navigate = useNavigate();
 
@@ -105,7 +132,7 @@ export default function Header(props) {
         ) : (
           <>
             <Button
-              onClick={() => googleLogin()}
+              onClick={() => googleClient.requestCode()}
               variant="outline"
               leftSection={<FcGoogle />}
             >
