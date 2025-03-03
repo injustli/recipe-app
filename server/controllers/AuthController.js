@@ -49,6 +49,7 @@ export const userLogin = asyncHandler(async (req, res) => {
   const { code } = req.body;
 
   const { tokens } = await client.getToken(code);
+  client.credentials = tokens;
   const { access_token, refresh_token, id_token } = tokens;
 
   const userInfo = jwtDecode(id_token);
