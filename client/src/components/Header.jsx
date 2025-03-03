@@ -49,6 +49,7 @@ export default function Header(props) {
           client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
           scope: 'email profile openid',
           ux_mode: 'popup',
+          redirect_uri: 'postmessage',
           callback: async (response) => await login(response.code)
         });
         setGoogleClient(client);
