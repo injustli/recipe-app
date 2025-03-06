@@ -7,7 +7,7 @@ const authInitialState = {
   isAuth: null
 };
 
-const environment = import.meta.env.NODE_ENV;
+const environment = import.meta.env.VITE_NODE_ENV;
 const SERVER_URL =
   environment == 'production'
     ? import.meta.env.VITE_API_URL
@@ -19,12 +19,11 @@ const useAuthStore = create((set, get) => ({
     const response = await fetch(`${SERVER_URL}/api/auth/google/authenticate`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Accept: 'application/json',
+        'X-Requested-With': 'XmlHttpRequest'
       },
-      body: JSON.stringify({
-        code
-      })
+      body: new URLSearchParams({ code })
     });
     if (!response.ok) {
       set({ isAuth: false });

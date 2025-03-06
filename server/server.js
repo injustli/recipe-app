@@ -1,5 +1,4 @@
 import bodyParser from 'body-parser';
-import path from 'path';
 import express from 'express';
 import connectDB from './database/Config.js';
 import recipeRoutes from './routes/RecipeRoutes.js';
@@ -22,7 +21,6 @@ const app = express();
 // TODO: Remove unnecessary user routes and user controller files
 // TODO: Remove Calendar.js for now
 app.use(cors());
-app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());

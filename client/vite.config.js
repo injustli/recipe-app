@@ -8,7 +8,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd());
 
   return {
-    base: env.VITE_NODE_ENV == 'production' ? '/recipe-app' : '/',
+    base: env.VITE_NODE_ENV == 'production' ? '/recipe-app/' : '/',
     plugins: [react()],
     resolve: {
       alias: { '@': path.resolve(__dirname, './src') }
