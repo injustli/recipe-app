@@ -15,10 +15,8 @@ export default function App() {
     refresh();
   }, []);
 
-  const environment = import.meta.env.VITE_NODE_ENV;
-
   return (
-    <Router basename={environment == 'production' ? '/recipe-app' : '/'}>
+    <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route element={<ProtectedRoute />}>
