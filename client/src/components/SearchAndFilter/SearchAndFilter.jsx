@@ -10,10 +10,12 @@ import {
   RangeSlider,
   Stack,
   Text,
-  TextInput
+  TextInput,
+  Box
 } from '@mantine/core';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { MIN_TIME, MAX_TIME } from '@utils/constants';
+import classes from './SearchAndFilter.module.css';
 
 // Renders the search bar to filter recipes
 export default function SearchAndFilter({
@@ -83,7 +85,7 @@ export default function SearchAndFilter({
     const pills = [];
     if (name) {
       pills.push(
-        <Pill key="name" withRemoveButton onRemove={() => setName('')}>
+        <Pill key="name" withRemoveButton onRemove={() => setName('')} className={classes.pills}>
           {name}
         </Pill>
       );
@@ -97,6 +99,7 @@ export default function SearchAndFilter({
             onRemove={() =>
               setIngredients(ingredients.filter((val) => val !== ingredient))
             }
+            className={classes.pills}
           >
             {ingredient}
           </Pill>
@@ -109,23 +112,24 @@ export default function SearchAndFilter({
           key="timeRange"
           withRemoveButton
           onRemove={() => setTimeRange([MIN_TIME, MAX_TIME])}
+          className={classes.pills}
         >
           {range}
         </Pill>
       );
     }
-    if (pills.length > 0) {
+    if (pills.length > 1) {
       pills.push(
-        <Pill key="clear" withRemoveButton onRemove={() => clearParams()}>
+        <Pill key="clear" withRemoveButton onRemove={() => clearParams()} className={classes.pillsClear}>
           Clear All
         </Pill>
       );
     }
-    return pills;
+    return <Pill.Group mb="lg">{pills}</Pill.Group>;
   };
 
   return (
-    <>
+    <Box px="md" mx="md">
       <Group my="lg" justify="center">
         <TextInput
           value={name}
@@ -227,6 +231,6 @@ export default function SearchAndFilter({
         </Popover>
       </Group>
       {createPills()}
-    </>
+    </Box>
   );
 }

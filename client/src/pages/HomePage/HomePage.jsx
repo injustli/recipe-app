@@ -1,6 +1,6 @@
 import { useFetchRecipes } from '@components/useFetchRecipes';
 import RecipeView from '@components/RecipeView';
-import SearchAndFilter from '@components/SearchAndFilter';
+import SearchAndFilter from '@components/SearchAndFilter/SearchAndFilter';
 import styles from './HomePage.module.css';
 import { useSearchParams } from 'react-router-dom';
 import { MIN_TIME, MAX_TIME } from '@utils/constants';
@@ -21,7 +21,7 @@ export default function HomePage() {
     ? Number(searchParams.get('maxTime'))
     : MAX_TIME;
   const currentPage = searchParams.get('page') ? searchParams.get('page') : 1;
-  const pageSize = 10;
+  const pageSize = 25;
 
   const { recipes, totalCount } = useFetchRecipes(
     currentPage,
