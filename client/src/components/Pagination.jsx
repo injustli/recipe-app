@@ -1,39 +1,37 @@
-import { Group, Pagination, Select } from '@mantine/core';
+import { Group, Pagination } from '@mantine/core';
 import { useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 // Renders pagination of recipe view component
 export default function PaginationWrapper(props) {
-  const {
-    siblings = 1,
-    onPageChange,
-    currentPage,
-    totalCount,
-    pageSize,
-    setPageSize
-  } = props;
+  const { siblings = 1, totalCount, pageSize, page, setSearchParams } = props;
 
   const totalPageCount = useMemo(
     () => Math.ceil(totalCount / pageSize),
     [totalCount, pageSize]
   );
 
+  const setPage = (value) => {
+    setSearchParams((prev) => {
+      if (value == 1) {
+        prev.delete('page');
+      } else {
+        prev.set('page', value);
+      }
+      return prev;
+    });
+  };
+
   return (
     <>
-      <Group justify="space-around">
+      <Group justify={'center'}>
         <Pagination
           siblings={siblings}
           total={totalPageCount}
-          value={currentPage}
-          onChange={onPageChange}
+          value={page}
+          onChange={setPage}
           withEdges
           hideWithOnePage
-        />
-        <Select
-          label="Items per page"
-          data={['25', '50', '100']}
-          value={pageSize}
-          onChange={setPageSize}
-          display={totalPageCount <= 1 ? 'none' : 'block'}
         />
       </Group>
     </>

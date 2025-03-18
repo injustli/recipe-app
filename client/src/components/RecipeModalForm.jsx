@@ -12,7 +12,7 @@ import { useImmer } from 'use-immer';
 import { BiPlus } from 'react-icons/bi';
 import { BiMinus } from 'react-icons/bi';
 import { useState } from 'react';
-import useAuthStore from '@/store/authStore';
+import useAuthStore from '@store/authStore';
 
 const initialRender = (mode, data) => {
   return {
