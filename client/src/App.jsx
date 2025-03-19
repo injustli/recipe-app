@@ -1,11 +1,12 @@
 import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
-import MyMealPlan from './pages/MyMealPlan';
-import MyRecipes from './pages/MyRecipes';
-import useAuthStore from './store/authStore';
-import HomePage from './pages/HomePage';
-import ProtectedRoute from './components/ProtectedRoute';
+import MyMealPlan from '@pages/MyMealPlan';
+import MyRecipes from '@pages/MyRecipes/MyRecipes';
+import useAuthStore from '@store/authStore';
+import HomePage from '@pages/HomePage/HomePage';
+import ProtectedRoute from '@components/ProtectedRoute';
+import PageLayout from '@components/PageLayout';
 
 export default function App() {
   const refresh = useAuthStore((state) => state.refresh);
@@ -15,12 +16,17 @@ export default function App() {
     refresh();
   }, []);
 
-  const environment = import.meta.env.VITE_NODE_ENV;
-
   return (
-    <Router basename={environment == 'production' ? '/recipe-app' : '/'}>
+    <Router>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route
+          path="/"
+          element={
+            <PageLayout>
+              <HomePage />
+            </PageLayout>
+          }
+        />
         <Route element={<ProtectedRoute />}>
           <Route path="/my-recipes" element={<MyRecipes />} />
           <Route path="/my-mealplan" element={<MyMealPlan />} />

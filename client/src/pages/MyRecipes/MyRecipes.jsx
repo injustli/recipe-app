@@ -1,13 +1,12 @@
 import { useState } from 'react';
-import { useFetchRecipes } from '@/components/useFetchRecipes';
+import { useFetchRecipes } from '@components/useFetchRecipes';
 import { IoAddSharp } from 'react-icons/io5';
 import { GrEdit } from 'react-icons/gr';
 import { BsTrash3Fill } from 'react-icons/bs';
-import RecipeView from '@/components/RecipeView';
-import Header from '@/components/Header';
-import '@/styles/MyRecipes.css';
-import RecipeModalForm from '@/components/RecipeModalForm';
-import useAuthStore from '@/store/authStore';
+import RecipeView from '@components/RecipeView';
+import './MyRecipes.css';
+import RecipeModalForm from '@components/RecipeModalForm';
+import useAuthStore from '@store/authStore';
 
 // Renders the my recipe page when user selects it under dropdown menu
 export default function MyRecipes() {
@@ -41,16 +40,6 @@ export default function MyRecipes() {
   // TODO: Improve style of this page
   return (
     <>
-      <Header
-        setName={(name) => setName(name)}
-        setIngredients={(array) => setIngredients(array)}
-        setMinTime={(time) => setMinTime(time)}
-        setMaxTime={(time) => setMaxTime(time)}
-        onPageChange={(page) => setCurrentPage(page)}
-        user={user}
-        page={currentPage}
-        name={name}
-      />
       <RecipeView
         data={recipes}
         currentPage={currentPage}
