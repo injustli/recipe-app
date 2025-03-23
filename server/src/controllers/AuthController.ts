@@ -124,7 +124,7 @@ export const userLogout = asyncHandler(async (req: Request, res: Response) => {
   const user = req.user;
   // If user exists, clears associated refresh token in database and clear cookie
   if (user) {
-    await User.findOneAndUpdate({email: user.email}, {refreshToken: ''});
+    await User.findOneAndUpdate({ email: user.email }, { refreshToken: '' });
   }
   res.clearCookie('refreshToken');
   res.status(200).json();

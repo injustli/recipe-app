@@ -1,5 +1,5 @@
 import bodyParser from 'body-parser';
-import express from 'express';
+import express, { Response } from 'express';
 import connectDB from '@database/Config';
 import recipeRoutes from '@routes/RecipeRoutes';
 import authRoutes from '@routes/AuthRoutes';
@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 // Test API method
-app.get('/api/test', (_, res) => {
+app.get('/api/test', (res: Response) => {
   res.status(200).json({ message: 'Hello World!' });
 });
 

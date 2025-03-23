@@ -4,49 +4,51 @@ import { uploadImage } from '@database/Storage';
 import { Request, Response } from 'express';
 
 interface RecipeQuery {
-  name?: { $regex: string, $options: string}
-  time?: {$gte: number, $lte: number},
-  ingredients?: {$elemMatch: {$in: string[]}},
-  createdBy?: {$regex: string, $options: string}
+  name?: { $regex: string; $options: string };
+  time?: { $gte: number; $lte: number };
+  ingredients?: { $elemMatch: { $in: string[] } };
+  createdBy?: { $regex: string; $options: string };
 }
 
 // @desc   Gets recipes from the database based on user query parameters
 // @route  GET /api/recipes
 // @access public
-export const fetchRecipes = asyncHandler(async (req: Request, res: Response) => {
-  const {ingredients, user, name } = req.query;
-  if (!req.query.page && !req.query.limit) {
-    res.status(400);
-    throw new Error(`page and limit query parameters weren't set!`);
-  }
+export const fetchRecipes = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { ingredients, user, name } = req.query;
+    if (!req.query.page && !req.query.limit) {
+      res.status(400);
+      throw new Error(`page and limit query parameters weren't set!`);
+    }
 
-  const query = {} as RecipeQuery;
+    const query = {} as RecipeQuery;
 
-  const page = Number(req.query.page as string);
-  const limit = Number(req.query.limit as string);
-  const minTime = Number(req.query.minTime as string);
-  const maxTime = Number(req.query.maxTime as string);
+    const page = Number(req.query.page as string);
+    const limit = Number(req.query.limit as string);
+    const minTime = Number(req.query.minTime as string);
+    const maxTime = Number(req.query.maxTime as string);
 
-  if (name) {
-    query['name'] = { $regex: name as string, $options: 'i' };
+    if (name) {
+      query['name'] = { $regex: name as string, $options: 'i' };
+    }
+    if (minTime && maxTime) {
+      query['time'] = { $gte: minTime, $lte: maxTime };
+    }
+    if (ingredients) {
+      query['ingredients'] = { $elemMatch: { $in: ingredients as string[] } };
+    }
+    if (user) {
+      query['createdBy'] = { $regex: user as string, $options: 'i' };
+    }
+    const recipes = await Recipe.find(query)
+      .select('_id name ingredients method imageID createdBy time imageUrl')
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .exec();
+    const count = await Recipe.find(query).countDocuments().exec();
+    res.status(200).json({ data: recipes, totalCount: count });
   }
-  if (minTime && maxTime) {
-    query['time'] = { $gte: minTime, $lte: maxTime };
-  }
-  if (ingredients) {
-    query['ingredients'] = { $elemMatch: { $in: ingredients as string[] } };
-  }
-  if (user) {
-    query['createdBy'] = { $regex: user as string, $options: 'i' };
-  }
-  const recipes = await Recipe.find(query)
-    .select('_id name ingredients method imageID createdBy time imageUrl')
-    .skip((page - 1) * limit)
-    .limit(limit)
-    .exec();
-  const count = await Recipe.find(query).countDocuments().exec();
-  res.status(200).json({ data: recipes, totalCount: count });
-});
+);
 
 // @desc   Adds a recipe under the currently logged in user
 // @route  POST /api/recipes
@@ -79,35 +81,39 @@ export const addRecipe = asyncHandler(async (req: Request, res: Response) => {
 // @desc   Deletes a recipe under the currently logged in user
 // @route  DELETE /api/recipes
 // @access private: Logged in user can only delete recipes under their name
-export const deleteRecipe = asyncHandler(async (req: Request, res: Response) => {
-  const { id } = req.params;
-  if (!id) {
-    res.status(400);
-    throw new Error('Recipe id missing from query parameters!');
+export const deleteRecipe = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { id } = req.params;
+    if (!id) {
+      res.status(400);
+      throw new Error('Recipe id missing from query parameters!');
+    }
+    const recipe = await Recipe.findByIdAndDelete({ _id: id });
+    recipe
+      ? res.status(200).send('Recipe successfully removed from database!')
+      : res.status(400).send('Error occurred in removing recipe!');
   }
-  const recipe = await Recipe.findByIdAndDelete({ _id: id });
-  recipe
-    ? res.status(200).send('Recipe successfully removed from database!')
-    : res.status(400).send('Error occurred in removing recipe!');
-});
+);
 
 // @desc   Modifies a recipe under the currently logged in user
 // @route  PUT /api/recipes
 // @access private: Logged in user can only edit recipes under their name
-export const modifyRecipe = asyncHandler(async (req: Request, res: Response) => {
-  if (!req.body) {
-    res.status(400);
-    throw new Error('Body missing from request!');
+export const modifyRecipe = asyncHandler(
+  async (req: Request, res: Response) => {
+    if (!req.body) {
+      res.status(400);
+      throw new Error('Body missing from request!');
+    }
+    const { id } = req.params;
+    if (!id) {
+      res.status(400);
+      throw new Error('Recipe id missing from request parameters!');
+    }
+    const recipe = await Recipe.findByIdAndUpdate({ _id: id }, req.body, {
+      new: true
+    });
+    recipe
+      ? res.status(200).send('Recipe succesfully updated!')
+      : res.status(400).send('Error occurred in updating recipe!');
   }
-  const { id } = req.params;
-  if (!id) {
-    res.status(400);
-    throw new Error('Recipe id missing from request parameters!');
-  }
-  const recipe = await Recipe.findByIdAndUpdate({ _id: id }, req.body, {
-    new: true
-  });
-  recipe
-    ? res.status(200).send('Recipe succesfully updated!')
-    : res.status(400).send('Error occurred in updating recipe!');
-});
+);
