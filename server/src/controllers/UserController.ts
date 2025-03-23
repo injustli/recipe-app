@@ -8,30 +8,32 @@ import { Request, Response } from 'express';
 //         email address.
 // @route  PUT /api/users
 // @access Public
-export const addOrUpdateUser = asyncHandler(async (req: Request, res: Response) => {
-  const { email, name } = req.body;
-  // Finds a user based off email and name and returns an object with only the
-  // id, email, name fields
-  let user = await User.findOne({ email: email }, '_id email name').exec();
-  if (user) {
-    res.status(200).json({
-      data: user,
-      message: 'User already exists. Returning user information'
-    });
-  } else {
-    user = await User.create({ email: email, name: name, recipes: [] });
+export const addOrUpdateUser = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { email, name } = req.body;
+    // Finds a user based off email and name and returns an object with only the
+    // id, email, name fields
+    let user = await User.findOne({ email: email }, '_id email name').exec();
     if (user) {
       res.status(200).json({
-        data: {
-          _id: user._id,
-          email: user.email,
-          name: user.name
-        },
-        message: 'New user created successfully!'
+        data: user,
+        message: 'User already exists. Returning user information'
       });
     } else {
-      res.status(400);
-      throw new Error('Error in user creation!');
+      user = await User.create({ email: email, name: name, recipes: [] });
+      if (user) {
+        res.status(200).json({
+          data: {
+            _id: user._id,
+            email: user.email,
+            name: user.name
+          },
+          message: 'New user created successfully!'
+        });
+      } else {
+        res.status(400);
+        throw new Error('Error in user creation!');
+      }
     }
   }
-});
+);
