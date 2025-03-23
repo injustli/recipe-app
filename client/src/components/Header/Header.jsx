@@ -1,29 +1,16 @@
-import SearchAndFilter from './SearchAndFilter';
-import useAuthStore from '@/store/authStore';
-import classes from '@/styles/Header.module.css';
+import useAuthStore from '@store/authStore';
+import classes from './Header.module.css';
 import { useGoogleLogin } from '@react-oauth/google';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { FcGoogle } from 'react-icons/fc';
 import { useShallow } from 'zustand/react/shallow';
-import { Avatar, Button, Flex, Menu, Box } from '@mantine/core';
+import { Avatar, Button, Flex, Menu, Text } from '@mantine/core';
 
 // Render nav bar that contains search bar, dropdown menu, login
-export default function Header(props) {
-  const {
-    setIngredients,
-    setCreator,
-    setMinTime,
-    setMaxTime,
-    setName,
-    onPageChange,
-    page,
-    name
-  } = props;
-
+export default function Header() {
   const [user, login, logout] = useAuthStore(
     useShallow((state) => [state.user, state.login, state.logout])
   );
-  const location = useLocation();
 
   const googleLogin = useGoogleLogin({
     onSuccess: async (codeResponse) => {
@@ -56,20 +43,7 @@ export default function Header(props) {
   return (
     <header className={classes.header}>
       <Flex justify="space-between" align="center">
-        <Box
-          className={location.pathname === '/my-mealplan' ? 'invisible' : null}
-        >
-          <SearchAndFilter
-            setIngredients={(ingredients) => setIngredients(ingredients)}
-            setCreator={(user) => setCreator(user)}
-            setMinTime={(time) => setMinTime(time)}
-            setMaxTime={(time) => setMaxTime(time)}
-            setName={(name) => setName(name)}
-            onPageChange={(page) => onPageChange(page)}
-            page={page}
-            name={name}
-          />
-        </Box>
+        <Text>Mealplanner</Text>
         {user ? (
           <>
             <Menu>

@@ -1,0 +1,13 @@
+.pills {  
+  @mixin light {
+    background-color: var(--mantine-color-blue-6);
+    color: var(--mantine-color-white);
+  }
+}
+
+.pillsClear {  
+  @mixin light {
+    background-color: var(--mantine-color-gray-6);
+    color: var(--mantine-color-white);
+  }
+}
