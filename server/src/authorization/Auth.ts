@@ -27,7 +27,7 @@ const validateToken = async (token: string) => {
 // Middleware to be used to validate token and add currently
 // authenticated user to req.user
 export const validateMiddleware = asyncHandler(
-  async (req: Request, next: NextFunction) => {
+  async (req: Request, _, next: NextFunction) => {
     // Authorization header is of the form: Bearer token
     if (req.headers.authorization) {
       const token = req.headers.authorization.split(' ')[1];
