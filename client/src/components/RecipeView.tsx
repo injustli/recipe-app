@@ -32,7 +32,7 @@ export default function RecipeView({
         px="md"
         cols={{ base: 1, sm: 2, md: 3, lg: 5 }}
       >
-        {data.map((recipe, idx) => {
+        {data.map((recipe) => {
           return setCheckedRecipe ? (
             <Recipe
               data={recipe}

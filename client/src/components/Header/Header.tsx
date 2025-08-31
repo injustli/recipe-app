@@ -24,7 +24,7 @@ export default function Header() {
 
   const navigate = useNavigate();
 
-  const navigateTo = (route: string) => {
+  const navigateTo = async (route: string) => {
     switch (route) {
       case 'My Recipes':
         navigate(`/my-recipes`);
@@ -33,8 +33,9 @@ export default function Header() {
         navigate(`/my-mealplan`);
         break;
       case 'Sign Out':
-        logout();
-      // eslint-disable-next-line no-fallthrough
+        await logout();
+        navigate('/', { replace: true });
+        break;
       default:
         navigate('/', { replace: true });
     }
