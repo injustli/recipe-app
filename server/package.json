@@ -4,8 +4,8 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon -L server.js"
+    "start": "tsx src/server.ts",
+    "dev": "nodemon --exec tsx src/server.ts --exitcrash"
   },
   "dependencies": {
     "@google-cloud/storage": "^7.7.0",
@@ -20,13 +20,14 @@
     "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
+    "@types/cookie-parser": "^1.4.8",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.1",
+    "@types/multer": "^1.4.12",
+    "@types/node": "^22.13.10",
     "nodemon": "^3.1.9",
-    "prettier": "^3.3.3"
-  },
-  "imports": {
-    "#authorization/*": "./authorization/*.js",
-    "#controllers/*": "./controllers/*.js",
-    "#database/*": "./database/*.js",
-    "#models/*": "./models/*.js"
+    "prettier": "^3.3.3",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2"
   }
 }
