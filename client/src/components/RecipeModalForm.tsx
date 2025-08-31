@@ -13,24 +13,36 @@ import { BiPlus } from 'react-icons/bi';
 import { BiMinus } from 'react-icons/bi';
 import { useState } from 'react';
 import useAuthStore from '@store/authStore';
+import { RecipeType } from '@utils/types';
 
-const initialRender = (mode, data) => {
+const initialRender = (mode: string, data: RecipeType | null) => {
   return {
-    name: mode === 'edit' ? data.name : '',
-    ingredients: mode === 'edit' ? data.ingredients : [''],
-    method: mode === 'edit' ? data.method : [''],
-    imageUrl: mode === 'edit' ? data.imageUrl : null,
-    cookTime: mode === 'edit' ? data.time : ''
+    name: mode === 'edit' ? (data ? data.name : '') : '',
+    ingredients: mode === 'edit' ? (data ? data.ingredients : ['']) : [''],
+    method: mode === 'edit' ? (data ? data.method : ['']) : [''],
+    imageUrl: mode === 'edit' ? (data ? data.imageUrl : '') : '',
+    cookTime: mode === 'edit' ? (data ? data.time : 0) : 0
   };
 };
 
+interface Props {
+  modal: boolean;
+  setModal: (flag: boolean) => void;
+  mode: string;
+  data: RecipeType | null;
+}
+
 // Renders form to add, modify, or delete recipe
-export default function RecipeModalForm(props) {
-  const { modal, setModal, mode, data } = props;
+export default function RecipeModalForm({
+  modal,
+  setModal,
+  mode,
+  data
+}: Props) {
   const [formData, setFormData] = useImmer(() => initialRender(mode, data));
   const token = useAuthStore((state) => state.idToken);
   const user = useAuthStore((state) => state.user);
-  const [image, setImage] = useState(() => formData.imageUrl);
+  const [image, setImage] = useState<string | null>(null);
 
   // TODO: Use form library (e.g. react-hook-forms) and add validation
   const onSubmit = () => {
@@ -40,13 +52,13 @@ export default function RecipeModalForm(props) {
       Authorization: `Bearer ${token}`
     };
     if (mode !== 'add') {
-      endpoint += `/${data._id}`;
+      endpoint += `/${data?._id}`;
     }
     if (mode !== 'delete') {
       form.append('name', formData.name);
-      form.append('ingredients', formData.ingredients);
-      form.append('method', formData.method);
-      form.append('time', formData.cookTime);
+      form.append('ingredients', JSON.stringify(formData.ingredients));
+      form.append('method', JSON.stringify(formData.method));
+      form.append('time', formData.cookTime.toString());
       form.append('createdBy', user.name);
       form.append('file', formData.imageUrl);
     }
@@ -83,10 +95,12 @@ export default function RecipeModalForm(props) {
               placeholder="Upload image"
               accept="image/jpg,image/jpeg,image/png"
               onChange={(file) => {
-                setFormData((draft) => {
-                  draft.imageUrl = file;
-                });
-                setImage(URL.createObjectURL(file));
+                if (file) {
+                  setFormData((draft) => {
+                    draft.imageUrl = file.name;
+                  });
+                  setImage(URL.createObjectURL(file));
+                }
               }}
               withAsterisk
             />

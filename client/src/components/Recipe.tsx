@@ -1,26 +1,33 @@
-import { useState } from 'react';
+import { SetStateAction, useState, Dispatch } from 'react';
 import { AspectRatio, Card, Checkbox, Group, Modal, Text } from '@mantine/core';
+import { CheckedRecipe, RecipeType } from '@utils/types';
+
+interface Props {
+  data: RecipeType;
+  setCheckedRecipe?: Dispatch<SetStateAction<CheckedRecipe | null>>;
+}
 
 // Renders each recipe as a card
-export default function Recipe(props) {
-  const { setCheckedRecipe, data } = props;
+export default function Recipe({ setCheckedRecipe, data }: Props) {
   const [modal, setModal] = useState(false);
   const { _id, method, ingredients, name, createdBy, time, imageUrl } = data;
 
-  const onCheckbox = (target) => {
-    setCheckedRecipe((current) => {
-      // If current is not null, uncheck previously selected recipe
-      if (current) {
-        current.target.checked = false;
-        // If current checkbox and selected checkbox is same, we no longer have
-        // a selected recipe
-        if (current.target === target) {
-          return null;
+  const onCheckbox = (target: HTMLInputElement) => {
+    if (setCheckedRecipe) {
+      setCheckedRecipe((current) => {
+        // If current is not null, uncheck previously selected recipe
+        if (current) {
+          current.target.checked = false;
+          // If current checkbox and selected checkbox is same, we no longer have
+          // a selected recipe
+          if (current.target === target) {
+            return null;
+          }
         }
-      }
-      // Otherwise, return an object with the checkbox and id of recipe
-      return { target: target, id: _id };
-    });
+        // Otherwise, return an object with the checkbox and id of recipe
+        return { target: target, id: _id };
+      });
+    }
   };
 
   // TODO (issue 26): Card/Modal image

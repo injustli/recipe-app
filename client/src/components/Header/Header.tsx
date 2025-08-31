@@ -24,7 +24,7 @@ export default function Header() {
 
   const navigate = useNavigate();
 
-  const navigateTo = (route) => {
+  const navigateTo = (route: string) => {
     switch (route) {
       case 'My Recipes':
         navigate(`/my-recipes`);

@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import './App.css';
 import MyMealPlan from '@pages/MyMealPlan';
 import MyRecipes from '@pages/MyRecipes/MyRecipes';
 import useAuthStore from '@store/authStore';
