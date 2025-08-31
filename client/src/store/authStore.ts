@@ -1,10 +1,20 @@
 import { create } from 'zustand';
 
+interface AuthState {
+  accessToken: string | null;
+  idToken: string | null;
+  isAuth: boolean;
+  user: any;
+  login: (code: string) => Promise<void>;
+  refresh: () => Promise<void>;
+  logout: () => Promise<void>;
+}
+
 const authInitialState = {
   accessToken: null,
   idToken: null,
   user: null,
-  isAuth: null
+  isAuth: false
 };
 
 const environment = import.meta.env.VITE_NODE_ENV;
@@ -13,7 +23,7 @@ const SERVER_URL =
     ? import.meta.env.VITE_API_URL
     : 'http://localhost:8080';
 
-const useAuthStore = create((set, get) => ({
+const useAuthStore = create<AuthState>((set, get) => ({
   ...authInitialState,
   login: async (code) => {
     const response = await fetch(`${SERVER_URL}/api/auth/google/authenticate`, {

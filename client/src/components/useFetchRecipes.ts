@@ -1,7 +1,8 @@
+import { RecipeType } from '@utils/types';
 import { useEffect, useState } from 'react';
 
 // Returns a valid query parameter string depending on the ingredients state
-const createIngredientQueryParam = (ingredients) => {
+const createIngredientQueryParam = (ingredients: string[]) => {
   let res = '';
   for (let ingredient of ingredients) {
     res += `ingredients=${ingredient}&`;
@@ -17,16 +18,17 @@ const SERVER_URL =
 
 // Custom effect to fetch recipes to be displayed based on query params
 export const useFetchRecipes = (
-  currentPage,
-  pageSize,
-  ingredients,
-  name,
-  minTime,
-  maxTime,
-  creator
+  currentPage: number,
+  pageSize: number,
+  ingredients: string[],
+  name: string,
+  minTime: number,
+  maxTime: number,
+  creator: string
 ) => {
-  const [recipes, setRecipes] = useState([]);
+  const [recipes, setRecipes] = useState<RecipeType[]>([]);
   const [totalCount, setTotalCount] = useState(0);
+
   useEffect(() => {
     const controller = new AbortController();
     const fetchData = async () => {

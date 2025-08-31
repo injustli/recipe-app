@@ -20,14 +20,16 @@ export default function HomePage() {
   const maxTime = searchParams.get('maxTime')
     ? Number(searchParams.get('maxTime'))
     : MAX_TIME;
-  const currentPage = searchParams.get('page') ? searchParams.get('page') : 1;
+  const currentPage = searchParams.get('page')
+    ? Number(searchParams.get('page'))
+    : 1;
   const pageSize = 25;
 
   const { recipes, totalCount } = useFetchRecipes(
-    currentPage,
+    currentPage as number,
     pageSize,
     ingredients,
-    name,
+    name as string,
     minTime,
     maxTime,
     ''
@@ -36,7 +38,7 @@ export default function HomePage() {
   return (
     <div className={styles.container}>
       <SearchAndFilter
-        name={name}
+        name={name as string}
         ingredients={ingredients}
         minTime={minTime}
         maxTime={maxTime}
@@ -44,7 +46,7 @@ export default function HomePage() {
       />
       <RecipeView
         data={recipes}
-        currentPage={currentPage}
+        currentPage={currentPage as number}
         totalCount={totalCount}
         pageSize={pageSize}
         setSearchParams={setSearchParams}

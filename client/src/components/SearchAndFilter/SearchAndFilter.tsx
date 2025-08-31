@@ -16,6 +16,15 @@ import {
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { MIN_TIME, MAX_TIME } from '@utils/constants';
 import classes from './SearchAndFilter.module.css';
+import { SetURLSearchParams } from 'react-router-dom';
+
+interface Props {
+  name: string;
+  ingredients: string[];
+  minTime: number;
+  maxTime: number;
+  setSearchParams: SetURLSearchParams;
+}
 
 // Renders the search bar to filter recipes
 export default function SearchAndFilter({
@@ -24,15 +33,18 @@ export default function SearchAndFilter({
   minTime,
   maxTime,
   setSearchParams
-}) {
+}: Props) {
   const range =
     minTime == MIN_TIME && maxTime == MAX_TIME ? '' : `${minTime}-${maxTime}`;
 
   const [opened, setOpened] = useState(false);
-  const [rangeValue, setRangeValue] = useState([minTime, maxTime]);
+  const [rangeValue, setRangeValue] = useState<[number, number]>([
+    minTime,
+    maxTime
+  ]);
   const [searchValue, setSearchValue] = useState('');
 
-  const setName = (value) => {
+  const setName = (value: string) => {
     setSearchParams(
       (prev) => {
         if (value) {
@@ -46,7 +58,7 @@ export default function SearchAndFilter({
     );
   };
 
-  const setIngredients = (value) => {
+  const setIngredients = (value: string[]) => {
     setSearchParams(
       (prev) => {
         prev.delete('ingredients');
@@ -59,7 +71,7 @@ export default function SearchAndFilter({
     );
   };
 
-  const setTimeRange = (value) => {
+  const setTimeRange = (value: [number, number]) => {
     setRangeValue(value);
     setSearchParams(
       (prev) => {
@@ -67,8 +79,8 @@ export default function SearchAndFilter({
           prev.delete('minTime');
           prev.delete('maxTime');
         } else {
-          prev.set('minTime', value[0]);
-          prev.set('maxTime', value[1]);
+          prev.set('minTime', value[0].toString());
+          prev.set('maxTime', value[1].toString());
         }
         return prev;
       },
@@ -85,7 +97,12 @@ export default function SearchAndFilter({
     const pills = [];
     if (name) {
       pills.push(
-        <Pill key="name" withRemoveButton onRemove={() => setName('')} className={classes.pills}>
+        <Pill
+          key="name"
+          withRemoveButton
+          onRemove={() => setName('')}
+          className={classes.pills}
+        >
           {name}
         </Pill>
       );
@@ -120,7 +137,12 @@ export default function SearchAndFilter({
     }
     if (pills.length > 1) {
       pills.push(
-        <Pill key="clear" withRemoveButton onRemove={() => clearParams()} className={classes.pillsClear}>
+        <Pill
+          key="clear"
+          withRemoveButton
+          onRemove={() => clearParams()}
+          className={classes.pillsClear}
+        >
           Clear All
         </Pill>
       );
