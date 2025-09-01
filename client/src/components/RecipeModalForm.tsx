@@ -12,8 +12,8 @@ import { useImmer } from 'use-immer';
 import { BiPlus } from 'react-icons/bi';
 import { BiMinus } from 'react-icons/bi';
 import { useState } from 'react';
-import useAuthStore from '@store/authStore';
-import { RecipeType } from '@utils/types';
+import { RecipeType } from '@/utils/types';
+import useSession from '@/hooks/useSession';
 
 const initialRender = (mode: string, data: RecipeType | null) => {
   return {
@@ -40,8 +40,7 @@ export default function RecipeModalForm({
   data
 }: Props) {
   const [formData, setFormData] = useImmer(() => initialRender(mode, data));
-  const token = useAuthStore((state) => state.idToken);
-  const user = useAuthStore((state) => state.user);
+  const { idToken, user } = useSession();
   const [image, setImage] = useState<string | null>(null);
 
   // TODO: Use form library (e.g. react-hook-forms) and add validation
@@ -49,7 +48,7 @@ export default function RecipeModalForm({
     let form = new FormData();
     let endpoint = '/api/recipes';
     let headers = {
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${idToken}`
     };
     if (mode !== 'add') {
       endpoint += `/${data?._id}`;
@@ -59,7 +58,7 @@ export default function RecipeModalForm({
       form.append('ingredients', JSON.stringify(formData.ingredients));
       form.append('method', JSON.stringify(formData.method));
       form.append('time', formData.cookTime.toString());
-      form.append('createdBy', user.name);
+      form.append('createdBy', user?.name as string);
       form.append('file', formData.imageUrl);
     }
 

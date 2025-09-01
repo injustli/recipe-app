@@ -1,6 +1,6 @@
 import { SetStateAction, useState, Dispatch } from 'react';
 import { AspectRatio, Card, Checkbox, Group, Modal, Text } from '@mantine/core';
-import { CheckedRecipe, RecipeType } from '@utils/types';
+import { CheckedRecipe, RecipeType } from '@/utils/types';
 
 interface Props {
   data: RecipeType;

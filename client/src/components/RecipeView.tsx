@@ -1,7 +1,7 @@
-import { SimpleGrid } from '@mantine/core';
+import { Box, SimpleGrid } from '@mantine/core';
 import Pagination from './Pagination';
 import Recipe from './Recipe';
-import { CheckedRecipe, RecipeType } from '@utils/types';
+import { CheckedRecipe, RecipeType } from '@/utils/types';
 import { SetURLSearchParams } from 'react-router-dom';
 import { Dispatch, SetStateAction } from 'react';
 
@@ -24,7 +24,7 @@ export default function RecipeView({
   setSearchParams
 }: Props) {
   return (
-    <>
+    <Box>
       <SimpleGrid
         mb="md"
         mx="md"
@@ -50,6 +50,6 @@ export default function RecipeView({
         pageSize={pageSize}
         setSearchParams={setSearchParams}
       />
-    </>
+    </Box>
   );
 }

@@ -1,8 +1,8 @@
 import bodyParser from 'body-parser';
 import express, { Response, Request } from 'express';
-import connectDB from '@database/Config';
-import recipeRoutes from '@routes/RecipeRoutes';
-import authRoutes from '@routes/AuthRoutes';
+import connectDB from '@/database/Config';
+import recipeRoutes from '@/routes/RecipeRoutes';
+import authRoutes from '@/routes/AuthRoutes';
 import multer from 'multer';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';

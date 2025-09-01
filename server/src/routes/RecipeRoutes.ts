@@ -4,8 +4,8 @@ import {
   addRecipe,
   modifyRecipe,
   deleteRecipe
-} from '@controllers/RecipeController';
-import { validateMiddleware } from '@authorization/Auth';
+} from '@/controllers/RecipeController';
+import { validateMiddleware } from '@/authorization/Auth';
 
 const router = express.Router();
 

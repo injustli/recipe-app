@@ -1,10 +1,11 @@
-import { useFetchRecipes } from '@components/useFetchRecipes';
-import RecipeView from '@components/RecipeView';
-import SearchAndFilter from '@components/SearchAndFilter/SearchAndFilter';
+import RecipeView from '@/components/RecipeView';
+import SearchAndFilter from '@/components/SearchAndFilter/SearchAndFilter';
 import styles from './HomePage.module.css';
 import { useSearchParams } from 'react-router-dom';
-import { MIN_TIME, MAX_TIME } from '@utils/constants';
+import { MIN_TIME, MAX_TIME } from '@/utils/constants';
 import { useMemo } from 'react';
+import { Box, Flex, Loader } from '@mantine/core';
+import useFetchRecipes from '@/hooks/useFetchRecipes';
 
 export default function HomePage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -25,8 +26,8 @@ export default function HomePage() {
     : 1;
   const pageSize = 25;
 
-  const { recipes, totalCount } = useFetchRecipes(
-    currentPage as number,
+  const { recipes, totalCount, loading } = useFetchRecipes(
+    currentPage,
     pageSize,
     ingredients,
     name as string,
@@ -35,8 +36,16 @@ export default function HomePage() {
     ''
   );
 
+  if (loading) {
+    return (
+      <Flex justify="center" align="center" h="100%">
+        <Loader />
+      </Flex>
+    );
+  }
+
   return (
-    <div className={styles.container}>
+    <Box className={styles.container}>
       <SearchAndFilter
         name={name as string}
         ingredients={ingredients}
@@ -51,6 +60,6 @@ export default function HomePage() {
         pageSize={pageSize}
         setSearchParams={setSearchParams}
       />
-    </div>
+    </Box>
   );
 }

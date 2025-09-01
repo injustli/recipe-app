@@ -12,3 +12,11 @@ export interface CheckedRecipe {
   target: HTMLInputElement;
   id: string;
 }
+
+export interface User {
+  uid: string;
+  name: string;
+  email: string;
+  profile: string;
+  lastLoginAt: Date;
+}
