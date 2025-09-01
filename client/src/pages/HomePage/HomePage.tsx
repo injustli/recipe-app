@@ -1,5 +1,5 @@
 import RecipeView from '@/components/RecipeView';
-import SearchAndFilter from '@/components/SearchAndFilter/SearchAndFilter';
+import SearchAndFilter from '@/components/SearchAndFilter';
 import styles from './HomePage.module.css';
 import { useSearchParams } from 'react-router-dom';
 import { MIN_TIME, MAX_TIME } from '@/utils/constants';

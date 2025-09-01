@@ -7,8 +7,7 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount as ServiceAccount)
 });
 
-// Middleware to be used to validate token and add currently
-// authenticated user to req.user
+// Middleware to be used to validate token and add token to req.user
 export const validateMiddleware = asyncHandler(
   async (req: Request, _res: Response, next: NextFunction) => {
     const authHeader = req.headers['authorization'];
