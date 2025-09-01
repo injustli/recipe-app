@@ -70,9 +70,10 @@ export const addRecipe = asyncHandler(async (req: Request, res: Response) => {
     time,
     createdBy
   });
-  recipe
-    ? res.status(200).send('New recipe succesfully created!')
-    : res.status(400).send('Error occurred in creating new recipe!');
+  if (!recipe) {
+    throw new Error('Error occurred in creating new recipe');
+  }
+  res.status(200).send('New recipe succesfully created!');
 });
 
 // @desc   Deletes a recipe under the currently logged in user
