@@ -1,15 +1,16 @@
 import { useMemo, useState } from 'react';
-import { useFetchRecipes } from '@components/useFetchRecipes';
+import useFetchRecipes from '@/hooks/useFetchRecipes';
 import { IoAddSharp } from 'react-icons/io5';
 import { GrEdit } from 'react-icons/gr';
 import { BsTrash3Fill } from 'react-icons/bs';
-import RecipeView from '@components/RecipeView';
+import RecipeView from '@/components/RecipeView';
 import styles from './MyRecipes.module.css';
-import RecipeModalForm from '@components/RecipeModalForm';
-import useAuthStore from '@store/authStore';
-import { MAX_TIME, MIN_TIME } from '@utils/constants';
-import { CheckedRecipe } from '@utils/types';
+import RecipeModalForm from '@/components/RecipeModalForm';
+import { MAX_TIME, MIN_TIME } from '@/utils/constants';
+import { CheckedRecipe } from '@/utils/types';
 import { useSearchParams } from 'react-router-dom';
+import { Box, Flex, Loader } from '@mantine/core';
+import useSession from '@/hooks/useSession';
 
 // Renders the my recipe page when user selects it under dropdown menu
 export default function MyRecipes() {
@@ -30,22 +31,23 @@ export default function MyRecipes() {
     ? Number(searchParams.get('page'))
     : 1;
   const pageSize = 25;
+
   const [checkedRecipe, setCheckedRecipe] = useState<CheckedRecipe | null>(
     null
   );
   const [modal, setModal] = useState(false);
   const [mode, setMode] = useState('');
 
-  const user = useAuthStore((state) => state.user);
+  const { user } = useSession();
 
-  const { recipes, totalCount } = useFetchRecipes(
+  const { recipes, totalCount, loading } = useFetchRecipes(
     currentPage,
     pageSize,
     ingredients,
     name as string,
     minTime,
     maxTime,
-    user?.name
+    user?.name as string
   );
 
   const onClick = (mode: string) => {
@@ -53,9 +55,17 @@ export default function MyRecipes() {
     setMode(mode);
   };
 
+  if (loading) {
+    return (
+      <Flex justify="center" align="center" h="100%">
+        <Loader />
+      </Flex>
+    );
+  }
+
   // TODO: Improve style of this page
   return (
-    <>
+    <Box>
       <RecipeView
         data={recipes}
         currentPage={currentPage}
@@ -99,6 +109,6 @@ export default function MyRecipes() {
           mode={mode}
         />
       )}
-    </>
+    </Box>
   );
 }

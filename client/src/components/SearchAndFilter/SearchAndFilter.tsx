@@ -14,7 +14,7 @@ import {
   Box
 } from '@mantine/core';
 import { GiHamburgerMenu } from 'react-icons/gi';
-import { MIN_TIME, MAX_TIME } from '@utils/constants';
+import { MIN_TIME, MAX_TIME } from '@/utils/constants';
 import classes from './SearchAndFilter.module.css';
 import { SetURLSearchParams } from 'react-router-dom';
 

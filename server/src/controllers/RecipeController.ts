@@ -1,6 +1,6 @@
 import asyncHandler from 'express-async-handler';
-import Recipe from '@models/RecipeModel';
-import { uploadImage } from '@database/Storage';
+import Recipe from '@/models/RecipeModel';
+import { uploadImage } from '@/database/Storage';
 import { Request, Response } from 'express';
 
 interface RecipeQuery {
@@ -17,7 +17,6 @@ export const fetchRecipes = asyncHandler(
   async (req: Request, res: Response) => {
     const { ingredients, user, name } = req.query;
     if (!req.query.page && !req.query.limit) {
-      res.status(400);
       throw new Error(`page and limit query parameters weren't set!`);
     }
 
@@ -55,11 +54,9 @@ export const fetchRecipes = asyncHandler(
 // @access private: Logged in user can only add recipes under their name
 export const addRecipe = asyncHandler(async (req: Request, res: Response) => {
   if (!req.body) {
-    res.status(400);
     throw new Error('Body missing from request!');
   }
   if (!req.file) {
-    res.status(400);
     throw new Error(`An image file wasn't uploaded!`);
   }
   const { name, ingredients, method, time, createdBy } = req.body;
@@ -85,13 +82,13 @@ export const deleteRecipe = asyncHandler(
   async (req: Request, res: Response) => {
     const { id } = req.params;
     if (!id) {
-      res.status(400);
       throw new Error('Recipe id missing from query parameters!');
     }
     const recipe = await Recipe.findByIdAndDelete({ _id: id });
-    recipe
-      ? res.status(200).send('Recipe successfully removed from database!')
-      : res.status(400).send('Error occurred in removing recipe!');
+    if (!recipe) {
+      throw new Error('Error occurred in deleting recipe!');
+    }
+    res.status(200).send('Recipe successfully removed from database!');
   }
 );
 
@@ -101,19 +98,18 @@ export const deleteRecipe = asyncHandler(
 export const modifyRecipe = asyncHandler(
   async (req: Request, res: Response) => {
     if (!req.body) {
-      res.status(400);
       throw new Error('Body missing from request!');
     }
     const { id } = req.params;
     if (!id) {
-      res.status(400);
       throw new Error('Recipe id missing from request parameters!');
     }
     const recipe = await Recipe.findByIdAndUpdate({ _id: id }, req.body, {
       new: true
     });
-    recipe
-      ? res.status(200).send('Recipe succesfully updated!')
-      : res.status(400).send('Error occurred in updating recipe!');
+    if (!recipe) {
+      throw new Error('Error occurred in updating recipe!');
+    }
+    res.status(200).send('Recipe succesfully updated!');
   }
 );

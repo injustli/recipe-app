@@ -1,4 +1,12 @@
 steps:
+  - id: Fetch secret and write it to a file
+  - name: 'gcr.io/cloud-builders/gcloud'
+    dir: server/src
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - 'gcloud secrets versions access latest --secret="FIREBASE_SERVICE_ACCOUNT" > firebase-service-account.json'
+
   - id: Build docker image for server
     name: gcr.io/cloud-builders/docker
     dir: server

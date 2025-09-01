@@ -1,9 +1,9 @@
 export interface IUser {
+  uid: string;
   email: string;
   name: string;
   profile: string;
-  refreshToken: string;
-  refreshTokenExpiry: Date;
+  lastLoginAt: Date;
 }
 
 export interface IRecipe {

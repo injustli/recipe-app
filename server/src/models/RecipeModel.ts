@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { IRecipe } from '@utils/types';
+import { IRecipe } from '@/utils/types';
 
 // Defines how a recipe is stored in the database
 const recipeSchema = new mongoose.Schema<IRecipe>(

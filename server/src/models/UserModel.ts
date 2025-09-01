@@ -1,26 +1,35 @@
 import mongoose from 'mongoose';
-import { IUser } from '@utils/types';
+import { IUser } from '@/utils/types';
 
 // Defines how a user is stored in the database
-const userSchema = new mongoose.Schema<IUser>({
-  email: {
-    type: String,
-    required: true
+const userSchema = new mongoose.Schema<IUser>(
+  {
+    uid: {
+      type: String,
+      required: true,
+      unique: true,
+      index: true
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true
+    },
+    name: {
+      type: String,
+      required: true
+    },
+    profile: {
+      type: String,
+      required: true
+    },
+    lastLoginAt: {
+      type: Date,
+      default: new Date()
+    }
   },
-  name: {
-    type: String,
-    required: true
-  },
-  profile: {
-    type: String,
-    required: true
-  },
-  refreshToken: String,
-  refreshTokenExpiry: {
-    type: Date,
-    required: true
-  }
-});
+  { timestamps: true }
+);
 
 const User = mongoose.model<IUser>('Users', userSchema);
 

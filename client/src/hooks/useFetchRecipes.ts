@@ -1,5 +1,7 @@
-import { RecipeType } from '@utils/types';
+import { RecipeType } from '@/utils/types';
 import { useEffect, useState } from 'react';
+import useNotifications from './useNotifcations';
+import { SERVER_URL } from '@/utils/constants';
 
 // Returns a valid query parameter string depending on the ingredients state
 const createIngredientQueryParam = (ingredients: string[]) => {
@@ -10,14 +12,8 @@ const createIngredientQueryParam = (ingredients: string[]) => {
   return res;
 };
 
-const environment = import.meta.env.VITE_NODE_ENV;
-const SERVER_URL =
-  environment == 'production'
-    ? import.meta.env.VITE_API_URL
-    : 'http://localhost:8080';
-
 // Custom effect to fetch recipes to be displayed based on query params
-export const useFetchRecipes = (
+const useFetchRecipes = (
   currentPage: number,
   pageSize: number,
   ingredients: string[],
@@ -28,10 +24,14 @@ export const useFetchRecipes = (
 ) => {
   const [recipes, setRecipes] = useState<RecipeType[]>([]);
   const [totalCount, setTotalCount] = useState(0);
+  const [loading, setLoading] = useState(false);
+
+  const { handleError } = useNotifications();
 
   useEffect(() => {
     const controller = new AbortController();
     const fetchData = async () => {
+      setLoading(true);
       try {
         const result = await fetch(
           `${SERVER_URL}/api/recipes?page=${currentPage}&limit=` +
@@ -51,7 +51,12 @@ export const useFetchRecipes = (
         setRecipes(data.data);
         setTotalCount(data.totalCount);
       } catch (error) {
-        console.log('Error in fetching recipes: ' + error);
+        if (!(error instanceof DOMException)) {
+          console.log('Error in fetching recipes:', error);
+          handleError('Error occurred while fetching recipes');
+        }
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -62,5 +67,7 @@ export const useFetchRecipes = (
     };
   }, [currentPage, pageSize, name, ingredients, minTime, maxTime, creator]);
 
-  return { recipes, totalCount };
+  return { recipes, totalCount, loading };
 };
+
+export default useFetchRecipes;
