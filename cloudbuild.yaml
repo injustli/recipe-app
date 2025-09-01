@@ -1,6 +1,6 @@
 steps:
   - id: Fetch secret and write it to a file
-  - name: 'gcr.io/cloud-builders/gcloud'
+    name: 'gcr.io/cloud-builders/gcloud'
     dir: server/src
     entrypoint: 'bash'
     args:
