@@ -9,6 +9,7 @@ interface AuthState {
   idToken: string | null;
   isAuth: boolean;
   user: User | null;
+  loading: boolean;
   login: () => Promise<void>;
   logout: () => Promise<void>;
 }
@@ -31,10 +32,13 @@ const useRequireAuth = (): AuthState => {
   const [idToken, setIdToken] = useState<string | null>(null);
   const [isAuth, setIsAuth] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(false);
 
   // Upon refresh, if user session exists, login user
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      setLoading(true);
+
       if (currentUser && !user) {
         try {
           const idToken = await currentUser.getIdToken();
@@ -64,6 +68,8 @@ const useRequireAuth = (): AuthState => {
         setIdToken(null);
         setIsAuth(false);
       }
+
+      setLoading(false);
     });
 
     return () => unsubscribe();
@@ -87,5 +93,5 @@ const useRequireAuth = (): AuthState => {
     }
   };
 
-  return { idToken, isAuth, user, login, logout };
+  return { idToken, isAuth, user, login, logout, loading };
 };

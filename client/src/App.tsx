@@ -1,12 +1,12 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MyMealPlan from '@/pages/MyMealPlan';
-import MyRecipes from '@/pages/MyRecipes/MyRecipes';
-import HomePage from '@/pages/HomePage/HomePage';
+import MyRecipes from '@/pages/MyRecipes';
+import HomePage from '@/pages/HomePage';
 import ProtectedRoute from '@/components/ProtectedRoute';
-import PageLayout from '@/components/PageLayout';
 import { MantineProvider } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import { AuthProvider } from './context/AuthContext';
+import PersistentLayout from './components/PersistentLayout';
 
 export default function App() {
   return (
@@ -15,17 +15,12 @@ export default function App() {
         <Notifications />
         <Router>
           <Routes>
-            <Route
-              path="/"
-              element={
-                <PageLayout>
-                  <HomePage />
-                </PageLayout>
-              }
-            />
-            <Route element={<ProtectedRoute />}>
-              <Route path="/my-recipes" element={<MyRecipes />} />
-              <Route path="/my-mealplan" element={<MyMealPlan />} />
+            <Route element={<PersistentLayout />}>
+              <Route path="/" element={<HomePage />} />
+              <Route element={<ProtectedRoute />}>
+                <Route path="/my-recipes" element={<MyRecipes />} />
+                <Route path="/my-mealplan" element={<MyMealPlan />} />
+              </Route>
             </Route>
           </Routes>
         </Router>
